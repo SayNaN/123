@@ -8,8 +8,10 @@
 
 struct settingParam
 {
-  QVector<QVector3D> coord;
-  float 
+  std::vector<double>* vecMeshX;
+  std::vector<double>* vecArea;
+  std::vector<double>* vecHConductivity;
+  
 };
 
 class diffusion1D
