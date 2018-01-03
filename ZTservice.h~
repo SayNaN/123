@@ -1,14 +1,12 @@
 #ifndef ZTSERVICE_H
 #define ZTSERVICE_H
 
-#include"ZTtype.h"
-
 class ZTService
 {
  public:
   static ZTService* getInstance();
 
-  ZTSimuInfo* info();
+  ZTMesh* mesh();
   ZTGlobalParam* globalParam();
   ZTLocalParam* localParam();
   ZTRes* res();

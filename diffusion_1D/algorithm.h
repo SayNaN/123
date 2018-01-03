@@ -6,16 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct settingParam
-{
-  double dCoorX;
-  double dSpecificHeatCap;
-  double cellSize;
-  std::vector<double>* vecArea;
-  std::vector<double>* vecHConductivity;
-  
-};
-
 class diffusion1D: public QThread
 {
   Q_OBJECT
@@ -30,12 +20,13 @@ class diffusion1D: public QThread
   QVector<settingParam> m_SettingParam;
   static diffusion1D* p_instance;
   
-  std::vector<double> aW;
-  std::vector<double> aE;
-  std::vector<double> aP0;
-  std::vector<double> aP;
+  double* m_aW;
+  double* m_aE;
+  double* m_aP0;
+  double* m_aP;
+  double* m_aL;
 
-  int meshNum;
+  unsigned int m_meshNum;
 
  protected:
   virtual void run();

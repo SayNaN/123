@@ -14,6 +14,7 @@ struct simuInfo
   double coorX;
   double xw;
   double xe;
+  double cellLenght;
   double labdw;
   double labde;
   double hpw;
@@ -25,14 +26,16 @@ struct simuInfo
   double density;
 };
 
-#typedef std::vector<meshInfo> ZTMesh;
+#typedef std::vector<simuInfo> ZTSimuInfo;
 #typedef std::vector< std::vector<double> > ZTRes;
 
-struct ZTLocalParam
+struct LocalParam
 {
   double heatCap;
   double density;
 };
+
+#typedef std::vector<LocalParam> ZTLocalParam; 
 
 struct ZTGlobalParam
 {
@@ -41,13 +44,6 @@ struct ZTGlobalParam
   double Sc;
   double Sp;
   double deltaT;
-};
-
-
-struct ZTParm
-{
-  std::vector<ZTLocalParam> localParam; 
-  ZTGlobalParam globalParam;
 };
 
 #endif

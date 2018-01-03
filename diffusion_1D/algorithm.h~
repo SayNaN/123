@@ -1,7 +1,7 @@
 #ifndef DIFFUSION1D_ALOGRITHM_H
 #define DIFFUSION1D_ALOGRITHM_H
 #include <QtWidgets>
-#include <QVector>
+#include <vector>
 #include <QVector3D>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,6 +29,13 @@ class diffusion1D: public QThread
  private:
   QVector<settingParam> m_SettingParam;
   static diffusion1D* p_instance;
+  
+  std::vector<double> aW;
+  std::vector<double> aE;
+  std::vector<double> aP0;
+  std::vector<double> aP;
+
+  int meshNum;
 
  protected:
   virtual void run();
