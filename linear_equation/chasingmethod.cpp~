@@ -1,0 +1,7 @@
+#include"cahsingmethod.cpp"
+#include<stdlib>
+
+void ZTChasingMethod(double *a, double *b, double *c, double *f, double *x, int num)
+{
+  double *beta = (double *)malloc(sizeof(double)*num);
+}
