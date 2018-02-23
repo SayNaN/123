@@ -4,8 +4,8 @@
 #include"vector.h"
 
 enum NodeType{
-  CELLCENTER,            // èŠ‚ç‚¹åœ¨èŠ‚ç‚¹å†…éƒ¨
-  MESHNODE,           // èŠ‚ç‚¹åœ¨ç½‘æ ¼ç•Œé¢ä¸Š
+  CELLCENTER,            // ‘½Ú‘µã‘ÔÚ‘½Ú‘µã‘ÄÚ‘²¿
+  MESHNODE,           // ‘½Ú‘µã‘ÔÚ‘Íø‘¸ñ‘½ç‘Ãæ‘ÉÏ
 };
 
 enum SimuType{
@@ -51,8 +51,8 @@ struct ZTGlobalParam
   NodeType type;
   double f;
   double Sc;
-  double Sp;
-  double deltaT;
+  double Sp;           // heat source const part
+  double deltaT;       // time step
 };
 
 #endif

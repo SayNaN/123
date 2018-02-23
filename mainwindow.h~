@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include<QtWidgets>
-#include"myglwidget.h"
+#include"threeD_display.h"
 
 class MainWindow :public QMainWindow
 {
