@@ -19,7 +19,7 @@ enum SimuType{
   Convective_Diffusion_3D,
 };
 
-struct SimuInfo{
+struct SimuInfoRes{
   double coorX;
   double xw;
   double xe;
@@ -33,26 +33,32 @@ struct SimuInfo{
   double areae;
   double heatCap;
   double density;
+  std::map<double, double> Res;
 };
 
-#typedef std::vector<simuInfo> SimuInfo;
-#typedef std::vector< std::vector<double> > SimuRes;
+#typedef std::vector<SimuInfoRes> MeshRes;
 
-struct LocalParam
-{
+struct TabCellContent{
+  double length;
+  int    subMeshNum;
+  double startP;
   double heatCap;
   double density;
+  double thermalConductivity;
+  double area;
 };
 
-#typedef std::vector<LocalParam> ZTLocalParam; 
+#typedef std::vector<TabCellContent> LocalParam; 
 
-struct ZTGlobalParam
+struct GlobalParam
 {
   NodeType type;
   double f;
   double Sc;
-  double Sp;
-  double deltaT;
+  double Sp;           // heat source const part
+  double deltaT;       // time step
+  int segNum;
+  int meshNum;
 };
 
 #endif

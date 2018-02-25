@@ -4,12 +4,7 @@
 class consoleWidget: public QObject
 {
   Q_OBJECT
-
- signals:
-  void message(QtMsgType type, const QString &msg);
-
-/*
- public:
+    public:
   static consoleWidget* getInstance();
   
  private:
@@ -25,7 +20,9 @@ class consoleWidget: public QObject
 	  }
       }
   };
-*/
+  
+ signals:
+  void message(QtMsgType type, const QString &msg);
 };
 
 #endif

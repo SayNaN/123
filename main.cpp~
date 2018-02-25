@@ -23,8 +23,9 @@
 
 static void msgHandlerFunction(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-  QMetaObject::invokeMethod(consoleWidget::instance(), "message", Q_ARG(QtMsgType,QString, msg));
+  QMetaObject::invokeMethod(MsgHandlerWapper::instance(), "message", Q_ARG(QtMsgType,QString, msg));
 }
+
 
 int main(int argc,char * argv[])
 {

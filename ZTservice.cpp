@@ -1,5 +1,11 @@
 #include"ZTservice.h"
 
+ZTservice::ZTservice()
+{
+  m_Console = new consolewidget();
+  resetService();
+}
+
 ZTservice* ZTService::getInstance()
 {
   if(NULL == p_instance)
@@ -9,22 +15,34 @@ ZTservice* ZTService::getInstance()
   return p_instance;
 }
 
-ZTMesh* ZTService::mesh()
+MeshRes* ZTService::meshRes()
 {
-  return m_Mesh;
+  return &m_MeshRes;
 }
 
-ZTGlobalParam* ZTService::globalParam()
+GlobalParam* ZTService::globalParam()
 {
-  return m_GlobalParam();
+  return &m_GlobalParam;
 }
 
-ZTRes* ZTService::res()
+LocalParam* ZTService::localParam()
 {
-  return m_Res();
+  return &m_LocalParam;
 }
 
-ZTLocalParam* ZTService::localParam()
+void ZTService::resetService()
 {
-  return m_LocalParam();
+  m_MeshRes.clear();
+  m_LocalParam.clear();
+  
+  m_GlobalParam.type   = CELLCENTER;
+  m_GlobalParam.f      = 1;
+  m_GlobalParam.deltaT = 0.1;
+  m_GlobalParam.segNum = 0;
+  m_GlobalParam.meshNum= 0;
+}
+
+consoleWidget* console()
+{
+  return m_Console;
 }

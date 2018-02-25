@@ -8,19 +8,21 @@ class ZTService
  public:
   static ZTService* getInstance();
 
-  ZTSimuInfo* info();
-  ZTGlobalParam* globalParam();
-  ZTLocalParam* localParam();
-  ZTRes* res();
+  MeshRes* meshRes();
+  GlobalParam* globalParam();
+  LocalParam* localParam();
+  void resetService();
+  consoleWidget* console();
 
  private:
   static ZTService* p_instance;
-  ZTMesh* m_Mesh;
-  ZTGlobalParam* m_GlobalParam;
-  ZTLocalParam* m_LocalParam;
-  ZTRes* m_Res;
+  MeshRes m_MeshRes;
+  LocalParam m_LocalParam;
+  GlobalParam m_GlobalParam;
 
-  ZTService(){};
+  consoleWidget* m_Console;
+
+  ZTService();
   ~ZTService(){};
 
   class ZTServiceGarbo

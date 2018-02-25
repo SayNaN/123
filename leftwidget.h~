@@ -1,0 +1,114 @@
+#ifndef SPLITTERWIDGET_H
+#define SPLITTERWIDGET_H
+#include<QtWidgets>
+#include"data_container.h"
+#include"customizedwidgets.h"
+#include"string_operate.h"
+
+class LeftWidget:public myScrollArea
+{
+  Q_OBJECT
+ public:
+  LeftWidget(QWidget *parent,Data_Container *DB);
+  ~LeftWidget(){};
+  Data_Container *data;
+  QTreeWidgetItem *treeview_row[NRMAX];
+  void refreshTreeWidget();
+  void updateTree();
+  void initWin();
+  
+ private:
+  QMenu *rightMenu;
+  int linenum;
+  int rowIndex;
+  TitleLabelWidget *geoLabel;
+  TitleLabelWidget *paraLabel;
+  QTreeWidget *treewidget;
+  QFrame *geoFrame;
+  QFrame *paraFrame;
+  QTreeWidgetItem *treeview_geom;
+  QTreeWidgetItem *treeview_hub;
+  QTreeWidgetItem *treeview_tip;
+  bool geoFrameShow;
+  bool paraFrameShow;
+  QFrame *SP_stramwise;
+  WidgetGroup *NR;
+  QComboBox *INTYPE;
+  QComboBox *IEXTIO;
+  QFrame *additionalFrame;
+  QComboBox *ILIN;
+  QLineEdit *CDHIN;
+  QLineEdit *CDTIN;
+  QComboBox *ILOUT;
+  QLineEdit *CDHOUT;
+  QLineEdit *CDTOUT;
+  
+  QComboBox *IEXTUP;
+  QLineEdit *PEXTUP;
+  QComboBox *IEXTDN;
+  QLineEdit *PEXTDN;
+  
+  QLineEdit *NUP;
+  QLineEdit *NMID;
+  QLineEdit *NDN;
+  QLineEdit *A1J;
+  QLineEdit *Q1J;
+  QLineEdit *ANJ;
+  QLineEdit *QNJ;
+  QLineEdit *AMAXJ;
+  QLineEdit *NMIDSP;
+
+  QLineEdit *KM;
+
+  QLineEdit *IM;
+  QLineEdit *A1I;
+  QLineEdit *Q1I;
+  QLineEdit *ANI;
+  QLineEdit *QNI;
+  QLineEdit *AMAXI;
+
+  QGroupBox *shiftPara;
+  QLineEdit *XFACTOR;
+  QLineEdit *XSHIFT;
+  QLineEdit *RTFACTOR;
+  QLineEdit *RTSHIFT;
+  QLineEdit *RFACTOR;
+  QLineEdit *RSHIFT;
+
+  QLineEdit *ZNAKD;
+
+  void initRowVar();
+  
+ signals:
+  void clearshow();
+  void treeSelectIndex(int);
+
+ public slots:
+  void processRes();
+  void INTYPE_fun(int);
+  void IEXTIO_fun(int);
+  void ILIN_fun(int);
+  void ILOUT_fun(int);
+  void IEXTUP_fun(int);
+  void IEXTDN_fun(int);
+};
+
+class CombWidget : public myScrollArea
+{
+  Q_OBJECT
+ public:
+  CombWidget(QWidget *parent,Data_Container *DB);
+  ~CombWidget(){};
+ private:
+  Data_Container *data;
+  QLineEdit *N1;
+  QLineEdit *M1;
+  QLineEdit *SM1;
+  QLineEdit *SM2;
+  QLineEdit *KMARKD;
+  QLineEdit *KMARKU;
+  QLineEdit *SND;
+  QLineEdit *SNU;
+};
+
+#endif

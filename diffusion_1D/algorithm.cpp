@@ -31,8 +31,6 @@ void diffusion1D::run()
   calcaP0();
   calcaP();
   calcaL();
-
-  
 }
 
 void diffusion1D::freeArray()
