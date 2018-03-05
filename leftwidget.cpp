@@ -2,6 +2,12 @@
 
 LeftWidget::LeftWidget(QWidget *parent):QFrame(parent)
 {
+  initializeUI();
+  m_pService = ZTService::getInstance();
+}
+
+void LeftWidget::initializeUI()
+{
   int linenum=0;
 
   QGroupBox *globalParamGrp = new QGroupBox(QString::fromLocal8Bit("全局参数"));
@@ -85,12 +91,29 @@ LeftWidget::LeftWidget(QWidget *parent):QFrame(parent)
       if(rowIndex!=-1)
 	{ rightMenu->exec(QCursor::pos()); }
     });
-
+  
   connect(addSeg, &QAction::triggered, [this](){
       tableWidget->insertRow(tableWidget->currentIndex());
+      m_pService->addSegment(tableWidget->currentIndex());
+      refreshTable();
     });
-
+  
   connect(removeSeg, &QAction::triggered, [this](){
       tableWidget->removeRow(tableWidget->currentIndex());
+      m_pService->removeSegment(tableWidget->currentIndex());
+      refreshTable();
     });
+}
+
+void LeftWidget::refreshTable()
+{
+  LocalParam* pTemp = m_pService->LocalParam();
+  for(int i=0; i<pTemp->size(); i++)
+    {
+      tableWidget->item(i, 0)->setText(QString::number(pTemp->at[i].length));
+      tableWidget->item(i, 1)->setText(QString::number(pTemp->at[i].subMeshNum));
+      tableWidget->item(i, 2)->setText(QString::number(pTemp->at[i].heatCap));
+      tableWidget->item(i, 3)->setText(QString::number(pTemp->at[i].density));
+      tableWidget->item(i, 4)->setText(QString::number(pTemp->at[i].thermalConductivity));
+    }
 }

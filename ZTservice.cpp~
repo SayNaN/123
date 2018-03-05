@@ -3,7 +3,6 @@
 ZTservice::ZTservice()
 {
   m_Console = new consolewidget();
-  m_pOpearate = new Opearate();
   resetService();
 }
 
@@ -60,15 +59,10 @@ void ZTService::addSegment(int index)
 
 void ZTService::removeSegment(int index)
 {
-  m_LocalParam.earse(m_oLocalParam.begin()+index);
+  m_LocalParam.earse(m_LocalParam.begin()+index);
 }
 
-consoleWidget* ZTService::console()
+consoleWidget* console()
 {
-  return m_pConsole;
-}
-
-Opearate* ZTService::opearate()
-{
-  return m_pOpearate;
+  return m_Console;
 }

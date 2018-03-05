@@ -1,84 +1,21 @@
-#ifndef SPLITTERWIDGET_H
-#define SPLITTERWIDGET_H
+#ifndef LEFTWIDGET_H
+#define LEFTWIDGET_H
 #include<QtWidgets>
-#include"data_container.h"
-#include"customizedwidgets.h"
-#include"string_operate.h"
 
-class LeftWidget:public myScrollArea
+class LeftWidget:public QFrame
 {
   Q_OBJECT
  public:
-  LeftWidget(QWidget *parent,Data_Container *DB);
+  LeftWidget(QWidget *parent);
   ~LeftWidget(){};
-  Data_Container *data;
-  QTreeWidgetItem *treeview_row[NRMAX];
-  void refreshTreeWidget();
-  void updateTree();
-  void initWin();
-  
+
  private:
-  QMenu *rightMenu;
-  int linenum;
-  int rowIndex;
-  TitleLabelWidget *geoLabel;
-  TitleLabelWidget *paraLabel;
-  QTreeWidget *treewidget;
-  QFrame *geoFrame;
-  QFrame *paraFrame;
-  QTreeWidgetItem *treeview_geom;
-  QTreeWidgetItem *treeview_hub;
-  QTreeWidgetItem *treeview_tip;
-  bool geoFrameShow;
-  bool paraFrameShow;
-  QFrame *SP_stramwise;
-  WidgetGroup *NR;
-  QComboBox *INTYPE;
-  QComboBox *IEXTIO;
-  QFrame *additionalFrame;
-  QComboBox *ILIN;
-  QLineEdit *CDHIN;
-  QLineEdit *CDTIN;
-  QComboBox *ILOUT;
-  QLineEdit *CDHOUT;
-  QLineEdit *CDTOUT;
-  
-  QComboBox *IEXTUP;
-  QLineEdit *PEXTUP;
-  QComboBox *IEXTDN;
-  QLineEdit *PEXTDN;
-  
-  QLineEdit *NUP;
-  QLineEdit *NMID;
-  QLineEdit *NDN;
-  QLineEdit *A1J;
-  QLineEdit *Q1J;
-  QLineEdit *ANJ;
-  QLineEdit *QNJ;
-  QLineEdit *AMAXJ;
-  QLineEdit *NMIDSP;
+  QLineEdit* timeStepEdit;
+  QLineEdit* timeSchemeEdit;
+  QComboBox* calcSchemeBox;
+  QTableWidget* tableWidget;
+  QMenu* rightMenu;
 
-  QLineEdit *KM;
-
-  QLineEdit *IM;
-  QLineEdit *A1I;
-  QLineEdit *Q1I;
-  QLineEdit *ANI;
-  QLineEdit *QNI;
-  QLineEdit *AMAXI;
-
-  QGroupBox *shiftPara;
-  QLineEdit *XFACTOR;
-  QLineEdit *XSHIFT;
-  QLineEdit *RTFACTOR;
-  QLineEdit *RTSHIFT;
-  QLineEdit *RFACTOR;
-  QLineEdit *RSHIFT;
-
-  QLineEdit *ZNAKD;
-
-  void initRowVar();
-  
  signals:
   void clearshow();
   void treeSelectIndex(int);

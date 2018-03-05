@@ -1,7 +1,6 @@
 #include<QtWidgets>
 #include"mainwindow.h"
 #include"tabwidget.h"
-#include"grid_io.h"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 {
@@ -65,14 +64,6 @@ void MainWindow::inicentralwidget()
   splitterright=new QSplitter(Qt::Vertical,splittermain);
 
   text3D=new MyGLWidget(splitterright,data);
-
-  splitterright_sub=new QSplitter(Qt::Horizontal,splitterright);
-
-  textdrawing=new MyGLWidget2D(splitterright_sub,data);
-
-  textinfo=new QTextEdit(tr("螺旋桨模型信息"),splitterright_sub);
-  textinfo->setReadOnly(true);
-  connect(this,SIGNAL(AppendText_info(QString)),this,SLOT(append_info(QString)));
 
   textresidual=new QTextEdit(tr("控制台\n"),splitterright);
   textresidual->setReadOnly(true);

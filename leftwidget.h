@@ -10,11 +10,16 @@ class LeftWidget:public QFrame
   ~LeftWidget(){};
 
  private:
+  void initializeUI();
+  void refreshTable();
+
   QLineEdit* timeStepEdit;
   QLineEdit* timeSchemeEdit;
   QComboBox* calcSchemeBox;
   QTableWidget* tableWidget;
   QMenu* rightMenu;
+  ZTService* m_pService;
+  
 
  signals:
   void clearshow();
@@ -28,24 +33,6 @@ class LeftWidget:public QFrame
   void ILOUT_fun(int);
   void IEXTUP_fun(int);
   void IEXTDN_fun(int);
-};
-
-class CombWidget : public myScrollArea
-{
-  Q_OBJECT
- public:
-  CombWidget(QWidget *parent,Data_Container *DB);
-  ~CombWidget(){};
- private:
-  Data_Container *data;
-  QLineEdit *N1;
-  QLineEdit *M1;
-  QLineEdit *SM1;
-  QLineEdit *SM2;
-  QLineEdit *KMARKD;
-  QLineEdit *KMARKU;
-  QLineEdit *SND;
-  QLineEdit *SNU;
 };
 
 #endif

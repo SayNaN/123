@@ -2,7 +2,7 @@
 #include"mainwindow.h"
 #include"tabwidget.h"
 
-MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
+MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),
 {
   setWindowTitle(QString::fromLocal8Bit("一维非稳态导热"));
   inimenu();
@@ -11,16 +11,16 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 
 void MainWindow::inimenu()
 {
-  open_project=new QAction(QString::fromLocal8Bit("导入几何"),this);
+  open_project=new QAction(QString::fromLocal8Bit("打开工程"),this);
   open_project->setShortcut(tr("Ctrl+O"));
-  open_project->setStatusTip(QString::fromLocal8Bit("导入几何"));
-  open_project->setToolTip(QString::fromLocal8Bit("导入几何"));
+  open_project->setStatusTip(QString::fromLocal8Bit("打开工程"));
+  open_project->setToolTip(QString::fromLocal8Bit("打开工程"));
 
-  save_project=new QAction(QString::fromLocal8Bit("保存结果"),this);
+  save_project=new QAction(QString::fromLocal8Bit("保存工程"),this);
   save_project->setShortcut(tr("Ctrl+S"));
   save_project->setStatusTip(tr("Save Project"));
   save_project->setToolTip(tr("Save Project"));
-  //connect(save_project,SIGNAL(triggered()),this,SLOT(filesave()));
+  connect(save_project,SIGNAL(triggered()),this,SLOT(filesave()));
 
   exit_program=new QAction(tr("&Exit"),this);
   exit_program->setShortcut(tr("Ctrl+E"));
