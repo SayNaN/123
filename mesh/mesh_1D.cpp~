@@ -1,0 +1,6 @@
+#include"mesh_1D.h"
+
+Mesh1D::Mesh1D(ZTService *pService, QWidget *parent):QWidget(parent)
+{
+  m_pService = pService;
+}
