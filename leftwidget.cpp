@@ -137,7 +137,8 @@ void LeftWidget::initializeUI()
       refreshTable();
     });
   QGridLayout* pLocalParamLayout = new QGridLayout(pLocalParamGrp);
-  pLocalParamLayout->addWidget(m_pTableWidget);
+  linenum =0;
+  pLocalParamLayout->addWidget(m_pTableWidget, linenum, 0);
 
   QGroupBox* pBoundarySettingGrp = new QGroupBox(QString::fromLocal8Bit("边界条件"));
   QGroupBox* pInletBoundaryGrp = new QGroupBox(QString::fromLocal8Bit("进口边界"));
@@ -292,16 +293,53 @@ void LeftWidget::initializeUI()
     
   QLabel *pOutletConvectiveCoeffEdit; = new QLabel(QString::fromLocal8Bit("对流系数"));
   m_pOutletConvectiveCoeffEdit = new QLineEdit(QString::number(m_pService->globalPrarm()->dOutletConvectiveCoeff));
+  connect(m_pOutletConvectiveCoeffEdit, &QLineEdit::editingFinished, [this](){
+      bool b;
+      double dCache;
+      nCache = m_pOutletConvectiveCoeffEdit->text().toDouble(&b);
+      if(b){
+	m_pService->globalPrarm()->dOutletConvectiveCoeff = nCache;
+      }else{
+	m_pOutletConvectiveCoeffEdit->setText(QString::number(m_pService->globalPrarm()->dOutletConvectiveCoeff));
+      }
+    });
 
-  QStackedLayout *stackedLayout = new QStackedLayout;
-  stackedLayout->addWidget(firstPageWidget);
-  stackedLayout->addWidget(secondPageWidget);
-  stackedLayout->addWidget(thirdPageWidget);
+  QGridLayout* pOutletThirdTypeLayout = new QGridLayout(pOutletThirdTypeFrame);
+  linenum = 0; 
+  pOutletThirdTypeLayout->addWidget(pOutletInfinityTempLabel, linenum, 0);
+  pOutletThirdTypeLayout->addWidget(m_pOutletInfinityTempEdit, linenum, 1);
+  linenum ++;
+  pOutletThirdTypeLayout->addWidget(pOutletConvectiveCoeffLabel, linenum, 0);
+  pOutletThirdTypeLayout->addWidget(m_pOutletConvectiveCoeffEdit, linenum, 1);
 
-  QVBoxLayout *mainLayout = new QVBoxLayout;
-  mainLayout->addLayout(stackedLayout);
-  setLayout(mainLayout);
-  
+  QStackedLayout* pOutletBoundaryStackedLayout = new QStackedLayout;
+  pOutletBoundaryStackedLayout->addWidget(pOutletFirstTypeFrame);
+  pOutletBoundaryStackedLayout->addWidget(pOutletSecondTypeFrame);
+  pOutletBoundaryStackedLayout->addWidget(pOutletThirdTypeFrame);
+
+  connect(m_pOutletBoundaryTypeBox, SIGNAL(activated(int)),
+	  pOutletBoundaryStackedLayout, SLOT(setCurrentIndex(int)));
+
+  QGridLayout* pOutletBoundaryLayout = new QGridLayout(pOutletBoundaryGrp);
+  linenum = 0;
+  pOutletBoundaryLayout->addWidget(pOutletBoundaryTypeLabel, linenum, 0);
+  pOutletBoundaryLayout->addWidget(m_pOutletBoundaryTypeBox, linenum, 1);
+  linenum ++;
+  pOutletBoundaryLayout->addLayout(pOutletBoundaryStackedLayout, linenum, 0, 1, 2);
+
+  QGridLayout *pBoundarySettingLayout = new QGridLayout(pBoundarySettingGrp);
+  linenum = 0;
+  pBoundarySettingLayout->addWidget(pInletBoundaryGrp, linenum, 0);
+  linenum ++;
+  pBoundarySettingLayout->addWidget(pOutletBoundaryGrp, linenum ,0);
+
+  QGridLayout *pMainLayout = new QGridLayout(this);
+  linenum = 0;
+  pMainLayout->addWidget(pGlobalParamGrp, linenum, 0);
+  linenum ++;
+  pMainLayout->addWidget(pLocalParamGrp, linenum, 0);
+  linenum ++;
+  pMainLayout->addWidget(pBoundarySettingGrp, linenum, 0);
 }
 
 void LeftWidget::refreshTable()
