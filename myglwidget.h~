@@ -1,36 +1,19 @@
 #ifndef THREED_DISPLAY_H
 #define THREED_DISPLAY_H
+#include<QtWidgets>
 #include<QOpenGLFunctions_1_1>
-
-/*
-struct Vector3D
-{
-  double x;
-  double y;
-  double z;
-};
-struct Vector4D
-{
-  double x;
-  double y;
-  double z;
-  double a;
-};
-struct GLData
-{
-  Vector3D point;
-  Vector3D normal;
-  Vector4D color;
-};
-*/
+#include"data_container.h"
 
 class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
 {
   Q_OBJECT
  public:
-  MyGLWidget(ZTService *pService, QWidget *parent);
+  MyGLWidget(QWidget *parent,Data_Container *DB);
   ~MyGLWidget(){};
+  Data_Container *data;
 
+  bool drawMesh;
+  bool drawGeo;
   void cleardisplay();
   void drawGeomDisplay();
   void drawMeshDisplay();
@@ -43,17 +26,11 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   void mousePressEvent(QMouseEvent *e);
   void mouseMoveEvent(QMouseEvent *event);
 
- public slots:
-  void processRes(int nIndex);
-
  private:
   void draw3DGrid();
   void draw3DGeo();
   void init_showrange();
   void set_range(double left,double right,double bottom,double top,double near,double far);
-  void drawstring(const char *a);
-
- private:
   double width_fun,height_fun;
   int button_type;
   int mousex,mousey;
@@ -61,10 +38,7 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   double showleft,showright,showbottom,showtop;
   double rangeleft,rangeright,rangebottom,rangetop,rangenear,rangefar;
   double comat[16];
-  ZTService *m_pService;
-  bool drawMesh;
-  bool drawGeo;
-  std::vector< std::vector<double
+  void drawstring(const char *a);
 };
 
 #endif

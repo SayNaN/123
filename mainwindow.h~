@@ -2,10 +2,8 @@
 #define MAINWINDOW_H
 #include<QtWidgets>
 
-class ZTService;
 class MyGLWidget;
 class diffusion1D;
-class LeftWidget;
 
 class MainWindow :public QMainWindow
 {
@@ -13,7 +11,7 @@ class MainWindow :public QMainWindow
     QThread m_oWorkThread;
  public:
   MainWindow(QWidget *parent=0);
-  ~MainWindow(){}
+  ~MainWindow(){};
 
   
   void inimenu();
@@ -29,6 +27,9 @@ class MainWindow :public QMainWindow
   void fileSaveAs();
   void startSimu();
 
+ public slots:
+  void processRes(int nIndex);
+
  signals:
   void startRun();
   
@@ -41,10 +42,10 @@ class MainWindow :public QMainWindow
   QToolBar *m_pFileToolBar;
   QToolBar *m_pEditToolBar;
   
-  QAction *m_pNewProject;
-  QAction *m_pOpenProject;
-  QAction *m_pSaveProject;
-  QAction *m_pSaveProjectAs;
+  QAction *m_pActNewProject;
+  QAction *m_pActOpenProject;
+  QAction *m_pActSaveProject;
+  QAction *m_pActSaveProjectAs;
   QAction *m_pExitProgram;
 
   QAction *m_pStartRestart;
@@ -53,10 +54,5 @@ class MainWindow :public QMainWindow
 
   QAction *m_pAbout;
   ZTService *m_pService;
-
-  LeftWidget *m_pLeftWidget;
-  MyGLWidget *m_pText3D;
-  QPlainTextEdit *m_pTextresidual;
 };
-
 #endif

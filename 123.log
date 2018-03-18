@@ -1,0 +1,11 @@
+mingw32-make -f Makefile.Release
+mingw32-make[1]: Entering directory 'E:/CAE'
+g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\mainwindow.o mainwindow.cpp
+In file included from mainwindow.cpp:7:0:
+myglwidget.h:5:27: fatal error: data_container.h: No such file or directory
+compilation terminated.
+Makefile.Release:2850: recipe for target 'release/mainwindow.o' failed
+mingw32-make[1]: *** [release/mainwindow.o] Error 1
+mingw32-make[1]: Leaving directory 'E:/CAE'
+Makefile:34: recipe for target 'release' failed
+mingw32-make: *** [release] Error 2

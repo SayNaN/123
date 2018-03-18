@@ -1,0 +1,16 @@
+INPUT(
+./debug\consolewidget.o
+./debug\leftwidget.o
+./debug\main.o
+./debug\mainwindow.o
+./debug\myglwidget.o
+./debug\ZTservice.o
+./debug\algorithm.o
+./debug\chasingmethod.o
+./debug\mesh_1D.o
+./debug\moc_consolewidget.o
+./debug\moc_leftwidget.o
+./debug\moc_mainwindow.o
+./debug\moc_myglwidget.o
+./debug\moc_algorithm.o
+);

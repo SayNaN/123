@@ -1,7 +1,7 @@
 #ifndef ZTTYPE_H
 #define ZTTYPE_H
 
-#include<vector>
+#include"vector.h"
 
 enum BoundaryConditionType{
   FirstClass,
@@ -41,7 +41,7 @@ struct SimuInfoRes{
   //double dDensity;
   std::vector<std::pair<double, double>> vecTime_Temperature;
 };
-typedef std::vector<SimuInfoRes> MeshRes;
+#typedef std::vector<SimuInfoRes> MeshRes;
 
 struct TabCellContent{
   double dLength;
@@ -52,7 +52,7 @@ struct TabCellContent{
   double dThermalConductivity;
   double dArea;
 };
-typedef std::vector<TabCellContent> LocalParam; 
+#typedef std::vector<TabCellContent> LocalParam; 
 
 struct GlobalParam
 {

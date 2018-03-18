@@ -2,8 +2,6 @@
 #define LEFTWIDGET_H
 #include<QtWidgets>
 
-class ZTService;
-
 class LeftWidget:public QFrame
 {
   Q_OBJECT

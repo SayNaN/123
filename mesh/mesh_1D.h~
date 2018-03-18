@@ -1,10 +1,6 @@
 #ifndef MESH_1D_H
 #define MESH_1D_H
 
-#include"ZTtype.h"
-
-class ZTService;
-
 class Mesh1D
 {
  public:
@@ -17,6 +13,6 @@ class Mesh1D
   MeshRes* m_pData;
   GlobalParam* m_pGlobalParam;
   LocalParam* m_pLocalParam;
-};
+}
 
 #endif
