@@ -1,35 +1,50 @@
 #ifndef DIFFUSION1D_ALOGRITHM_H
 #define DIFFUSION1D_ALOGRITHM_H
-#include <QtWidgets>
-#include <vector>
-#include <QVector3D>
-#include <stdio.h>
-#include <stdlib.h>
 
-class diffusion1D: public QThread
+class Mesh1D;
+
+class diffusion1D: public QObject
 {
   Q_OBJECT
     
  public:
-  diffusion1D(QObject* parent = NULL);
+  diffusion1D(ZTService *pService, QObject* parent = NULL);
   ~diffusion1D();
 
-  static diffusion1D* getInstance();
+ private:
+  void assignMesh();
+  void calcCoff();
+  void assignBeginningField();
+  void startRun();
 
  private:
   QVector<settingParam> m_SettingParam;
-  static diffusion1D* p_instance;
+  ZTService *m_pService;
+  MeshRes* m_pData;
+  GlobalParam* m_pGlobalParam;
+  LocalParam* m_pLocalParam;
+  Mesh1D *m_pMesher;
   
-  double* m_aW;
-  double* m_aE;
-  double* m_aP0;
-  double* m_aP;
-  double* m_aL;
+  double *m_aW;
+  double *m_aE;
+  double *m_aP0;
+  double *m_aP;
+  double *m_aP0A;
+  double *m_aL;
 
-  unsigned int m_meshNum;
+  double *m_aArray;
+  double *m_bArray;
+  double *m_cArray;
+  double *m_xArray;
+  double *m_fArray;
+  
+  bool m_bStop;
 
- protected:
-  virtual void run();
+ public slots:
+  void doIt();
+
+ signals:
+  void oneStepFinished(int nIndex);
   
 }
 

@@ -3,6 +3,12 @@
 
 #include"vector.h"
 
+enum BoundaryConditionType{
+  FirstClass,
+  SecondClass,
+  ThirdClass,
+};
+
 enum NodeType{
   CELLCENTER,            // 节点在节点内部
   MESHNODE,           // 节点在网格界面上
@@ -20,45 +26,57 @@ enum SimuType{
 };
 
 struct SimuInfoRes{
-  double coorX;
-  double xw;
-  double xe;
-  double cellLenght;
-  double labdw;
-  double labde;
-  double hpw;
-  double hpe;
-  double areap;
-  double areaw;
-  double areae;
-  double heatCap;
-  double density;
-  std::map<double, double> Res;
+  double dCoorX;
+  double dXw;
+  double dXe;
+  double dCellLenght;
+  double dLabdw;
+  double dLabde;
+  double dHpw;
+  double dHpe;
+  double dAreap;
+  double dAreaw;
+  double dAreae;
+  double dHeatCapMulDensity;
+  //double dDensity;
+  std::vector<std::pair<double, double>> vecTime_Temperature;
 };
-
 #typedef std::vector<SimuInfoRes> MeshRes;
 
 struct TabCellContent{
-  double length;
-  int    subMeshNum;
-  double startP;
-  double heatCap;
-  double density;
-  double thermalConductivity;
-  double area;
+  double dLength;
+  int    nSubMeshNum;
+  double dStartP;
+  double dHeatCap;
+  double dDensity;
+  double dThermalConductivity;
+  double dArea;
 };
-
 #typedef std::vector<TabCellContent> LocalParam; 
 
 struct GlobalParam
 {
-  NodeType type;
-  double f;
-  double Sc;
-  double Sp;           // heat source const part
-  double deltaT;       // time step
-  int segNum;
-  int meshNum;
+  NodeType nType;
+  double dF;
+  double dSc;
+  double dSp;           // heat source const part
+  double dDeltaT;       // time step
+  double dInitTemperature;
+  int nTimeStep;
+  int nSegNum;
+  int nMeshNum;
+  
+  BoundaryConditionType eInletType;
+  double dInletTemp;
+  double dInletHeatFlux;
+  double dInletInfinityTemp;
+  double dInletConvectiveCoeff;
+
+  BoundaryConditionType eOutletType;
+  double dOutletTemp;
+  double dOutletHeatFlux;
+  double dOutletInfinityTemp;
+  double dOutletConvectiveCoeff;
 };
 
 #endif

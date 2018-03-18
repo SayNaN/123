@@ -2,6 +2,7 @@
 #define ZTSERVICE_H
 
 #include"ZTtype.h"
+#include"operate.h"
 
 class ZTService
 {
@@ -14,13 +15,16 @@ class ZTService
   void resetService();
   consoleWidget* console();
 
+ public:
+  bool 
+
  private:
   static ZTService* p_instance;
-  MeshRes m_MeshRes;
-  LocalParam m_LocalParam;
-  GlobalParam m_GlobalParam;
-
-  consoleWidget* m_Console;
+  MeshRes m_oMeshRes;
+  LocalParam m_oLocalParam;
+  GlobalParam m_oGlobalParam;
+  Operate* m_pOperate;
+  consoleWidget* m_pConsole;
 
   ZTService();
   ~ZTService(){};

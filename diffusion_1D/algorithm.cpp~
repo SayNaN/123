@@ -31,8 +31,6 @@ void diffusion1D::run()
   calcaP0();
   calcaP();
   calcaL();
-
-  
 }
 
 void diffusion1D::freeArray()
@@ -105,8 +103,6 @@ void diffusion1D::calcaP0()
 	* pCache->areap / deltaT
 	- (1-f)*(m_aE[i] + m_aW[i]) + (1-f)*Sp*pCache->areap*pCache->cellLenght;
     }
-
- 
 }
 
 double diffusion1D::calcaP()

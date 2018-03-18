@@ -2,7 +2,7 @@
 
 ZTservice::ZTservice()
 {
-  m_Console = new consolewidget();
+  m_pConsole = new consolewidget();
   m_pOpearate = new Opearate();
   resetService();
 }
@@ -11,56 +11,56 @@ ZTservice* ZTService::getInstance()
 {
   if(NULL == p_instance)
     {
-      p_instance = new ZTservice();
+      m_pInstance = new ZTservice();
     }
-  return p_instance;
+  return m_pInstance;
 }
 
 MeshRes* ZTService::meshRes()
 {
-  return &m_MeshRes;
+  return &m_oMeshRes;
 }
 
 GlobalParam* ZTService::globalParam()
 {
-  return &m_GlobalParam;
+  return &m_oGlobalParam;
 }
 
 LocalParam* ZTService::localParam()
 {
-  return &m_LocalParam;
+  return &m_oLocalParam;
 }
 
 void ZTService::resetService()
 {
-  m_MeshRes.clear();
+  m_oMeshRes.clear();
   
-  m_LocalParam.clear();
+  m_oLocalParam.clear();
   
-  m_GlobalParam.type   = CELLCENTER;
-  m_GlobalParam.f      = 1;
-  m_GlobalParam.deltaT = 0.1;
-  m_GlobalParam.segNum = 0;
-  m_GlobalParam.meshNum= 0;
+  m_oGlobalParam.nType   = CELLCENTER;
+  m_oGlobalParam.dF      = 1;
+  m_oGlobalParam.dDeltaT = 0.1;
+  m_oGlobalParam.nSegNum = 0;
+  m_oGlobalParam.nMeshNum= 0;
 }
 
-void ZTService::addSegment(int index)
+void ZTService::addSegment(int nIndex)
 {
-  TabCellContent structTemp;
-  structTemp.length = 1;
-  structTemp.subMeshNum = 1;
-  structTemp.startP = 0;
-  structTemp.heatCap = 0;
-  structTemp.density = 0;
-  structTemp.thermalConductivity = 0;
-  structTemp.area = 1;
+  TabCellContent oStructTemp;
+  oStructTemp.dLength = 1;
+  oStructTemp.nSubMeshNum = 1;
+  oStructTemp.dStartP = 0;
+  oStructTemp.dHeatCap = 0;
+  oStructTemp.dDensity = 0;
+  oStructTemp.dThermalConductivity = 0;
+  oStructTemp.dArea = 1;
   
-  m_LocalParam.insert(m_LocalParam.begin()+index, structTemp);
+  m_oLocalParam.insert(m_oLocalParam.begin()+nIndex, oStructTemp);
 }
 
-void ZTService::removeSegment(int index)
+void ZTService::removeSegment(int nIndex)
 {
-  m_LocalParam.earse(m_oLocalParam.begin()+index);
+  m_oLocalParam.earse(m_oLocalParam.begin()+nIndex);
 }
 
 consoleWidget* ZTService::console()

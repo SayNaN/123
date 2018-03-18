@@ -10,8 +10,11 @@ class Mesh1D : public QMainWindow
   Mesh1D(ZTService* pService, QWidget *parent=0);
   ~Mesh1D(){}
 
+  void run();
+
  private:
   ZTService* m_pService;
+  MeshRes* m_pData;
   
 }
 

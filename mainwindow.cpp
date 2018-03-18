@@ -1,9 +1,11 @@
 #include<QtWidgets>
 #include"mainwindow.h"
 #include"tabwidget.h"
+#include"mesh/mesh_1D.h"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),
 {
+  m_pService = ZTService::getInstance();
   setWindowTitle(QString::fromLocal8Bit("一维非稳态导热"));
   inimenu();
   inicentralwidget();
@@ -11,51 +13,53 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent),
 
 void MainWindow::inimenu()
 {
-  open_project=new QAction(QString::fromLocal8Bit("打开工程"),this);
-  open_project->setShortcut(tr("Ctrl+O"));
-  open_project->setStatusTip(QString::fromLocal8Bit("打开工程"));
-  open_project->setToolTip(QString::fromLocal8Bit("打开工程"));
+  m_pOpenProject=new QAction(QString::fromLocal8Bit("打开工程"),this);
+  m_pOpenProject->setShortcut(tr("Ctrl+O"));
+  m_pOpenProject->setStatusTip(QString::fromLocal8Bit("打开工程"));
+  m_pOpenProject->setToolTip(QString::fromLocal8Bit("打开工程"));
 
-  save_project=new QAction(QString::fromLocal8Bit("保存工程"),this);
-  save_project->setShortcut(tr("Ctrl+S"));
-  save_project->setStatusTip(tr("Save Project"));
-  save_project->setToolTip(tr("Save Project"));
-  connect(save_project,SIGNAL(triggered()),this,SLOT(filesave()));
+  m_pSaveProject=new QAction(QString::fromLocal8Bit("保存工程"),this);
+  m_pSaveProject->setShortcut(tr("Ctrl+S"));
+  m_pSaveProject->setStatusTip(tr("Save Project"));
+  m_pSaveProject->setToolTip(tr("Save Project"));
+  connect(m_pSaveProject,SIGNAL(triggered()),this,SLOT(fileSave()));
 
-  exit_program=new QAction(tr("&Exit"),this);
-  exit_program->setShortcut(tr("Ctrl+E"));
+  m_pExitProgram=new QAction(tr("&Exit"),this);
+  m_pExitProgram->setShortcut(tr("Ctrl+E"));
 
-  start_restart=new QAction(QString::fromLocal8Bit("开始计算"),this);
-  start_restart->setStatusTip(tr("Start Simulation"));
-  start_restart->setToolTip(tr("Start Simulation"));
+  m_pStartRestart=new QAction(QString::fromLocal8Bit("开始计算"),this);
+  m_pStartRestart->setStatusTip(tr("Start Simulation"));
+  m_pStartRestart->setToolTip(tr("Start Simulation"));
+  connect(m_pStartRestart, SIGNAL(triggered()), this SLOT(startSimu()));
 
   //文件菜单
-  menu_file=menuBar()->addMenu(tr("&File"));
-  menu_file->addAction(open_project);
-  menu_file->addSeparator();            //分割线
-  menu_file->addAction(save_project);
-  menu_file->addAction(exit_program);
+  m_pMenuFile=menuBar()->addMenu(tr("&File"));
+  m_pMenuFile->addAction(m_pOpenProject);
+  m_pMenuFile->addSeparator();            //分割线
+  m_pMenuFile->addAction(m_pSaveProject);
+  m_pMenuFile->addAction(m_pExitProgram);
 
   //模拟菜单
-  menu_simulation=menuBar()->addMenu(tr("&Simulation"));
-  menu_simulation->addAction(start_restart);
+  m_pMenuSimulation=menuBar()->addMenu(tr("&Simulation"));
+  m_pMenuSimulation->addAction(m_pStartRestart);
 }
 
 void MainWindow::initoolbar()
 {
-  filetoolbar=addToolBar(tr("&File"));
-  filetoolbar->addAction(open_project);
-  filetoolbar->addAction(save_project);
+  m_pFileToolBar=addToolBar(tr("&File"));
+  m_pFileToolBar->addAction(m_pOpenProject);
+  m_pFileToolBar->addAction(m_pSaveProject);
 
-  edittoolbar=addToolBar(tr("&Edit"));
-  edittoolbar->addAction(start_restart);
+  m_pEditToolBar=addToolBar(tr("&Edit"));
+  m_pEditToolBar->addAction(m_pStartRestart);
+  m_pEditToolBar->addAction(m_pStopSimulation);
 }
 
 void MainWindow::inicentralwidget()
 {
-  splittermain=new QSplitter(Qt::Horizontal,this);
+  QSplitter *pSplitterMain=new QSplitter(Qt::Horizontal,this);
 
-  left_frame=new QFrame(splittermain);
+  QFrame *pLeftFrame=new QFrame(pSplitterMain);
 
   toolbox=new ToolBox(left_frame,data);
 
@@ -72,3 +76,19 @@ void MainWindow::inicentralwidget()
   setCentralWidget(splittermain);
   splittermain->show();
 }
+
+void MainWindow::startSimu()
+{
+  if(m_oWorkThread.isFinished())
+    {
+      diffusion1D *pWork = new diffusion1D(m_pService);
+      pWork->moveToThread(m_oWorkThread);
+      connect(&m_oWorkThread, &QThread::finished, pWork, &QObject::deleteLater);
+      connect(this, &MainWindow::startRun, pWork, &diffusion1D::doIt);
+      connect(pWork, &diffusion1D::oneStepFinished, this, &processRes);
+      m_oWorkThread.start();
+      emit startRun();
+    }
+}
+
+

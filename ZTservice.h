@@ -19,7 +19,7 @@ class ZTService
   bool 
 
  private:
-  static ZTService* p_instance;
+  static ZTService* m_pInstance;
   MeshRes m_oMeshRes;
   LocalParam m_oLocalParam;
   GlobalParam m_oGlobalParam;
