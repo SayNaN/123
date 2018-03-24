@@ -2,7 +2,13 @@
 #define THREED_DISPLAY_H
 #include<QOpenGLFunctions_1_1>
 
-/*
+struct Vector3N
+{
+  unsinged int fir;
+  unsinged int sec;
+  unsinged int thr;
+}
+
 struct Vector3D
 {
   double x;
@@ -20,9 +26,10 @@ struct GLData
 {
   Vector3D point;
   Vector3D normal;
+  Vector3D normalization;
   Vector4D color;
 };
-*/
+
 
 class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
 {
@@ -34,6 +41,7 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   void cleardisplay();
   void drawGeomDisplay();
   void drawMeshDisplay();
+  void pushBuffer(Vector3D oFir, Vector3D oSec, Vector3D oThr);
   
  protected:
   void initializeGL();
@@ -64,7 +72,11 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   ZTService *m_pService;
   bool drawMesh;
   bool drawGeo;
-  std::vector< std::vector<double
+  Vector3D structMaxCoor;
+  Vector3D structMinCoor;
+  std::map<QString, unsinged int> mapPointIndex;
+  std::vector<GLData> vecPoint;
+  std::vector<Vector3N> vecIndex;
 };
 
 #endif

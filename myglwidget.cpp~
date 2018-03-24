@@ -1,13 +1,14 @@
 #include<windows.h>
 #include<math.h>
-#include"myglwidget.h"
 #include<QtWidgets>
 #include<GL/GL.H>
 #include<GL/GLU.H>
+#include<vector>
+#include"myglwidget.h"
 
-MyGLWidget::MyGLWidget(QWidget *parent,Data_Container *DB):QOpenGLWidget(parent)
+MyGLWidget::MyGLWidget(ZTService *pService, QWidget *parent):
+  QOpenGLWidget(parent),m_pService(pService)
 {
-  data=DB;
   drawGeo=true;
   drawMesh=false;
   rangeleft=-1;
@@ -596,5 +597,13 @@ void MyGLWidget::draw3DGrid()
 	  glEnd();
 	}
       glEnable(GL_LIGHTING);
+    }
+}
+
+void MyGLWidget::processRes(int nIndex)
+{
+  if(nIndex == 0)
+    {
+      
     }
 }
