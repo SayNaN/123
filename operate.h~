@@ -7,8 +7,6 @@ class Operate
   Operate(){}
   ~Operate(){}
 
-  //private:
-  
-}
+};
 
 #endif

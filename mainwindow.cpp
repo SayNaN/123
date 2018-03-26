@@ -20,12 +20,42 @@ void MainWindow::inimenu()
   m_pOpenProject->setShortcut(tr("Ctrl+O"));
   m_pOpenProject->setStatusTip(QString::fromLocal8Bit("打开工程"));
   m_pOpenProject->setToolTip(QString::fromLocal8Bit("打开工程"));
+  connect(m_pOpenProject, &QAction::triggered, [this](){
+      QString sFilePath;
+      sFilePath=QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("打开"),QString(),
+					     QString::fromLocal8Bit("输入文件(*.dat)"));
+      if(!sFilePath.isEmpty())
+	{
+	  m_pService->operate()->setProjectName(sFilePath);
+	  m_pService->operate()->readProjectFile();
+	  setWindowTitle(QString::fromLocal8Bit(data->projectfile));
+	}
+    });
 
   m_pSaveProject=new QAction(QString::fromLocal8Bit("保存工程"),this);
   m_pSaveProject->setShortcut(tr("Ctrl+S"));
   m_pSaveProject->setStatusTip(tr("Save Project"));
   m_pSaveProject->setToolTip(tr("Save Project"));
-  connect(m_pSaveProject,SIGNAL(triggered()),this,SLOT(fileSave()));
+  connect(m_pSaveProject,&QAction::triggered, [this](){
+      m_pService->operate()->writeProjectFile();
+    });
+
+  m_pSaveProjectAs=new QAction(QString::fromLocal8Bit("另存为"),this);
+  m_pSaveProjectAs->setStatusTip(tr("Save Project As"));
+  m_pSaveProjectAs->setToolTip(tr("Save ProjectAs"));
+  connect(m_pSaveProjectAs,&QAction::triggered, [this](){
+      QString sFilePath;
+      sFilePath=QFileDialog::getSaveFileName(this,QString::fromLocal8Bit("保存"),QString(),
+					     tr("工程文件(*.dat)"));
+
+      if(!sFilePath.isEmpty())
+	{
+	  m_pService->operate()->setProjectName(sFilePath);
+	  m_pService->operate()->writeProjectFile();
+	  setWindowTitle(QString::fromLocal8Bit(data->projectfile));
+	}
+
+    });
 
   m_pExitProgram=new QAction(tr("&Exit"),this);
   m_pExitProgram->setShortcut(tr("Ctrl+E"));

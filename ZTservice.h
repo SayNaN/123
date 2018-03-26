@@ -15,6 +15,7 @@ class ZTService
   MeshRes* meshRes();
   GlobalParam* globalParam();
   LocalParam* localParam();
+  Operate* operate();
   void resetService();
   //consoleWidget* console();
 

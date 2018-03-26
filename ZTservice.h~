@@ -1,22 +1,22 @@
 #ifndef ZTSERVICE_H
 #define ZTSERVICE_H
-
 #include"ZTtype.h"
-#include"operate.h"
+
+class Operate;
+class consoleWidget;
 
 class ZTService
 {
  public:
   static ZTService* getInstance();
 
+  void addSegment(int nIndex);
+  void removeSegment(int nIndex);
   MeshRes* meshRes();
   GlobalParam* globalParam();
   LocalParam* localParam();
   void resetService();
-  consoleWidget* console();
-
- public:
-  bool 
+  //consoleWidget* console();
 
  private:
   static ZTService* m_pInstance;
@@ -24,7 +24,7 @@ class ZTService
   LocalParam m_oLocalParam;
   GlobalParam m_oGlobalParam;
   Operate* m_pOperate;
-  consoleWidget* m_pConsole;
+  //consoleWidget* m_pConsole;
 
   ZTService();
   ~ZTService(){};
@@ -34,9 +34,9 @@ class ZTService
   public:
     ~ZTServiceGarbo()
       {
-	if(NULL != p_instance)
+	if(NULL != m_pInstance)
 	  {
-	    delete p_instance;
+	    delete m_pInstance;
 	  }
       }
   };

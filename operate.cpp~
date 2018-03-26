@@ -1,0 +1,10 @@
+#include<QWidget>
+
+#include"operate.h"
+
+Operate::Operate(ZTService *pService):
+  m_pService(pService),
+  sFullProjectPath(""),
+  sProjectPath(""),
+  sProjectName(""),
+  sResFileName("")
