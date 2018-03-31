@@ -135,6 +135,7 @@ void Operate::readProjectFile()
 
 void Operate::writeResFile(QString sText)
 {
+  sText = m_sProjectPath+"d1Dres.dat";
   QFile file(sText);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {

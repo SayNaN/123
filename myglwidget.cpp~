@@ -7,35 +7,60 @@
 #include"myglwidget.h"
 
 MyGLWidget::MyGLWidget(ZTService *pService, QWidget *parent):
-  QOpenGLWidget(parent),m_pService(pService)
+  QOpenGLWidget(parent),
+  m_pService(pService),
+  m_bDrawMesh(true),
+  m_bDrawGeo(true),
+  m_dRangeLeft(-1),
+  m_dRangeRight(1),
+  m_dRangeBottom(-1),
+  m_dRangeTop(1),
+  m_dRangeNear(-1000),
+  m_dRangeFar(1000)
 {
-  drawGeo=true;
-  drawMesh=false;
-  rangeleft=-1;
-  rangeright=1;
-  rangebottom=-1;
-  rangetop=1;
-  rangenear=-1000;
-  rangefar=1000;
+  m_sMaxCoor.x = -1e30;
+  m_sMaxCoor.y = -1e30;
+  m_sMaxCoor.z = -1e30;
+  
+  m_sMinCoor.x =  1e30;
+  m_sMinCoor.y =  1e30;
+  m_sMinCoor.z =  1e30;
 }
 
 void MyGLWidget::cleardisplay()
 {
-  drawGeo=false;
-  drawMesh=false;
+  m_bDrawGeo=false;
+  m_bDrawMesh=false;
   update();
 }
 
-void MyGLWidget::drawGeomDisplay()
+void MyGLWidget::setRange(double dLeft,double dRight,double dBottom,double dTop,double dNear,double dFar)
 {
-  set_range(data->geom.minx,data->geom.maxx,data->geom.miny,data->geom.maxy,data->geom.minz-50*(data->geom.maxz-data->geom.minz),data->geom.maxz+50*(data->geom.maxz-data->geom.minz));
-  update();
+  m_RangeLeft   = dLeft;
+  m_RangeRight  = dRight;
+  m_RangeBottom = dBottom;
+  m_RangeTop    = dTop;
+  m_RangeNear   = dNear;
+  m_RangeFar    = dFar;
+  initShowRange();
 }
 
-void MyGLWidget::drawMeshDisplay()
+void MyGLWidget::initShowRange()
 {
-  set_range(data->mesh.minx,data->mesh.maxx,data->mesh.miny,data->mesh.maxy,data->mesh.minz-50*(data->mesh.maxz-data->mesh.minz),data->mesh.maxz+50*(data->mesh.maxz-data->mesh.minz));
-  update();
+  if((m_RangeRight-m_RangeLeft)/(m_RangeTop-m_RangeBottom) < m_dWinWidth/m_dWinHeight)
+    {
+      m_dShowTop    = 1.1*m_RangeTop    - 0.1*m_RangeBottom;
+      m_dShowBottom = 1.1*m_RangeBottom - 0.1*m_RangeTop;
+      m_dShowLeft   = (m_RangeLeft+m_RangeRight)/2.0 - m_WinWidth/m_WinHeight*(m_dShowTop-m_dShowBottom)/2.0;
+      m_dShowRight  = (m_RangeLeft+m_RangeRight)/2.0 + m_WinWidth/m_WinHeight*(m_dShowTop-m_dShowBottom)/2.0;
+    }
+  else
+    {
+      m_dShowLeft   = 1.1*m_RangeLeft  - 0.1*m_RangeRight;
+      m_dShowRight  = 1.1*m_RangeRight - 0.1*m_RangeLeft;
+      m_dShowTop    = (m_RangeTop+m_RangeBottom)/2.0 + m_WinHeight/m_WinWidth*(m_dShowRight-m_dShowLeft)/2.0;
+      m_dShowBottom = (m_RangeTop+m_rangeBottom)/2.0 - m_WinHeight/m_WinWidth*(m_dShowRight-m_dShowLeft)/2.0;
+    }
 }
 
 void MyGLWidget::wheelEvent(QWheelEvent *event)
@@ -45,30 +70,30 @@ void MyGLWidget::wheelEvent(QWheelEvent *event)
   double positionx,positiony;
   double newtop,newbottom,newleft,newright;
   double localRatio;
-  positionx=(double)event->x()/width_fun;
-  positiony=(double)event->y()/height_fun;
+  positionx=(double)event->x() / m_WinWidth;
+  positiony=(double)event->y() / m_WinHeight;
   if(eventscale.y()>0)
     localRatio=1.25;
   else
     localRatio=0.8;
-  if((showright-showleft)<(showtop-showbottom))
+  if((m_dShowRight - m_dShowLeft)<(m_dShowTop - m_dShowBottom))
     {
-      newtop   =showtop -(showtop-showbottom)*positiony+(showtop-showbottom)*localRatio* positiony;
-      newbottom=showtop -(showtop-showbottom)*positiony-(showtop-showbottom)*localRatio*(1-positiony);
-      newleft  =showleft+(showright-showleft)*positionx-(showtop-showbottom)*localRatio* positionx   *width_fun/height_fun;
-      newright =showleft+(showright-showleft)*positionx+(showtop-showbottom)*localRatio*(1-positionx)*width_fun/height_fun;
+      newtop    = m_dShowTop - (m_dShowTop-m_dShowBottom)*positiony + (m_dShowTop-m_dShowBottom)*localRatio* positiony;
+      newbottom = m_dShowTop - (m_dShowTop-m_dShowBottom)*positiony - (m_dShowTop-m_dShowBottom)*localRatio*(1-positiony);
+      newleft   = m_dShowLeft+ (m_dShowRight-m_dShowLeft)*positionx - (m_dShowTop-m_dShowBottom)*localRatio*positionx    * m_dWinWidth/m_dWinHeight;
+      newright  = m_dShowLeft+ (m_dShowRight-m_dShowLeft)*positionx + (m_dShowTop-m_dShowBottom)*localRatio*(1-positionx)* m_dWinWidth/m_dWinHeight;
     }
   else
     {
-      newleft  =showleft+(showright-showleft)*positionx-(showright-showleft)*localRatio* positionx;
-      newright =showleft+(showright-showleft)*positionx+(showright-showleft)*localRatio*(1-positionx);
-      newtop   =showtop -(showtop-showbottom)*positiony+(showright-showleft)*localRatio* positiony   *height_fun/width_fun;
-      newbottom=showtop -(showtop-showbottom)*positiony-(showright-showleft)*localRatio*(1-positiony)*height_fun/width_fun;
+      newleft   = m_dShowLeft+ (m_dShowRight-m_dShowLeft)*positionx - (m_dShowRight-m_dShowLeft)*localRatio* positionx;
+      newright  = m_dShowLeft+ (m_dShowRight-m_dShowLeft)*positionx + (m_dShowRight-m_dShowLeft)*localRatio*(1-positionx);
+      newtop    = m_dShowTop - (m_dShowTop-m_dShowBottom)*positiony + (m_dShowRight-m_dShowLeft)*localRatio* positiony   * m_dWinHeight/m_dWinWidth;
+      newbottom = m_dShowTop - (m_dShowTop-m_dShowBottom)*positiony - (m_dShowRight-m_dShowLeft)*localRatio*(1-positiony)* m_dWinHeight/m_dWinWidth;
     }
-  showleft=newleft;
-  showright=newright;
-  showtop=newtop;
-  showbottom=newbottom;
+  m_dShowLeft   = newleft;
+  m_dShowRight  = newright;
+  m_dShowTop    = newtop;
+  m_dShowBottom = newbottom;
   update();
 }
 
@@ -76,23 +101,31 @@ void MyGLWidget::mousePressEvent(QMouseEvent *e)
 {
   switch(e->button())
     {
-    case Qt::LeftButton:button_type=1;break;
-    case Qt::MidButton:button_type=2;break;
-    case Qt::RightButton:button_type=3;break;
-    default:button_type=0;break;
+    case Qt::LeftButton:
+      button_type=1;
+      break;
+    case Qt::MidButton:
+      button_type=2;
+      break;
+    case Qt::RightButton:
+      button_type=3;
+      break;
+    default:
+      button_type=0;
+      break;
     }
   if(button_type==3)
     {
       makeCurrent();
-      init_showrange();
+      initShowRange();
       glMatrixMode(GL_MODELVIEW);
       glLoadIdentity();
       update();
     }
   else
     {
-      mousex=e->x();
-      mousey=e->y();
+      m_nMouseX = e->x();
+      m_nMouseY = e->y();
     }
 }
 
@@ -105,12 +138,12 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *event)
       glMatrixMode(GL_MODELVIEW);
       glGetDoublev(GL_MODELVIEW_MATRIX,comat);
       glLoadIdentity();
-      glRotatef(s*(event->y()-mousey), 1., 0., 0.);
-      glRotatef(s*(event->x()-mousex), 0., 1., 0.);
-      glMultMatrixd(comat);
+      glRotatef(s*(event->y() - m_nMouseY), 1., 0., 0.);
+      glRotatef(s*(event->x() - m_nMouseX), 0., 1., 0.);
+      glMultMatrixd(m_aComat);
       update();
-      mousex=event->x();
-      mousey=event->y();
+      m_nMouseX = event->x();
+      m_nMouseY = event->y();
     }
   if(button_type==2)
     {
@@ -130,13 +163,13 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *event)
       
       scale=sqrt(obj[0]*obj[0]+obj[1]*obj[1]+obj[2]*obj[2]);
       glMatrixMode(GL_MODELVIEW);
-      glGetDoublev(GL_MODELVIEW_MATRIX,comat);
+      glGetDoublev(GL_MODELVIEW_MATRIX, m_aComat);
       glLoadIdentity();
-      glTranslatef(scale*(event->x()-mousex),scale*(mousey-event->y()), 0.0);
-      glMultMatrixd(comat);
+      glTranslatef(scale*(event->x()- m_nMouseX),scale*(m_nMouseY-event->y()), 0.0);
+      glMultMatrixd(m_aComat);
       update();
-      mousex=event->x();
-      mousey=event->y();
+      m_nMouseX = event->x();
+      m_nMouseY = event->y();
     }
 }
 
@@ -173,59 +206,30 @@ void MyGLWidget::initializeGL()
   //glEnable(GL_COLOR_MATERIAL);
 }
 
-void MyGLWidget::set_range(double left,double right,double bottom,double top,double near_1,double far_1)
-{
-  rangeleft=left;
-  rangeright=right;
-  rangebottom=bottom;
-  rangetop=top;
-  rangenear=near_1;
-  rangefar=far_1;
-  init_showrange();
-}
-
-void MyGLWidget::init_showrange()
-{
-  if((rangeright-rangeleft)/(rangetop-rangebottom)<width_fun/height_fun)
-    {
-      showtop   =1.1*rangetop   -0.1*rangebottom;
-      showbottom=1.1*rangebottom-0.1*rangetop;
-      showleft  =(rangeleft+rangeright)/2.0-width_fun/height_fun*(showtop-showbottom)/2.0;
-      showright =(rangeleft+rangeright)/2.0+width_fun/height_fun*(showtop-showbottom)/2.0;
-    }
-  else
-    {
-      showleft  =1.1*rangeleft -0.1*rangeright;
-      showright =1.1*rangeright-0.1*rangeleft;
-      showtop   =(rangetop+rangebottom)/2.0+height_fun/width_fun*(showright-showleft)/2.0;
-      showbottom=(rangetop+rangebottom)/2.0-height_fun/width_fun*(showright-showleft)/2.0;
-    }
-}
-
 void MyGLWidget::resizeGL(int w, int h)
 {
-  width_fun=w;
-  height_fun=h;
+  m_WinWidth  = w;
+  m_WinHeight = h;
   glViewport(0, 0, w, h);
   double newtop,newbottom,newleft,newright;
-  if((rangeright-rangeleft)/(rangetop-rangebottom)<width_fun/height_fun)
+  if((m_dRangeRight-m_dRangeLeft)/(m_dRangeTop-m_dRangeBottom)<m_dWinWidth/m_dWinHeight)
     {
-      newtop   =showtop;
-      newbottom=showbottom;
-      newleft  =(showright+showleft)/2.0-(showtop-showbottom)/2.0*width_fun/height_fun;
-      newright =(showright+showleft)/2.0+(showtop-showbottom)/2.0*width_fun/height_fun;
+      newtop    = m_dShowTop;
+      newbottom = m_dShowBottom;
+      newleft   = (m_dShowRight+m_dShowLeft)/2.0-(m_dShowTop-m_dShowBottom)/2.0*m_dWinWidth/m_dWinHeight;
+      newright  = (m_dShowRight+m_dShowLeft)/2.0+(m_dShowTop-m_dShowBottom)/2.0*m_dWinWidth/m_dWinHeight;
     }
   else
     {
-      newleft  =showleft;
-      newright =showright;
-      newtop   =(showtop+showbottom)/2.0+(showright-showleft)/2.0*height_fun/width_fun;
-      newbottom=(showtop+showbottom)/2.0-(showright-showleft)/2.0*height_fun/width_fun;
+      newleft   = m_dShowLeft;
+      newright  = m_dShowRight;
+      newtop    = (m_dShowTop+m_dShowBottom)/2.0+(m_dShowRight-m_dShowLeft)/2.0*m_dWinHeight/m_dWinWidth;
+      newbottom = (m_dShowTop+m_dShowBottom)/2.0-(m_dShowRight-m_dShowLeft)/2.0*m_dWinHeight/m_dWinWidth;
     }
-  showleft=newleft;
-  showright=newright;
-  showtop=newtop;
-  showbottom=newbottom;
+  m_dShowLeft   = newleft;
+  m_dShowRight  = newright;
+  m_dShowTop    = newtop;
+  m_dShowBottom = newbottom;
 }
 
 void MyGLWidget::paintGL()
@@ -237,35 +241,33 @@ void MyGLWidget::paintGL()
   glOrtho(showleft,showright,showbottom,showtop,rangenear,rangefar);
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_LIGHTING);
-  if(drawMesh)
-    { draw3DGrid(); }
-  if(drawGeo)
-    { draw3DGeo(); }
+
+  draw3D();
   
   glDisable(GL_LIGHTING);
-  glGetDoublev(GL_MODELVIEW_MATRIX,comat);
-  comat[3]=0;
-  comat[7]=0;
-  comat[11]=0;
-  comat[12]=0;
-  comat[13]=0;
-  comat[14]=0;
-  comat[15]=1;
+  glGetDoublev(GL_MODELVIEW_MATRIX, m_aComat);
+  m_aComat[3]=0;
+  m_aComat[7]=0;
+  m_aComat[11]=0;
+  m_aComat[12]=0;
+  m_aComat[13]=0;
+  m_aComat[14]=0;
+  m_aComat[15]=1;
   glPushMatrix();
   glClear(GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
   glMatrixMode(GL_PROJECTION);
   glPushMatrix();
   glLoadIdentity();
-  glOrtho(-width_fun,width_fun,-height_fun,height_fun,-1000,1000);
+  glOrtho(-m_dWinWidth,m_dWinWidth,-m_dWinHeight,m_dWinHeight,-1000,1000);
   glMatrixMode(GL_MODELVIEW);
-  glTranslatef(0.7*width_fun,-0.8*height_fun,0);
-  glMultMatrixd(comat);
+  glTranslatef(0.7*m_dWinWidth,-0.8*m_dWinHeight,0);
+  glMultMatrixd(m_aComat);
   double ra;
-  if(width_fun<height_fun)
-    { ra=width_fun*0.1; }
+  if(m_dWinWidth<m_dWinHeight)
+    { ra=m_dWinWidth*0.1; }
   else
-    { ra=height_fun*0.1; }
+    { ra=m_dWinHeight*0.1; }
 
   glBegin(GL_QUAD_STRIP);
   glColor3f(0.0,0.0,1.0);
@@ -357,253 +359,197 @@ void MyGLWidget::drawstring(const char *str)
   glDeleteLists(list,1);
 }
 
-void MyGLWidget::draw3DGeo()
+void MyGLWidget::draw3D()
 {
-  int i,j,nr;
-  ROWDATA *p;
-
+  /*
   GLfloat mat_ambient[]  = {0.8f, 0.0f, 0.0f, 1.0f};
   GLfloat mat_diffuse[]  = {0.4f, 0.1f, 0.1f, 1.0f};
   GLfloat mat_specular[] = {0.3f, 0.1f, 0.1f, 1.0f};
   GLfloat mat_emission[] = {0.0f, 0.0f, 0.0f, 1.0f};
   GLfloat mat_shininess=100.0f;
 
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,mat_ambient);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,mat_diffuse);
+  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_ambient);
   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,mat_specular);
   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,mat_emission);
   glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS,mat_shininess);
-
-  for(nr=0;nr<data->geom.nrs;nr++)
+  */
+  int aIndex[3] = {0,0,0};
+  if(m_bDrawGeo)
     {
-      p=&data->geom.row[nr];
-      for(j=0;j<p->blade.nsects-1;j++)
+      glBegin(GL_TRIANGLES);
+      for(int i=0; i<m_vecIndex.size(); i++)
 	{
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(i=0;i<p->blade.ss[j].npts;i++)
+	  aIndex[0] = m_vecIndex.at(i).fir;
+	  aIndex[1] = m_vecIndex.at(i).sec;
+	  aIndex[2] = m_vecIndex.at(i).thr;
+	  for(int j=0; j<3; j++)
 	    {
-	      glNormal3f(p->blade.ss[j].norm[i][0]  ,p->blade.ss[j].norm[i][1]  ,p->blade.ss[j].norm[i][2]  );
-	      glVertex3f(p->blade.ss[j].coor[i][0]  ,p->blade.ss[j].coor[i][1]  ,p->blade.ss[j].coor[i][2]  );
-	      glNormal3f(p->blade.ss[j+1].norm[i][0],p->blade.ss[j+1].norm[i][1],p->blade.ss[j+1].norm[i][2]);
-	      glVertex3f(p->blade.ss[j+1].coor[i][0],p->blade.ss[j+1].coor[i][1],p->blade.ss[j+1].coor[i][2]);
+	      Vector3D *strucPos  = &(m_vecPoint.at(nIndex[j]).point);
+	      Vector3D *strucNorm = &(m_vecPoint.at(nIndex[j]).normalization);
+	      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, m_vecPoint.at(nIndex[j]).color);
+	      glNormal3f(strucNorm->x, strucNorm->y, strucNorm->z);
+	      glVertex3f(strucPos->x, strucPos->y, strucPos->z);
 	    }
-	  glEnd();
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(i=0;i<p->blade.ps[j].npts;i++)
-	    {
-	      glNormal3f(p->blade.ps[j].norm[i][0]  ,p->blade.ps[j].norm[i][1]  ,p->blade.ps[j].norm[i][2]  );
-	      glVertex3f(p->blade.ps[j].coor[i][0]  ,p->blade.ps[j].coor[i][1]  ,p->blade.ps[j].coor[i][2]  );
-	      glNormal3f(p->blade.ps[j+1].norm[i][0],p->blade.ps[j+1].norm[i][1],p->blade.ps[j+1].norm[i][2]);
-	      glVertex3f(p->blade.ps[j+1].coor[i][0],p->blade.ps[j+1].coor[i][1],p->blade.ps[j+1].coor[i][2]);
-	    }
-	  glEnd();
 	}
-      if(p->isplt)
-	{
-	  for(j=0;j<p->splitter.nsects-1;j++)
-	    {
-	      glBegin(GL_TRIANGLE_STRIP);
-	      for(i=0;i<p->splitter.ss[j].npts;i++)
-		{
-		  glNormal3f(p->splitter.ss[j].norm[i][0]  ,p->splitter.ss[j].norm[i][1]  ,p->splitter.ss[j].norm[i][2]  );
-		  glVertex3f(p->splitter.ss[j].coor[i][0]  ,p->splitter.ss[j].coor[i][1]  ,p->splitter.ss[j].coor[i][2]  );
-		  glNormal3f(p->splitter.ss[j+1].norm[i][0],p->splitter.ss[j+1].norm[i][1],p->splitter.ss[j+1].norm[i][2]);
-		  glVertex3f(p->splitter.ss[j+1].coor[i][0],p->splitter.ss[j+1].coor[i][1],p->splitter.ss[j+1].coor[i][2]);
-		}
-	      glEnd();
-	      glBegin(GL_TRIANGLE_STRIP);
-	      for(i=0;i<p->splitter.ps[j].npts;i++)
-		{
-		  glNormal3f(p->splitter.ps[j].norm[i][0]  ,p->splitter.ps[j].norm[i][1]  ,p->splitter.ps[j].norm[i][2]  );
-		  glVertex3f(p->splitter.ps[j].coor[i][0]  ,p->splitter.ps[j].coor[i][1]  ,p->splitter.ps[j].coor[i][2]  );
-		  glNormal3f(p->splitter.ps[j+1].norm[i][0],p->splitter.ps[j+1].norm[i][1],p->splitter.ps[j+1].norm[i][2]);
-		  glVertex3f(p->splitter.ps[j+1].coor[i][0],p->splitter.ps[j+1].coor[i][1],p->splitter.ps[j+1].coor[i][2]);
-		}
-	      glEnd();
-	    }  
-	}
+      glEnd();
     }
-  
+  if(m_bDrawMesh)
+    {
+      glBegin(GL_LINES);
+      for(int i=0; i<m_vecIndex.size(); i++)
+	{
+	  aIndex[0] = m_vecIndex.at(i).fir;
+	  aIndex[1] = m_vecIndex.at(i).sec;
+	  aIndex[2] = m_vecIndex.at(i).thr;
+	  for(int j=0; j<3; j++)
+	    {
+	      Vector3D *strucFir  = &(m_vecPoint.at(nIndex[j]).point);
+	      Vector3D *strucSec  = &(m_vecPoint.at(nIndex[(j+1)%3]).point);
+	      glVertex3f(strucFir->x, strucFir->y, strucFir->z);
+	      glVertex3f(strucSec->x, strucSec->y, strucSec->z);
+	    }
+	}
+      glEnd();
+    }
 }
 
-void MyGLWidget::draw3DGrid()
+void MyGLWidget::drawAdditional()
 {
-  int i,j,k,nr;
-  ROWMESHDATA *p;
-  
-  GLfloat mat_ambient[]  = {0.5f, 0.5f, 0.5f, 1.0f};
-  GLfloat mat_diffuse[]  = {0.4f, 0.4f, 0.4f, 1.0f};
-  GLfloat mat_specular[] = {0.3f, 0.3f, 0.3f, 1.0f};
-  GLfloat mat_emission[] = {0.0f, 0.0f, 0.0f, 1.0f};
-  GLfloat mat_shininess=100.0f;
-  
-  glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,mat_ambient);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE,mat_diffuse);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR,mat_specular);
-  glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,mat_emission);
-  glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS,mat_shininess);
+  glBegin(GL_LINES);
+  glColor3f(0.0, 0.0, 0.0);
+  glVertex3f(m_sMinCoor.x,                  m_sMinCoor.y, m_sMinCoor.z);
+  glVertex3f(m_sMaxCoor.x+0.03*m_dWinWidth, m_sMinCoor.y, m_sMinCoor.z);
 
-  //glColor4f(0.0f, 0.f, 0.f, 1.0f);
+  glVertex3f(m_sMinCoor.x, m_sMinCoor.y,                  m_sMinCoor.z);
+  glVertex3f(m_sMinCoor.x, m_sMaxCoor.y+0.03*m_dWinWidth, m_sMinCoor.z);
 
-  //glPolygonMode(GL_FRONT, GL_LINE); 
-  //glPolygonMode(GL_BACK, GL_LINE);
+  glVertex3f(m_sMinCoor.x, m_sMinCoor.y, m_sMinCoor.z);
+  glVertex3f(m_sMinCoor.x, m_sMinCoor.y, m_sMaxCoor.z+0.03*m_dWinWidth);
+  glEnd();
 
-  for(nr=0;nr<data->mesh.nrs;nr++)
-    {
-      p=&data->mesh.row[nr];
-      for(j=0;j<p->finalResult.jm-1;j++)
-	{
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glNormal3f(p->finalResult.topNorm[i][j][0],p->finalResult.topNorm[i][j][1],p->finalResult.topNorm[i][j][2]);
-	      glVertex3f(p->finalResult.topSurf[i][j][0],p->finalResult.topSurf[i][j][1],p->finalResult.topSurf[i][j][2]);
-	      glNormal3f(p->finalResult.topNorm[i][j+1][0],p->finalResult.topNorm[i][j+1][1],p->finalResult.topNorm[i][j+1][2]);
-	      glVertex3f(p->finalResult.topSurf[i][j+1][0],p->finalResult.topSurf[i][j+1][1],p->finalResult.topSurf[i][j+1][2]);
-	    }
-	  glEnd();
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glNormal3f(p->finalResult.bottomNorm[i][j][0],p->finalResult.bottomNorm[i][j][1],p->finalResult.bottomNorm[i][j][2]);
-	      glVertex3f(p->finalResult.bottomSurf[i][j][0],p->finalResult.bottomSurf[i][j][1],p->finalResult.bottomSurf[i][j][2]);
-	      glNormal3f(p->finalResult.bottomNorm[i][j+1][0],p->finalResult.bottomNorm[i][j+1][1],p->finalResult.bottomNorm[i][j+1][2]);
-	      glVertex3f(p->finalResult.bottomSurf[i][j+1][0],p->finalResult.bottomSurf[i][j+1][1],p->finalResult.bottomSurf[i][j+1][2]);
-	    }
-	  glEnd();
-	}
-      for(k=0;k<p->finalResult.km-1;k++)
-	{
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glNormal3f(p->finalResult.frontNorm[i][k][0],p->finalResult.frontNorm[i][k][1],p->finalResult.frontNorm[i][k][2]);
-	      glVertex3f(p->finalResult.frontSurf[i][k][0],p->finalResult.frontSurf[i][k][1],p->finalResult.frontSurf[i][k][2]);
-	      glNormal3f(p->finalResult.frontNorm[i][k+1][0],p->finalResult.frontNorm[i][k+1][1],p->finalResult.frontNorm[i][k+1][2]);
-	      glVertex3f(p->finalResult.frontSurf[i][k+1][0],p->finalResult.frontSurf[i][k+1][1],p->finalResult.frontSurf[i][k+1][2]);
-	    }
-	  glEnd();
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glNormal3f(p->finalResult.backNorm[i][k][0],p->finalResult.backNorm[i][k][1],p->finalResult.backNorm[i][k][2]);
-	      glVertex3f(p->finalResult.backSurf[i][k][0],p->finalResult.backSurf[i][k][1],p->finalResult.backSurf[i][k][2]);
-	      glNormal3f(p->finalResult.backNorm[i][k+1][0],p->finalResult.backNorm[i][k+1][1],p->finalResult.backNorm[i][k+1][2]);
-	      glVertex3f(p->finalResult.backSurf[i][k+1][0],p->finalResult.backSurf[i][k+1][1],p->finalResult.backSurf[i][k+1][2]);
-	    }
-	  glEnd();
-	}
-      for(k=0;k<p->finalResult.km-1;k++)
-	{
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(j=0;j<p->finalResult.jm;j++)
-	    {
-	      glNormal3f(p->finalResult.leftNorm[j][k][0],p->finalResult.leftNorm[j][k][1],p->finalResult.leftNorm[j][k][2]);
-	      glVertex3f(p->finalResult.leftSurf[j][k][0],p->finalResult.leftSurf[j][k][1],p->finalResult.leftSurf[j][k][2]);
-	      glNormal3f(p->finalResult.leftNorm[j][k+1][0],p->finalResult.leftNorm[j][k+1][1],p->finalResult.leftNorm[j][k+1][2]);
-	      glVertex3f(p->finalResult.leftSurf[j][k+1][0],p->finalResult.leftSurf[j][k+1][1],p->finalResult.leftSurf[j][k+1][2]);
-	    }
-	  glEnd();
-	  glBegin(GL_TRIANGLE_STRIP);
-	  for(j=0;j<p->finalResult.jm;j++)
-	    {
-	      glNormal3f(p->finalResult.rightNorm[j][k][0],p->finalResult.rightNorm[j][k][1],p->finalResult.rightNorm[j][k][2]);
-	      glVertex3f(p->finalResult.rightSurf[j][k][0],p->finalResult.rightSurf[j][k][1],p->finalResult.rightSurf[j][k][2]);
-	      glNormal3f(p->finalResult.rightNorm[j][k+1][0],p->finalResult.rightNorm[j][k+1][1],p->finalResult.rightNorm[j][k+1][2]);
-	      glVertex3f(p->finalResult.rightSurf[j][k+1][0],p->finalResult.rightSurf[j][k+1][1],p->finalResult.rightSurf[j][k+1][2]);
-	    }
-	  glEnd();
-	}
-      glDisable(GL_LIGHTING);
-      for(k=0;k<p->finalResult.km-1;k++)
-	{
-	  glBegin(GL_LINES);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glVertex3f(p->finalResult.frontSurf[i][k][0],p->finalResult.frontSurf[i][k][1],p->finalResult.frontSurf[i][k][2]);
-	      glVertex3f(p->finalResult.frontSurf[i][k+1][0],p->finalResult.frontSurf[i][k+1][1],p->finalResult.frontSurf[i][k+1][2]);
-	      glVertex3f(p->finalResult.backSurf[i][k][0],p->finalResult.backSurf[i][k][1],p->finalResult.backSurf[i][k][2]);
-	      glVertex3f(p->finalResult.backSurf[i][k+1][0],p->finalResult.backSurf[i][k+1][1],p->finalResult.backSurf[i][k+1][2]);
-	    }
-	  glEnd();
-	}
-      for(k=0;k<p->finalResult.km-1;k++)
-	{
-	  glBegin(GL_LINE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glVertex3f(p->finalResult.frontSurf[i][k][0],p->finalResult.frontSurf[i][k][1],p->finalResult.frontSurf[i][k][2]);
-	    }
-	  glEnd();
-	  glBegin(GL_LINE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glVertex3f(p->finalResult.backSurf[i][k][0],p->finalResult.backSurf[i][k][1],p->finalResult.backSurf[i][k][2]);
-	    }
-	  glEnd();
-	}
-      for(j=0;j<p->finalResult.jm-1;j++)
-	{
-	  glBegin(GL_LINES);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glVertex3f(p->finalResult.topSurf[i][j][0],p->finalResult.topSurf[i][j][1],p->finalResult.topSurf[i][j][2]);
-	      glVertex3f(p->finalResult.topSurf[i][j+1][0],p->finalResult.topSurf[i][j+1][1],p->finalResult.topSurf[i][j+1][2]);
-	      glVertex3f(p->finalResult.bottomSurf[i][j][0],p->finalResult.bottomSurf[i][j][1],p->finalResult.bottomSurf[i][j][2]);
-	      glVertex3f(p->finalResult.bottomSurf[i][j+1][0],p->finalResult.bottomSurf[i][j+1][1],p->finalResult.bottomSurf[i][j+1][2]);
-	    }
-	  glEnd();
-	}
-      for(j=0;j<p->finalResult.jm;j++)
-	{
-	  glBegin(GL_LINE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glVertex3f(p->finalResult.topSurf[i][j][0],p->finalResult.topSurf[i][j][1],p->finalResult.topSurf[i][j][2]);
-	    }
-	  glEnd();
-	  glBegin(GL_LINE_STRIP);
-	  for(i=0;i<p->finalResult.im;i++)
-	    {
-	      glVertex3f(p->finalResult.bottomSurf[i][j][0],p->finalResult.bottomSurf[i][j][1],p->finalResult.bottomSurf[i][j][2]);
-	    }
-	  glEnd();
-	}
-      for(k=0;k<p->finalResult.km-1;k++)
-	{
-	  glBegin(GL_LINES);
-	  for(j=0;j<p->finalResult.jm;j++)
-	    {
-	      glVertex3f(p->finalResult.leftSurf[j][k][0],p->finalResult.leftSurf[j][k][1],p->finalResult.leftSurf[j][k][2]);
-	      glVertex3f(p->finalResult.leftSurf[j][k+1][0],p->finalResult.leftSurf[j][k+1][1],p->finalResult.leftSurf[j][k+1][2]);
-	      glVertex3f(p->finalResult.rightSurf[j][k][0],p->finalResult.rightSurf[j][k][1],p->finalResult.rightSurf[j][k][2]);
-	      glVertex3f(p->finalResult.rightSurf[j][k+1][0],p->finalResult.rightSurf[j][k+1][1],p->finalResult.rightSurf[j][k+1][2]);
-	    }
-	  glEnd();
-	}
-      for(k=0;k<p->finalResult.km-1;k++)
-	{
-	  glBegin(GL_LINE_STRIP);
-	  for(j=0;j<p->finalResult.jm;j++)
-	    {
-	      glVertex3f(p->finalResult.leftSurf[j][k][0],p->finalResult.leftSurf[j][k][1],p->finalResult.leftSurf[j][k][2]);
-	    }
-	  glEnd();
-	  glBegin(GL_LINE_STRIP);
-	  for(j=0;j<p->finalResult.jm;j++)
-	    {
-	      glVertex3f(p->finalResult.rightSurf[j][k][0],p->finalResult.rightSurf[j][k][1],p->finalResult.rightSurf[j][k][2]);
-	    }
-	  glEnd();
-	}
-      glEnable(GL_LIGHTING);
-    }
+  glRasterPos3f(m_sMaxCoor.x+0.04*m_dWinWidth, m_sMinCoor.y,                  m_sMinCoor.z);
+  drawstring("X(m)");
+  glRasterPos3f(m_sMinCoor.x,                  m_sMaxCoor.y+0.03*m_dWinWidth, m_sMinCoor.z);
+  drawstring("T(K)");
+  glRasterPos3f(m_sMinCoor.x,                  m_sMinCoor.y,                  m_sMaxCoor.z+0.03*m_dWinWidth);
+  drawstring("Time(s)");
+
 }
 
 void MyGLWidget::processRes(int nIndex)
 {
-  if(nIndex == 0)
+  if(nIndex > 0)
     {
-      
+      MeshRes* pMeshRes = m_pService->MeshRes();
+      for(int i=0; i<pMeshRes->size()-1; i++)
+	{
+	  Vector3D strucVer[3];
+	  strucVer[0].x = pMeshRes->at(i).dCoorX;
+	  strucVer[0].y = pMeshRes->at(i).vecTime_Temperature.at(nIndex-1).second;
+	  strucVer[0].z = pMeshRes->at(i).vecTime_Temperature.at(nIndex-1).first;
+
+	  strucVer[1].x = pMeshRes->at(i).dCoorX;
+	  strucVer[1].y = pMeshRes->at(i).vecTime_Temperature.at(nIndex).second;
+	  strucVer[1].z = pMeshRes->at(i).vecTime_Temperature.at(nIndex).first;
+	  
+	  strucVer[2].x = pMeshRes->at(i+1).dCoorX;
+	  strucVer[2].y = pMeshRes->at(i+1).vecTime_Temperature.at(nIndex-1).second;
+	  strucVer[2].z = pMeshRes->at(i+1).vecTime_Temperature.at(nIndex-1).first;
+	  
+	  addTrangle(strucVer);
+	  
+	  strucVer[0].x = pMeshRes->at(i+1).dCoorX;
+	  strucVer[0].y = pMeshRes->at(i+1).vecTime_Temperature.at(nIndex-1).second;
+	  strucVer[0].z = pMeshRes->at(i+1).vecTime_Temperature.at(nIndex-1).first;
+
+	  strucVer[1].x = pMeshRes->at(i).dCoorX;
+	  strucVer[1].y = pMeshRes->at(i).vecTime_Temperature.at(nIndex).second;
+	  strucVer[1].z = pMeshRes->at(i).vecTime_Temperature.at(nIndex).first;
+
+	  strucVer[2].x = pMeshRes->at(i+1).dCoorX;
+	  strucVer[2].y = pMeshRes->at(i+1).vecTime_Temperature.at(nIndex).second;
+	  strucVer[2].z = pMeshRes->at(i+1).vecTime_Temperature.at(nIndex).first;
+
+	  addTrangle(strucVer);
     }
+}
+
+void MyGLWidget::getnormaldir(Vector3D oFir, Vector3D oSec, Vector3D oThr, Vector3D &oNormal)
+{
+  Vector3D oTmp1,oTmp2;
+  oTmp1.x = oSec.x - oFir.x;
+  oTmp1.y = oSec.y - oFir,y;
+  oTmp1.z = oSec.z - oFir.z;
+
+  oTmp2.x = oThr.x - oSec.x;
+  oTmp2.y = oThr.y - oSec.y;
+  oTmp2.z = oThr.z - oSec.z;
+
+  corss(oTmp1, oTmp2, oNormal);
+}
+
+void MyGLWidget::corss(Vector3D oVec1, Vector3D oVec2, Vector3D &oNormal)
+{
+  oNormal.x = oVec1.y*oVec2.z - oVec1.z*oVec2.y;
+  oNormal.y = oVec1.z*oVec2.x - oVec1.x*oVec2.z;
+  oNormal.z = oVec1.x*oVec2.y - oVec1.y*oVec2.x;
+}
+
+void MyGLWidget::guiyi(Vector3D oSrc, Vector3D &oDes)
+{
+  double dLength = sqrt(oSrc.x*oSrc.x + oSrc.y*oSrc.y + oSrc.z*oSrc.z);
+
+  oDes.x = oSrc.x / dLength;
+  oDes.y = oSrc.y / dLength;
+  oDes.z = oSrc.z / dLength;
+}
+
+void MyGLWidget::addTrangle(Vector3D strucVer[3])
+{
+    Vector3D strucNorm;
+    QString strKey;
+    int aIndex[3];
+
+    getnormaldir(strucVer[0], strucVer[1], strucVer[2], strucNorm);
+    
+    for(int j=0; j<3; j++)
+      {
+	strKey = QString::number(strucFir.x) + " " + QString::number(strucFir.y) + " " + QString::number(strucFir.z);
+	
+	std::map<QString, unsigned int>::interator itMap = m_mapPointIndex.find(strKey);
+	
+	if(itMap == m_mapPointIndex.end())
+	  {
+	    GLData oTmp;
+	    oTmp.point.x = strucVer[j].x;
+	    oTmp.point.y = strucVer[j].y;
+	    oTmp.point.z = strucVer[j].z;
+	    
+	    oTmp.normal.x = strucNorm.x;
+	    oTmp.normal.y = strucNorm.y;
+	    oTmp.normal.z = strucNorm.z;
+	    
+	    guiyi(oTmp.normal, oTmp.normalization);
+	    
+	    m_vecPoint.push_back(oTmp);
+	    m_mapPointIndex[strKey] = m_vecPoint.size()-1;
+	    aIndex[j] = m_vecPoint.size()-1;
+	  }
+	else
+	  {
+	    int nMapIndex = itMap->second;
+	    
+	    m_vecPoint.at(nMapIndex).normal.x += strucNorm.x;
+	    m_vecPoint.at(nMapIndex).normal.y += strucNorm.y;
+	    m_vecPoint.at(nMapIndex).normal.z += strucNorm.z;
+	    
+	    guiyi(m_vecPoint.at(nMapIndex).normal, m_vecPoint.at(nMapIndex).normalization);
+	    aIndex[j] = nMapIndex;
+	  }
+      }
+    Vector3N oVector3N;
+    oVector3N.fir = aIndex[0];
+    oVector3N.sec = aIndex[1];
+    oVector3N.thr = aIndex[2];
+    m_vecIndex.push_back(oVector3N);
 }

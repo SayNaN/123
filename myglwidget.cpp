@@ -413,6 +413,21 @@ void MyGLWidget::draw3D()
     }
 }
 
+void MyGLWidget::resetMyGL()
+{
+  m_sMaxCoor.x = -1e30;
+  m_sMaxCoor.y = -1e30;
+  m_sMaxCoor.z = -1e30;
+
+  m_sMinCoor.x = 1e30;
+  m_sMinCoor.y = 1e30;
+  m_sMinCoor.z = 1e30;
+
+  m_mapPointIndex.clear();
+  m_vecPoint.clear();
+  m_vecIndex.clear();
+}
+
 void MyGLWidget::drawAdditional()
 {
   glBegin(GL_LINES);
@@ -436,8 +451,42 @@ void MyGLWidget::drawAdditional()
 
 }
 
+void MyGLWidget::processMaxMin(int nIndex)
+{
+  MeshRes* pMeshRes = m_pService->MeshRes();
+  for(int i=0; i<pMeshRes->size()-1; i++)
+    {
+      if(m_sMaxCoor.x < pMeshRes->at(i).dCoorX)
+	{
+	  m_sMaxCoor.x = pMeshRes->at(i).dCoorX;
+	}
+      if(m_sMaxCoor.y < pMeshRes->at(i).vecTime_Temperature.at(nIndex).second)
+	{
+	  m_sMaxCoor.y = pMeshRes->at(i).vecTime_Temperature.at(nIndex).second;
+	}
+      if(m_sMaxCoor.z < pMeshRes->at(i).vecTime_Temperature.at(nIndex).first)
+	{
+	  m_sMaxCoor.z = pMeshRes->at(i).vecTime_Temperature.at(nIndex).first;
+	}
+
+      if(m_sMinCoor.x > pMeshRes->at(i).dCoorX)
+	{
+	  m_sMinCoor.x = pMeshRes->at(i).dCoorX;
+	}
+      if(m_sMinCoor.y > pMeshRes->at(i).vecTime_Temperature.at(nIndex).second)
+	{
+	  m_sMinCoor.y = pMeshRes->at(i).vecTime_Temperature.at(nIndex).second;
+	}
+      if(m_sMinCoor.z > pMeshRes->at(i).vecTime_Temperature.at(nIndex).first)
+	{
+	  m_sMinCoor.z = pMeshRes->at(i).vecTime_Temperature.at(nIndex).first;
+	}
+    }
+}
+
 void MyGLWidget::processRes(int nIndex)
 {
+  processMaxMin(nIndex);
   if(nIndex > 0)
     {
       MeshRes* pMeshRes = m_pService->MeshRes();
@@ -471,6 +520,25 @@ void MyGLWidget::processRes(int nIndex)
 	  strucVer[2].z = pMeshRes->at(i+1).vecTime_Temperature.at(nIndex).first;
 
 	  addTrangle(strucVer);
+	}
+    }
+  reCalcColor();
+}
+
+void MyGLWidget::reCalcColor()
+{
+  int nCount = m_vecPoint.size();
+  double temperatureDiff = m_sMaxCoor.y - m_sMinCoor.y;
+  double colorDiffR = maxColor.x - minColor.x;
+  double colorDiffG = maxColor.y - minColor.y;
+  double colorDiffB = maxColor.z - minColor.z;
+  for(int i=0; i<nCount; i++)
+    {
+      double currentTemperature = m_vecPoint.at(i).point.y;
+	  
+      m_vecPoint.at(i).color.x = (currentTemperature - m_sMinCoor.y)/temperatureDiff*colorDiffR + minColor.x;
+      m_vecPoint.at(i).color.y = (currentTemperature - m_sMinCoor.y)/temperatureDiff*colorDiffG + minColor.y;
+      m_vecPoint.at(i).color.z = (currentTemperature - m_sMinCoor.y)/temperatureDiff*colorDiffB + minColor.z;
     }
 }
 
@@ -530,7 +598,7 @@ void MyGLWidget::addTrangle(Vector3D strucVer[3])
 	    oTmp.normal.z = strucNorm.z;
 	    
 	    guiyi(oTmp.normal, oTmp.normalization);
-	    
+
 	    m_vecPoint.push_back(oTmp);
 	    m_mapPointIndex[strKey] = m_vecPoint.size()-1;
 	    aIndex[j] = m_vecPoint.size()-1;

@@ -13,7 +13,7 @@ class Operate
 
   void readProjectFile(QString sText);
   void writeProjectFile();
-  void writeResFile(QString sText);
+  void writeResFile(QString sText = "");
 
  private:
   ZTService* m_pService;

@@ -30,6 +30,8 @@ struct GLData
   Vector4D color;
 };
 
+static const Vector3D maxColor = {255, 0, 0};
+static const Vector3D minColor = {0, 0, 255};
 
 class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
 {
@@ -64,6 +66,9 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   void corss(Vector3D oVec1, Vector3D oVec2, Vector3D &oNormal);
   void guiyi(Vector3D oSrc, Vector3D &oDes);
   void addTrangle(Vector3D strucVer[3]);
+  void resetMyGL();
+  void processMaxMin(int nIndex);
+  void reCalcColor();
 
  private:
   double m_dWinWidth;
