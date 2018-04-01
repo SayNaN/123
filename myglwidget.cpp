@@ -5,18 +5,19 @@
 #include<GL/GLU.H>
 #include<vector>
 #include"myglwidget.h"
+#include"ZTservice.h"
 
 MyGLWidget::MyGLWidget(ZTService *pService, QWidget *parent):
   QOpenGLWidget(parent),
   m_pService(pService),
-  m_bDrawMesh(true),
-  m_bDrawGeo(true),
   m_dRangeLeft(-1),
   m_dRangeRight(1),
   m_dRangeBottom(-1),
   m_dRangeTop(1),
   m_dRangeNear(-1000),
-  m_dRangeFar(1000)
+  m_dRangeFar(1000),
+  m_bDrawMesh(true),
+  m_bDrawGeo(true)
 {
   m_sMaxCoor.x = -1e30;
   m_sMaxCoor.y = -1e30;
@@ -36,30 +37,30 @@ void MyGLWidget::cleardisplay()
 
 void MyGLWidget::setRange(double dLeft,double dRight,double dBottom,double dTop,double dNear,double dFar)
 {
-  m_RangeLeft   = dLeft;
-  m_RangeRight  = dRight;
-  m_RangeBottom = dBottom;
-  m_RangeTop    = dTop;
-  m_RangeNear   = dNear;
-  m_RangeFar    = dFar;
+  m_dRangeLeft   = dLeft;
+  m_dRangeRight  = dRight;
+  m_dRangeBottom = dBottom;
+  m_dRangeTop    = dTop;
+  m_dRangeNear   = dNear;
+  m_dRangeFar    = dFar;
   initShowRange();
 }
 
 void MyGLWidget::initShowRange()
 {
-  if((m_RangeRight-m_RangeLeft)/(m_RangeTop-m_RangeBottom) < m_dWinWidth/m_dWinHeight)
+  if((m_dRangeRight-m_dRangeLeft)/(m_dRangeTop-m_dRangeBottom) < m_dWinWidth/m_dWinHeight)
     {
-      m_dShowTop    = 1.1*m_RangeTop    - 0.1*m_RangeBottom;
-      m_dShowBottom = 1.1*m_RangeBottom - 0.1*m_RangeTop;
-      m_dShowLeft   = (m_RangeLeft+m_RangeRight)/2.0 - m_WinWidth/m_WinHeight*(m_dShowTop-m_dShowBottom)/2.0;
-      m_dShowRight  = (m_RangeLeft+m_RangeRight)/2.0 + m_WinWidth/m_WinHeight*(m_dShowTop-m_dShowBottom)/2.0;
+      m_dShowTop    = 1.1*m_dRangeTop    - 0.1*m_dRangeBottom;
+      m_dShowBottom = 1.1*m_dRangeBottom - 0.1*m_dRangeTop;
+      m_dShowLeft   = (m_dRangeLeft+m_dRangeRight)/2.0 - m_dWinWidth/m_dWinHeight*(m_dShowTop-m_dShowBottom)/2.0;
+      m_dShowRight  = (m_dRangeLeft+m_dRangeRight)/2.0 + m_dWinWidth/m_dWinHeight*(m_dShowTop-m_dShowBottom)/2.0;
     }
   else
     {
-      m_dShowLeft   = 1.1*m_RangeLeft  - 0.1*m_RangeRight;
-      m_dShowRight  = 1.1*m_RangeRight - 0.1*m_RangeLeft;
-      m_dShowTop    = (m_RangeTop+m_RangeBottom)/2.0 + m_WinHeight/m_WinWidth*(m_dShowRight-m_dShowLeft)/2.0;
-      m_dShowBottom = (m_RangeTop+m_rangeBottom)/2.0 - m_WinHeight/m_WinWidth*(m_dShowRight-m_dShowLeft)/2.0;
+      m_dShowLeft   = 1.1*m_dRangeLeft  - 0.1*m_dRangeRight;
+      m_dShowRight  = 1.1*m_dRangeRight - 0.1*m_dRangeLeft;
+      m_dShowTop    = (m_dRangeTop+m_dRangeBottom)/2.0 + m_dWinHeight/m_dWinWidth*(m_dShowRight-m_dShowLeft)/2.0;
+      m_dShowBottom = (m_dRangeTop+m_dRangeBottom)/2.0 - m_dWinHeight/m_dWinWidth*(m_dShowRight-m_dShowLeft)/2.0;
     }
 }
 
@@ -70,8 +71,8 @@ void MyGLWidget::wheelEvent(QWheelEvent *event)
   double positionx,positiony;
   double newtop,newbottom,newleft,newright;
   double localRatio;
-  positionx=(double)event->x() / m_WinWidth;
-  positiony=(double)event->y() / m_WinHeight;
+  positionx=(double)event->x() / m_dWinWidth;
+  positiony=(double)event->y() / m_dWinHeight;
   if(eventscale.y()>0)
     localRatio=1.25;
   else
@@ -136,7 +137,7 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *event)
       makeCurrent();
       double s=0.5;
       glMatrixMode(GL_MODELVIEW);
-      glGetDoublev(GL_MODELVIEW_MATRIX,comat);
+      glGetDoublev(GL_MODELVIEW_MATRIX,m_aComat);
       glLoadIdentity();
       glRotatef(s*(event->y() - m_nMouseY), 1., 0., 0.);
       glRotatef(s*(event->x() - m_nMouseX), 0., 1., 0.);
@@ -208,8 +209,8 @@ void MyGLWidget::initializeGL()
 
 void MyGLWidget::resizeGL(int w, int h)
 {
-  m_WinWidth  = w;
-  m_WinHeight = h;
+  m_dWinWidth  = w;
+  m_dWinHeight = h;
   glViewport(0, 0, w, h);
   double newtop,newbottom,newleft,newright;
   if((m_dRangeRight-m_dRangeLeft)/(m_dRangeTop-m_dRangeBottom)<m_dWinWidth/m_dWinHeight)
@@ -238,7 +239,7 @@ void MyGLWidget::paintGL()
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  glOrtho(showleft,showright,showbottom,showtop,rangenear,rangefar);
+  glOrtho(m_dShowLeft, m_dShowRight, m_dShowBottom, m_dShowTop, m_dRangeNear, m_dRangeFar);
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_LIGHTING);
 
@@ -321,11 +322,11 @@ void MyGLWidget::paintGL()
   glVertex3f(ra,ra,ra);
   glVertex3f(ra,ra,0.0);
   glEnd();
-  glRasterPos3f(1.8*ra,0.0,0.0);
+  glRasterPos3f( 1.8*ra,    0.0, 0.0);
   drawstring("X");
-  glRasterPos3f(0.0,1.8*ra,0.0);
+  glRasterPos3f(    0.0, 1.8*ra, 0.0);
   drawstring("Y");
-  glRasterPos3f(0.0,0.0,1.8*ra);
+  glRasterPos3f(    0.0,    0.0, 1.8*ra);
   drawstring("Z");
   glMatrixMode(GL_PROJECTION);
   glPopMatrix();
@@ -373,20 +374,27 @@ void MyGLWidget::draw3D()
   glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION,mat_emission);
   glMaterialf (GL_FRONT_AND_BACK, GL_SHININESS,mat_shininess);
   */
+  GLfloat mat_diffuse[] = {0.0f, 0.0f, 0.0f, 1.0f};
+  GLfloat mat_Line[]  = {0.0f, 0.0f, 0.0f, 1.0f};
+  
   int aIndex[3] = {0,0,0};
   if(m_bDrawGeo)
     {
       glBegin(GL_TRIANGLES);
-      for(int i=0; i<m_vecIndex.size(); i++)
+      for(unsigned int i=0; i<m_vecIndex.size(); i++)
 	{
 	  aIndex[0] = m_vecIndex.at(i).fir;
 	  aIndex[1] = m_vecIndex.at(i).sec;
 	  aIndex[2] = m_vecIndex.at(i).thr;
 	  for(int j=0; j<3; j++)
 	    {
-	      Vector3D *strucPos  = &(m_vecPoint.at(nIndex[j]).point);
-	      Vector3D *strucNorm = &(m_vecPoint.at(nIndex[j]).normalization);
-	      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, m_vecPoint.at(nIndex[j]).color);
+	      Vector3D *strucPos   = &(m_vecPoint.at(aIndex[j]).point);
+	      Vector3D *strucNorm  = &(m_vecPoint.at(aIndex[j]).normalization);
+	      Vector4D *strucColor = &(m_vecPoint.at(aIndex[j]).color);
+	      mat_diffuse[0] = strucColor->x;
+	      mat_diffuse[1] = strucColor->y;
+	      mat_diffuse[2] = strucColor->z;
+	      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_diffuse);
 	      glNormal3f(strucNorm->x, strucNorm->y, strucNorm->z);
 	      glVertex3f(strucPos->x, strucPos->y, strucPos->z);
 	    }
@@ -396,15 +404,16 @@ void MyGLWidget::draw3D()
   if(m_bDrawMesh)
     {
       glBegin(GL_LINES);
-      for(int i=0; i<m_vecIndex.size(); i++)
+      for(unsigned int i=0; i<m_vecIndex.size(); i++)
 	{
 	  aIndex[0] = m_vecIndex.at(i).fir;
 	  aIndex[1] = m_vecIndex.at(i).sec;
 	  aIndex[2] = m_vecIndex.at(i).thr;
 	  for(int j=0; j<3; j++)
 	    {
-	      Vector3D *strucFir  = &(m_vecPoint.at(nIndex[j]).point);
-	      Vector3D *strucSec  = &(m_vecPoint.at(nIndex[(j+1)%3]).point);
+	      Vector3D *strucFir  = &(m_vecPoint.at(aIndex[j]).point);
+	      Vector3D *strucSec  = &(m_vecPoint.at(aIndex[(j+1)%3]).point);
+	      glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, mat_Line);
 	      glVertex3f(strucFir->x, strucFir->y, strucFir->z);
 	      glVertex3f(strucSec->x, strucSec->y, strucSec->z);
 	    }
@@ -453,8 +462,8 @@ void MyGLWidget::drawAdditional()
 
 void MyGLWidget::processMaxMin(int nIndex)
 {
-  MeshRes* pMeshRes = m_pService->MeshRes();
-  for(int i=0; i<pMeshRes->size()-1; i++)
+  MeshRes* pMeshRes = m_pService->meshRes();
+  for(unsigned int i=0; i<pMeshRes->size()-1; i++)
     {
       if(m_sMaxCoor.x < pMeshRes->at(i).dCoorX)
 	{
@@ -489,8 +498,8 @@ void MyGLWidget::processRes(int nIndex)
   processMaxMin(nIndex);
   if(nIndex > 0)
     {
-      MeshRes* pMeshRes = m_pService->MeshRes();
-      for(int i=0; i<pMeshRes->size()-1; i++)
+      MeshRes* pMeshRes = m_pService->meshRes();
+      for(unsigned int i=0; i<pMeshRes->size()-1; i++)
 	{
 	  Vector3D strucVer[3];
 	  strucVer[0].x = pMeshRes->at(i).dCoorX;
@@ -539,6 +548,7 @@ void MyGLWidget::reCalcColor()
       m_vecPoint.at(i).color.x = (currentTemperature - m_sMinCoor.y)/temperatureDiff*colorDiffR + minColor.x;
       m_vecPoint.at(i).color.y = (currentTemperature - m_sMinCoor.y)/temperatureDiff*colorDiffG + minColor.y;
       m_vecPoint.at(i).color.z = (currentTemperature - m_sMinCoor.y)/temperatureDiff*colorDiffB + minColor.z;
+      m_vecPoint.at(i).color.a = 1.0f;
     }
 }
 
@@ -546,7 +556,7 @@ void MyGLWidget::getnormaldir(Vector3D oFir, Vector3D oSec, Vector3D oThr, Vecto
 {
   Vector3D oTmp1,oTmp2;
   oTmp1.x = oSec.x - oFir.x;
-  oTmp1.y = oSec.y - oFir,y;
+  oTmp1.y = oSec.y - oFir.y;
   oTmp1.z = oSec.z - oFir.z;
 
   oTmp2.x = oThr.x - oSec.x;
@@ -582,9 +592,9 @@ void MyGLWidget::addTrangle(Vector3D strucVer[3])
     
     for(int j=0; j<3; j++)
       {
-	strKey = QString::number(strucFir.x) + " " + QString::number(strucFir.y) + " " + QString::number(strucFir.z);
+	strKey = QString::number(strucVer[j].x) + " " + QString::number(strucVer[j].y) + " " + QString::number(strucVer[j].z);
 	
-	std::map<QString, unsigned int>::interator itMap = m_mapPointIndex.find(strKey);
+	std::map<QString, unsigned int>::iterator itMap = m_mapPointIndex.find(strKey);
 	
 	if(itMap == m_mapPointIndex.end())
 	  {

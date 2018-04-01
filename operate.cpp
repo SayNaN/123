@@ -1,8 +1,14 @@
 #include<QWidget>
+#include<QFile>
+#include<QDebug>
+#include<QTextStream>
+#include<QObject>
 
 #include"operate.h"
+#include"ZTservice.h"
 
 Operate::Operate(ZTService *pService):
+  QObject(),
   m_pService(pService),
   m_sFullProjectPath(""),
   m_sProjectPath(""),
@@ -35,6 +41,8 @@ QString Operate::getProjectName()
 void Operate::writeProjectFile()
 {
   GlobalParam* pGlobalTmp = m_pService->globalParam();
+  LocalParam* pLocalTmp = m_pService->localParam();
+  
   QFile file(m_sFullProjectPath);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
@@ -63,19 +71,17 @@ void Operate::writeProjectFile()
   out << pGlobalTmp->dOutletInfinityTemp << endl;
   out << pGlobalTmp->dOutletConvectiveCoeff << endl;
 
-  LocalParam* pLocalTmp = m_pService->LocalParam();
-
   out << pLocalTmp->size() << endl;
 
-  for(int i=0; i<pLocalTmp->size(); i++)
+  for(unsigned int i=0; i<pLocalTmp->size(); i++)
     {
-      out << pLocalTmp->dLength << endl;
-      out << pLocalTmp->nSubMeshNum << endl;
-      out << pLocalTmp->dStartP << endl;
-      out << pLocalTmp->dHeatCap << endl;
-      out << pLocalTmp->dDensity << endl;
-      out << pLocalTmp->dThermalConductivity << endl;
-      out << pLocalTmp->dArea << endl;
+      out << pLocalTmp->at(i).dLength << endl;
+      out << pLocalTmp->at(i).nSubMeshNum << endl;
+      out << pLocalTmp->at(i).dStartP << endl;
+      out << pLocalTmp->at(i).dHeatCap << endl;
+      out << pLocalTmp->at(i).dDensity << endl;
+      out << pLocalTmp->at(i).dThermalConductivity << endl;
+      out << pLocalTmp->at(i).dArea << endl;
     }
   file.close();
   
@@ -85,6 +91,10 @@ void Operate::writeProjectFile()
 
 void Operate::readProjectFile()
 {
+  m_pService->resetService();
+  GlobalParam* pGlobalTmp = m_pService->globalParam();
+  LocalParam* pLocalTmp = m_pService->localParam();
+  int nTmp;
   QFile file(m_sFullProjectPath);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -93,7 +103,8 @@ void Operate::readProjectFile()
     }
 
   QTextStream in(&file);
-  in >> pGlobalTmp->nType;
+  in >> nTmp;
+  pGlobalTmp->nType = (NodeType)nTmp;
   in >> pGlobalTmp->dF;
   in >> pGlobalTmp->dSc;
   in >> pGlobalTmp->dSp;
@@ -102,31 +113,32 @@ void Operate::readProjectFile()
   in >> pGlobalTmp->nTimeStep;
   in >> pGlobalTmp->nSegNum;
   in >> pGlobalTmp->nMeshNum;
-  in >> pGlobalTmp->eInletType;
+  in >> nTmp;
+  pGlobalTmp->eInletType = (BoundaryConditionType)nTmp;
   in >> pGlobalTmp->dInletTemp;
   in >> pGlobalTmp->dInletHeatFlux;
   in >> pGlobalTmp->dInletInfinityTemp;
   in >> pGlobalTmp->dInletConvectiveCoeff;
-  in >> pGlobalTmp->eOutletType;
+  in >> nTmp;
+  pGlobalTmp->eOutletType = (BoundaryConditionType)nTmp;
   in >> pGlobalTmp->dOutletTemp;
   in >> pGlobalTmp->dOutletHeatFlux;
   in >> pGlobalTmp->dOutletInfinityTemp;
   in >> pGlobalTmp->dOutletConvectiveCoeff;
 
-  LocalParam* pLocalTmp = m_pService->LocalParam();
   int nCount;
   
   in >> nCount;
 
   for(int i=0; i<nCount; i++)
     {
-      in >> pLocalTmp->dLength;
-      in >> pLocalTmp->nSubMeshNum;
-      in >> pLocalTmp->dStartP;
-      in >> pLocalTmp->dHeatCap;
-      in >> pLocalTmp->dDensity;
-      in >> pLocalTmp->dThermalConductivity;
-      in >> pLocalTmp->dArea;
+      in >> pLocalTmp->at(i).dLength;
+      in >> pLocalTmp->at(i).nSubMeshNum;
+      in >> pLocalTmp->at(i).dStartP;
+      in >> pLocalTmp->at(i).dHeatCap;
+      in >> pLocalTmp->at(i).dDensity;
+      in >> pLocalTmp->at(i).dThermalConductivity;
+      in >> pLocalTmp->at(i).dArea;
     }
 
   file.close();
@@ -143,15 +155,15 @@ void Operate::writeResFile(QString sText)
       return;
     }
 
-  MeshRes* pMRTmp = m_pService->MeshRes();
+  MeshRes* pMRTmp = m_pService->meshRes();
 
   QTextStream out(&file);
   out << "variables =\"x\",\"Temperature\",\"Time\"" << endl;
   out << "ZONE I=" <<pMRTmp->size()<<", J="<< pMRTmp->at(0).vecTime_Temperature.size()<<", F=POINT"<<endl;
 
-  for(int i=0; i<pMRTmp->size(); i++)
+  for(unsigned int i=0; i<pMRTmp->size(); i++)
     {
-      for(int j=0; j<pMRTmp->at(i).vecTime_Temperature.size(); j++)
+      for(unsigned int j=0; j<pMRTmp->at(i).vecTime_Temperature.size(); j++)
 	{
 	  out << pMRTmp->at(i).dCoorX << " "
 	      << pMRTmp->at(i).vecTime_Temperature.at(j).second << " "

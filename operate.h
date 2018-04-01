@@ -1,19 +1,23 @@
 #ifndef OPERATE_H
 #define OPERATE_H
+#include<QObject>
 
-class Operate
+class ZTService;
+
+class Operate: public QObject
 {
   Q_OBJECT
  public:
   Operate(ZTService *pService);
   ~Operate(){}
 
-  void setProjectNmae(QString sText);
+  void setProjectName(QString sText);
   QString getProjectName();
 
-  void readProjectFile(QString sText);
+  void readProjectFile();
   void writeProjectFile();
   void writeResFile(QString sText = "");
+  void resetProject();
 
  private:
   ZTService* m_pService;

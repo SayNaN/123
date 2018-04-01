@@ -5,34 +5,37 @@
 #include"ZTservice.h"
 #include"leftwidget.h"
 #include"myglwidget.h"
+#include"operate.h"
+#include"consolewidget.h"
+#include"diffusion_1D/algorithm.h"
 
 MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
 {
-  m_pService = ZTService::getInstance();
-  setWindowTitle(QString::fromLocal8Bit("一维非稳态导热"));
+  m_pService = new ZTService();
+  setWindowTitle(tr("一维非稳态导热"));
   inimenu();
   inicentralwidget();
 }
 
 void MainWindow::inimenu()
 {
-  m_pOpenProject=new QAction(QString::fromLocal8Bit("打开工程"),this);
+  m_pOpenProject=new QAction(tr("打开工程"),this);
   m_pOpenProject->setShortcut(tr("Ctrl+O"));
-  m_pOpenProject->setStatusTip(QString::fromLocal8Bit("打开工程"));
-  m_pOpenProject->setToolTip(QString::fromLocal8Bit("打开工程"));
+  m_pOpenProject->setStatusTip(tr("打开工程"));
+  m_pOpenProject->setToolTip(tr("打开工程"));
   connect(m_pOpenProject, &QAction::triggered, [this](){
       QString sFilePath;
-      sFilePath=QFileDialog::getOpenFileName(this,QString::fromLocal8Bit("打开"),QString(),
-					     QString::fromLocal8Bit("输入文件(*.dat)"));
+      sFilePath=QFileDialog::getOpenFileName(this,tr("打开"),QString(),
+					     tr("输入文件(*.dat)"));
       if(!sFilePath.isEmpty())
 	{
 	  m_pService->operate()->setProjectName(sFilePath);
 	  m_pService->operate()->readProjectFile();
-	  setWindowTitle(QString::fromLocal8Bit(data->projectfile));
+	  setWindowTitle(m_pService->operate()->getProjectName());
 	}
     });
 
-  m_pSaveProject=new QAction(QString::fromLocal8Bit("保存工程"),this);
+  m_pSaveProject=new QAction(tr("保存工程"),this);
   m_pSaveProject->setShortcut(tr("Ctrl+S"));
   m_pSaveProject->setStatusTip(tr("Save Project"));
   m_pSaveProject->setToolTip(tr("Save Project"));
@@ -40,19 +43,19 @@ void MainWindow::inimenu()
       m_pService->operate()->writeProjectFile();
     });
 
-  m_pSaveProjectAs=new QAction(QString::fromLocal8Bit("另存为"),this);
+  m_pSaveProjectAs=new QAction(tr("另存为"),this);
   m_pSaveProjectAs->setStatusTip(tr("Save Project As"));
   m_pSaveProjectAs->setToolTip(tr("Save ProjectAs"));
   connect(m_pSaveProjectAs,&QAction::triggered, [this](){
       QString sFilePath;
-      sFilePath=QFileDialog::getSaveFileName(this,QString::fromLocal8Bit("保存"),QString(),
+      sFilePath=QFileDialog::getSaveFileName(this,tr("保存"),QString(),
 					     tr("工程文件(*.dat)"));
 
       if(!sFilePath.isEmpty())
 	{
 	  m_pService->operate()->setProjectName(sFilePath);
 	  m_pService->operate()->writeProjectFile();
-	  setWindowTitle(QString::fromLocal8Bit(data->projectfile));
+	  setWindowTitle(m_pService->operate()->getProjectName());
 	}
 
     });
@@ -60,7 +63,7 @@ void MainWindow::inimenu()
   m_pExitProgram=new QAction(tr("&Exit"),this);
   m_pExitProgram->setShortcut(tr("Ctrl+E"));
 
-  m_pStartRestart=new QAction(QString::fromLocal8Bit("开始计算"),this);
+  m_pStartRestart=new QAction(tr("开始计算"),this);
   m_pStartRestart->setStatusTip(tr("Start Simulation"));
   m_pStartRestart->setToolTip(tr("Start Simulation"));
   connect(m_pStartRestart, SIGNAL(triggered()), this, SLOT(startSimu()));
@@ -92,21 +95,19 @@ void MainWindow::inicentralwidget()
 {
   QSplitter *pSplitterMain=new QSplitter(Qt::Horizontal,this);
 
-  QFrame *pLeftFrame=new QFrame(pSplitterMain);
+  //QFrame *pLeftFrame=new QFrame(pSplitterMain);
 
-  m_pLeftWidget = new LeftWidget(m_pService, pLeftFrame);
+  m_pLeftWidget = new LeftWidget(m_pService, pSplitterMain); //pLeftFrame);
 
   //connect(toolbox,&ToolBox::clearshow,[this](){text3D->cleardisplay();textdrawing->cleardisplay();toolbox->performance_display->cleardisplay();});
 
-  QSplitter *splitterright=new QSplitter(Qt::Vertical,pSplittermain);
+  QSplitter *splitterright=new QSplitter(Qt::Vertical,pSplitterMain);
 
   m_pText3D = new MyGLWidget(m_pService, splitterright);
 
-  splitterright->addWidget(m_pService->console());
-
-  m_pTextresidual=new QPlainTextEdit(tr("控制台\n"),splitterright);
-  m_pTextresidual->setReadOnly(true);
-  connect(consoleWidget::instance(), &consoleWidget::message, [this](QtMsgType type, const QString &msg){
+  m_pTextConsole = new QPlainTextEdit(tr("控制台\n"),splitterright);
+  m_pTextConsole->setReadOnly(true);
+  connect(m_pService->console(), &consoleWidget::message, [this](QtMsgType type, const QString &msg){
         QByteArray localMsg = msg.toLocal8Bit();
 	switch (type)
 	  {
@@ -126,20 +127,20 @@ void MainWindow::inicentralwidget()
 	    fprintf(stderr, "Fatal: %s\n", localMsg.constData());
 	    abort();
 	  }
-	m_pTextconsole->appendPlainText(msg);
+	m_pTextConsole->appendPlainText(msg);
     });
 
-
-  setCentralWidget(splittermain);
-  splittermain->show();
+  setCentralWidget(pSplitterMain);
+  pSplitterMain->show();
 }
 
 void MainWindow::startSimu()
 {
-  if(m_oWorkThread.isFinished())
+  if(!(m_oWorkThread.isRunning()))
     {
+      qDebug()<<"start simiu";
       diffusion1D *pWork = new diffusion1D(m_pService);
-      pWork->moveToThread(m_oWorkThread);
+      pWork->moveToThread(&m_oWorkThread);
       connect(&m_oWorkThread, &QThread::finished, pWork, &QObject::deleteLater);
       connect(this, &MainWindow::startRun, pWork, &diffusion1D::doIt);
       connect(pWork, &diffusion1D::oneStepFinished, m_pText3D, &MyGLWidget::processRes);

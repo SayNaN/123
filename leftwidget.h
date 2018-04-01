@@ -42,6 +42,7 @@ class LeftWidget:public QFrame
   void clearshow();
   void treeSelectIndex(int);
 
+  /*
  public slots:
   void processRes();
   void INTYPE_fun(int);
@@ -50,6 +51,7 @@ class LeftWidget:public QFrame
   void ILOUT_fun(int);
   void IEXTUP_fun(int);
   void IEXTDN_fun(int);
+  */
 };
 
 #endif

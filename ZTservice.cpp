@@ -1,22 +1,25 @@
+#include<stdlib.h>
+
 #include"ZTservice.h"
 #include"consolewidget.h"
 #include"operate.h"
 
-ZTservice::ZTservice()
+ZTService::ZTService()
 {
-  //m_pConsole = new consolewidget();
-  m_pOpearate = new Opearate();
+  m_pOperate = new Operate(this);
   resetService();
 }
 
-ZTservice* ZTService::getInstance()
+/*
+ZTService* ZTService::getInstance()
 {
-  if(NULL == p_instance)
+  if(NULL == m_pInstance)
     {
-      m_pInstance = new ZTservice();
+      m_pInstance = new ZTService();
     }
   return m_pInstance;
 }
+*/
 
 MeshRes* ZTService::meshRes()
 {
@@ -62,17 +65,16 @@ void ZTService::addSegment(int nIndex)
 
 void ZTService::removeSegment(int nIndex)
 {
-  m_oLocalParam.earse(m_oLocalParam.begin()+nIndex);
+  m_oLocalParam.erase(m_oLocalParam.begin()+nIndex);
 }
 
-/*
 consoleWidget* ZTService::console()
 {
+  m_pConsole = consoleWidget::instance();
   return m_pConsole;
 }
-*/
 
-Opearate* ZTService::opearate()
+Operate* ZTService::operate()
 {
-  return m_pOpearate;
+  return m_pOperate;
 }

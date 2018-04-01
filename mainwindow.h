@@ -23,10 +23,12 @@ class MainWindow :public QMainWindow
   /* protected:
      void closeEvent(QCloseEvent *event);*/
  private slots:
+  /*
   void fileNew();
   void fileOpen();
   void fileSave();
   void fileSaveAs();
+  */
   void startSimu();
 
  signals:
@@ -56,7 +58,7 @@ class MainWindow :public QMainWindow
 
   LeftWidget *m_pLeftWidget;
   MyGLWidget *m_pText3D;
-  QPlainTextEdit *m_pTextresidual;
+  QPlainTextEdit *m_pTextConsole;
 };
 
 #endif

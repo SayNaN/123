@@ -5,8 +5,12 @@
 #include<QVector3D>
 #include<stdio.h>
 #include<stdlib.h>
-#include"ZTservice.h"
 
+#include"ZTtype.h"
+#include"ZTservice.h"
+#include"algorithm.h"
+#include"mesh/mesh_1D.h"
+#include"linear_equation/chasingmethod.h"
 
 diffusion1D::diffusion1D(ZTService *pService, QObject* parent):
   QObject(parent),
@@ -24,19 +28,9 @@ diffusion1D::diffusion1D(ZTService *pService, QObject* parent):
   m_pGlobalParam = m_pService->globalParam();
 }
 
-diffusion1D::~diffusion1D();
+diffusion1D::~diffusion1D()
 {
   freeArray();
-}
-
-diffusion1D* diffusion1D::getInstance()
-{
-  if(NULL == p_instance)
-    {
-      p_instance = new diffusion1D;
-      p_service = ZTService::getInstance();
-    }
-  return p_instance;
 }
 
 void diffusion1D::assignMesh()
@@ -55,7 +49,7 @@ void diffusion1D::assignMesh()
   
   for(int i=0; i<nSegCount; i++)
     {
-      nSubCount = m_pLocalParam->at(i).subMeshNum;
+      nSubCount = m_pLocalParam->at(i).nSubMeshNum;
       for(int j=0; j<nSubCount; j++)
 	{
 	  nIndex++;
@@ -82,20 +76,20 @@ void diffusion1D::assignMesh()
   
   if(CELLCENTER == m_pGlobalParam->nType)
     {
-      double dLabdw = 0;
+      double dLabdp = 0;
       double dLabde = 0;
       double dXPlus = 0;
       double dXMinus = 0;
       nIndex = 0;
       for(int i=0; i<nSegCount-1; i++)
 	{
-	  nSubCount = m_pLocalParam->at(i).subMeshNum;
+	  nSubCount = m_pLocalParam->at(i).nSubMeshNum;
 	  nIndex += nSubCount;
 
 	  dLabdp  = m_pData->at(nIndex  ).dLabdw;
 	  dLabde  = m_pData->at(nIndex+1).dLabdw;
-	  dXPlus  = m_pData->at(nIndex  ).cellLenght / 2.0;
-	  dXMinus = m_pData->at(nIndex+1).cellLenght / 2.0;
+	  dXPlus  = m_pData->at(nIndex  ).dCellLenght / 2.0;
+	  dXMinus = m_pData->at(nIndex+1).dCellLenght / 2.0;
 	  
 	  m_pData->at(nIndex).dLabde = (dLabdp * dLabde)*(dXPlus + dXMinus)/
 	    (dLabde * dXMinus + dLabdp * dXPlus);
@@ -112,7 +106,7 @@ void diffusion1D::assignMesh()
       nIndex = 0;
       for(int i=0; i<nSegCount-1; i++)
 	{
-	  nSubCount = m_pLocalParam->at(i).subMeshNum;
+	  nSubCount = m_pLocalParam->at(i).nSubMeshNum;
 	  nIndex += nSubCount;
 	  
 	  dRouCw = m_pData->at(nIndex  ).dHeatCapMulDensity;
@@ -220,7 +214,7 @@ void diffusion1D::calcaCoff()
   double Sc     = m_pGlobalParam->dSc;
   for(int i=1; i<m_meshNode-1; i++)
     {
-      simuInfo* pCache = &(m_pData->at(i));
+      SimuInfoRes* pCache = &(m_pData->at(i));
       m_aE[i] = pCache->dLabde * pCache->dAreae / pCache->dXe;
 
       m_aW[i] = pCache->dLabdw * pCache->dAreaw / pCache->dXw;
@@ -247,8 +241,8 @@ void diffusion1D::assignBeginningField()
 
 void diffusion1D::startRun()
 {
-  int nCurTimeStep = 1;
-  double dCurTime  = m_pGlobalParam->dDeltaT;
+  //int nCurTimeStep = 1;
+  //double dCurTime  = m_pGlobalParam->dDeltaT;
   double f      = m_pGlobalParam->dF;
   
   switch(m_pGlobalParam->eInletType)
@@ -267,7 +261,7 @@ void diffusion1D::startRun()
 	}
       else
 	{
-	  m_fArray[0] = 2 * ( pow(m_pData->at(0).dCellLengh,2) * m_pData->at(0).dAreap +
+	  m_fArray[0] = 2 * ( pow(m_pData->at(0).dCellLenght,2) * m_pData->at(0).dAreap +
 			      m_pGlobalParam->dInletHeatFlux * m_pData->at(0).dCellLenght)
 	    / m_pData->at(0).dLabde;
 	}
@@ -279,12 +273,12 @@ void diffusion1D::startRun()
       if(CELLCENTER == m_pGlobalParam->nType)
 	{
 	  m_fArray[0] =-2 * m_pGlobalParam->dInletConvectiveCoeff *
-	    m_pData->at(0).dCellLenght * m_pGlobalParam->dInletInfinityTemp / 
+	    m_pData->at(0).dCellLenght * m_pGlobalParam->dInletInfinityTemp
 	    / m_pData->at(0).dLabde / m_cArray[0];
 	}
       else
 	{
-	  m_fArray[0] =-2 * ( pow(m_pData->at(0).dCellLengh,2) * m_pData->at(0).dAreap +
+	  m_fArray[0] =-2 * ( pow(m_pData->at(0).dCellLenght,2) * m_pData->at(0).dAreap +
 			      m_pGlobalParam->dInletConvectiveCoeff *
 			      m_pData->at(0).dCellLenght * m_pGlobalParam->dInletInfinityTemp)
 	    / m_pData->at(0).dLabde / m_cArray[0];
@@ -292,7 +286,7 @@ void diffusion1D::startRun()
       break;
     }
 
-  int e = m_meshNode - 1;
+  int z = m_meshNode - 1;
   switch(m_pGlobalParam->eOutletType)
     {
     case FirstClass:
@@ -309,7 +303,7 @@ void diffusion1D::startRun()
 	}
       else
 	{
-	  m_fArray[z] = 2 * ( pow(m_pData->at(z).dCellLengh,2) * m_pData->at(z).dAreap +
+	  m_fArray[z] = 2 * ( pow(m_pData->at(z).dCellLenght,2) * m_pData->at(z).dAreap +
 			      m_pGlobalParam->dOutletHeatFlux * m_pData->at(z).dCellLenght)
 	    / m_pData->at(z).dLabdw;
 	}
@@ -321,12 +315,12 @@ void diffusion1D::startRun()
       if(CELLCENTER == m_pGlobalParam->nType)
 	{
 	  m_fArray[z] =-2 * m_pGlobalParam->dOutletConvectiveCoeff *
-	    m_pData->at(z).dCellLenght * m_pGlobalParam->dOutletInfinityTemp / 
+	    m_pData->at(z).dCellLenght * m_pGlobalParam->dOutletInfinityTemp
 	    / m_pData->at(z).dLabdw / m_aArray[z];
 	}
       else
 	{
-	  m_fArray[z] =-2 * ( pow(m_pData->at(z).dCellLengh,2) * m_pData->at(z).dAreap +
+	  m_fArray[z] =-2 * ( pow(m_pData->at(z).dCellLenght,2) * m_pData->at(z).dAreap +
 			      m_pGlobalParam->dOutletConvectiveCoeff *
 			      m_pData->at(z).dCellLenght * m_pGlobalParam->dOutletInfinityTemp)
 	    / m_pData->at(z).dLabdw / m_aArray[z];
@@ -342,9 +336,9 @@ void diffusion1D::startRun()
 	  m_bArray[j] = -m_aP[j];
 	  m_cArray[j] = -m_aE[j] * f;
 	  m_fArray[j] = (1-f)*
-	    (m_aE[j]*m_pData->at(j+1).vecTime_Temperature.at(i-1) +
-	     m_aW[j]*m_pData->at(j-1).vecTime_Temperature.at(i-1))+
-	    m_pData->at(j).vecTime_Temperature.at(i)*(m_aP0[j]+m_aP0A[j]) +
+	    (m_aE[j]*m_pData->at(j+1).vecTime_Temperature.at(i-1).second +
+	     m_aW[j]*m_pData->at(j-1).vecTime_Temperature.at(i-1).second)+
+	    m_pData->at(j).vecTime_Temperature.at(i).second * (m_aP0[j]+m_aP0A[j]) +
 	    m_aL[j];
 	}
       ZTChasingMethod(m_aArray, m_bArray, m_cArray, m_fArray, m_xArray, m_meshNode);

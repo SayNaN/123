@@ -32,7 +32,6 @@ int main(int argc,char * argv[])
 {
   QApplication app(argc,argv);
   qRegisterMetaType<QtMsgType>("QtMsgType");
-  ZTService::getInstance();
   qInstallMessageHandler(msgHandlerFunction);
   MainWindow main;
   main.show();

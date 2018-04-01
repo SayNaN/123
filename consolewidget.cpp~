@@ -1,4 +1,0 @@
-#include"consolewidget.h"
-
-consoleWidget::consoleWidget(QWidget *parent)
-{}

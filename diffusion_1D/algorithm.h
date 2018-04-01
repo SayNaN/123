@@ -1,12 +1,15 @@
 #ifndef DIFFUSION1D_ALOGRITHM_H
 #define DIFFUSION1D_ALOGRITHM_H
 
+#include<QObject>
+#include"ZTtype.h"
+
 class Mesh1D;
+class ZTService;
 
 class diffusion1D: public QObject
 {
   Q_OBJECT
-    
  public:
   diffusion1D(ZTService *pService, QObject* parent = NULL);
   ~diffusion1D();
@@ -16,9 +19,12 @@ class diffusion1D: public QObject
   void calcCoff();
   void assignBeginningField();
   void startRun();
+  void freeArray();
+  void initArray();
+  void calcaCoff();
 
  private:
-  QVector<settingParam> m_SettingParam;
+  //QVector<settingParam> m_SettingParam;
   ZTService *m_pService;
   MeshRes* m_pData;
   GlobalParam* m_pGlobalParam;
@@ -40,13 +46,14 @@ class diffusion1D: public QObject
   
   bool m_bStop;
 
+  int m_meshNode;
+
  public slots:
   void doIt();
 
  signals:
   void oneStepFinished(int nIndex);
-  
-}
+};
 
 
 #endif

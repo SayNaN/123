@@ -13,9 +13,9 @@ void LeftWidget::initializeUI()
 {
   int nLineNum=0;
 
-  QGroupBox *pGlobalParamGrp = new QGroupBox(QString::fromLocal8Bit("全局参数"));
+  QGroupBox *pGlobalParamGrp = new QGroupBox(tr("全局参数"));
 
-  QLabel *pTimeStepLabel = new QLabel(QString::fromLocal8Bit("时间步长"));
+  QLabel *pTimeStepLabel = new QLabel(tr("时间步长"));
   m_pTimeStepEdit = new QLineEdit(QString::number(m_pService->globalParam()->dDeltaT));
   connect(m_pTimeStepEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -28,7 +28,7 @@ void LeftWidget::initializeUI()
       }
     });
 
-  QLabel *pStepNumLabel = new QLabel(QString::fromLocal8Bit("计算步数"));
+  QLabel *pStepNumLabel = new QLabel(tr("计算步数"));
   m_pStepNumEdit = new QLineEdit(QString::number(m_pService->globalParam()->nTimeStep));
   connect(m_pStepNumEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -41,7 +41,7 @@ void LeftWidget::initializeUI()
       }
     });
 
-  QLabel *pTimeSchemeLable = new QLabel(QString::fromLocal8Bit("时间离散格式(0:显式~1:隐式)"));
+  QLabel *pTimeSchemeLable = new QLabel(tr("时间离散格式(0:显式~1:隐式)"));
   m_pTimeSchemeEdit = new QLineEdit(QString::number(m_pService->globalParam()->dF));
   connect(m_pTimeSchemeEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -62,7 +62,7 @@ void LeftWidget::initializeUI()
       }
     });
 
-  QLabel *pInitTempLabel = new QLabel(QString::fromLocal8Bit("初始温度(k)"));
+  QLabel *pInitTempLabel = new QLabel(tr("初始温度(k)"));
   m_pInitTempEdit = new QLineEdit(QString::number(m_pService->globalParam()->dInitTemperature));
   connect(m_pInitTempEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -75,13 +75,13 @@ void LeftWidget::initializeUI()
       }
     });
 
-  QLabel *pCalcSchemeLabel = new QLabel(QString::fromLocal8Bit("计算格式"));
+  QLabel *pCalcSchemeLabel = new QLabel(tr("计算格式"));
   m_pCalcSchemeBox = new QComboBox;
-  m_pCalcSchemeBox->addItem(QString::fromLocal8Bit("内节点"));
-  m_pCalcSchemeBox->addItem(QString::fromLocal8Bit("外节点"));
+  m_pCalcSchemeBox->addItem(tr("内节点"));
+  m_pCalcSchemeBox->addItem(tr("外节点"));
   m_pCalcSchemeBox->setCurrentIndex(0);
   connect(m_pCalcSchemeBox, &QComboBox::currentTextChanged, [this](QString strText){
-      if(QString::fromLocal8Bit("内节点") == strText){
+      if(tr("内节点") == strText){
 	m_pService->globalParam()->nType = CELLCENTER;
       }else{
 	m_pService->globalParam()->nType = MESHNODE;
@@ -104,21 +104,21 @@ void LeftWidget::initializeUI()
   pGlobalParamLayout->addWidget(pCalcSchemeLabel, nLineNum, 0);
   pGlobalParamLayout->addWidget(m_pCalcSchemeBox,   nLineNum, 1);
 
-  QGroupBox *pLocalParamGrp = new QGroupBox(QString::fromLocal8Bit("各段参数"));
+  QGroupBox *pLocalParamGrp = new QGroupBox(tr("各段参数"));
   
   m_pTableWidget = new QTableWidget(1, 5, pLocalParamGrp);
   QStringList oHoriHeader;
-  oHoriHeader<<QString::fromLocal8Bit("段长度")
-	     <<QString::fromLocal8Bit("网格数")
-	     <<QString::fromLocal8Bit("热容")
-	     <<QString::fromLocal8Bit("密度")
-	     <<QString::fromLocal8Bit("导热系数");
+  oHoriHeader<<tr("段长度")
+	     <<tr("网格数")
+	     <<tr("热容")
+	     <<tr("密度")
+	     <<tr("导热系数");
   m_pTableWidget->setHorizontalHeaderLabels(oHoriHeader);    
 
   m_pRightMenu=new QMenu(m_pTableWidget);
   m_pTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-  QAction* pAddSeg    = new QAction(QString::fromLocal8Bit("添加导热段"));
-  QAction* pRemoveSeg = new QAction(QString::fromLocal8Bit("删除导热段"));
+  QAction* pAddSeg    = new QAction(tr("添加导热段"));
+  QAction* pRemoveSeg = new QAction(tr("删除导热段"));
   m_pRightMenu->addAction(pAddSeg);
   m_pRightMenu->addAction(pRemoveSeg);
 
@@ -139,16 +139,16 @@ void LeftWidget::initializeUI()
   nLineNum =0;
   pLocalParamLayout->addWidget(m_pTableWidget, nLineNum, 0);
 
-  QGroupBox* pBoundarySettingGrp = new QGroupBox(QString::fromLocal8Bit("边界条件"));
-  QGroupBox* pInletBoundaryGrp = new QGroupBox(QString::fromLocal8Bit("进口边界"));
-  QLabel *pInletBoundaryTypeLabel = new QLabel(QString::fromLocal8Bit("边界类型"));
+  QGroupBox* pBoundarySettingGrp = new QGroupBox(tr("边界条件"));
+  QGroupBox* pInletBoundaryGrp = new QGroupBox(tr("进口边界"));
+  QLabel *pInletBoundaryTypeLabel = new QLabel(tr("边界类型"));
   m_pInletBoundaryTypeBox = new QComboBox;
-  m_pInletBoundaryTypeBox->addItem(QString::fromLocal8Bit("第一类边界条件"));
-  m_pInletBoundaryTypeBox->addItem(QString::fromLocal8Bit("第二类边界条件"));
-  m_pInletBoundaryTypeBox->addItem(QString::fromLocal8Bit("第三类边界条件"));
+  m_pInletBoundaryTypeBox->addItem(tr("第一类边界条件"));
+  m_pInletBoundaryTypeBox->addItem(tr("第二类边界条件"));
+  m_pInletBoundaryTypeBox->addItem(tr("第三类边界条件"));
 
   QFrame *pInletFirstTypeFrame = new QFrame;
-  QLabel *pInletTempLabel = new QLabel(QString::fromLocal8Bit("进口温度"));
+  QLabel *pInletTempLabel = new QLabel(tr("进口温度"));
   m_pInletTempEdit = new QLineEdit(QString::number(m_pService->globalParam()->dInletTemp));
   connect(m_pInletTempEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -166,7 +166,7 @@ void LeftWidget::initializeUI()
   pInletFirstTypeLayout->addWidget(m_pInletTempEdit, nLineNum, 1);
   
   QFrame *pInletSecondTypeFrame = new QFrame;
-  QLabel *pInletHeatFluxLabel = new QLabel(QString::fromLocal8Bit("进口热流"));
+  QLabel *pInletHeatFluxLabel = new QLabel(tr("进口热流"));
   m_pInletHeatFluxEdit = new QLineEdit(QString::number(m_pService->globalParam()->dInletHeatFlux));
   connect(m_pInletHeatFluxEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -184,7 +184,7 @@ void LeftWidget::initializeUI()
   pInletSecondTypeLayout->addWidget(m_pInletHeatFluxEdit, nLineNum, 1);
 
   QFrame *pInletThirdTypeFrame = new QFrame;
-  QLabel *pInletInfinityTempLabel = new QLabel(QString::fromLocal8Bit("环境温度(k)"));
+  QLabel *pInletInfinityTempLabel = new QLabel(tr("环境温度(k)"));
   m_pInletInfinityTempEdit = new QLineEdit(QString::number(m_pService->globalParam()->dInletInfinityTemp));
   connect(m_pInletInfinityTempEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -197,7 +197,7 @@ void LeftWidget::initializeUI()
       }
     });
 
-  QLabel *pInletConvectiveCoeffLabel = new QLabel(QString::fromLocal8Bit("对流系数"));
+  QLabel *pInletConvectiveCoeffLabel = new QLabel(tr("对流系数"));
   m_pInletConvectiveCoeffEdit = new QLineEdit(QString::number(m_pService->globalParam()->dInletConvectiveCoeff));
   connect(m_pInletConvectiveCoeffEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -233,15 +233,15 @@ void LeftWidget::initializeUI()
   nLineNum ++;
   pInletBoundaryLayout->addLayout(pInletBoundaryStackedLayout, nLineNum, 0, 1, 2);
   
-  QGroupBox* pOutletBoundaryGrp = new QGroupBox(QString::fromLocal8Bit("出口边界"));
-  QLabel *pOutletBoundaryTypeLabel = new QLabel(QString::fromLocal8Bit("边界类型"));
+  QGroupBox* pOutletBoundaryGrp = new QGroupBox(tr("出口边界"));
+  QLabel *pOutletBoundaryTypeLabel = new QLabel(tr("边界类型"));
   m_pOutletBoundaryTypeBox = new QComboBox;
-  m_pOutletBoundaryTypeBox->addItem(QString::fromLocal8Bit("第一类边界条件"));
-  m_pOutletBoundaryTypeBox->addItem(QString::fromLocal8Bit("第二类边界条件"));
-  m_pOutletBoundaryTypeBox->addItem(QString::fromLocal8Bit("第三类边界条件"));
+  m_pOutletBoundaryTypeBox->addItem(tr("第一类边界条件"));
+  m_pOutletBoundaryTypeBox->addItem(tr("第二类边界条件"));
+  m_pOutletBoundaryTypeBox->addItem(tr("第三类边界条件"));
 
   QFrame *pOutletFirstTypeFrame = new QFrame;
-  QLabel *pOutletTempLabel = new QLabel(QString::fromLocal8Bit("出口温度"));
+  QLabel *pOutletTempLabel = new QLabel(tr("出口温度"));
   m_pOutletTempEdit = new QLineEdit(QString::number(m_pService->globalParam()->dOutletTemp));
   connect(m_pOutletTempEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -259,7 +259,7 @@ void LeftWidget::initializeUI()
   pOutletFirstTypeLayout->addWidget(m_pOutletTempEdit, nLineNum, 1);
   
   QFrame *pOutletSecondTypeFrame = new QFrame;
-  QLabel *pOutletHeatFluxLabel = new QLabel(QString::fromLocal8Bit("出口热流"));
+  QLabel *pOutletHeatFluxLabel = new QLabel(tr("出口热流"));
   m_pOutletHeatFluxEdit = new QLineEdit(QString::number(m_pService->globalParam()->dOutletHeatFlux));
   connect(m_pOutletHeatFluxEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -277,7 +277,7 @@ void LeftWidget::initializeUI()
   pOutletSecondTypeLayout->addWidget(m_pOutletHeatFluxEdit, nLineNum, 1);
   
   QFrame *pOutletThirdTypeFrame = new QFrame;
-  QLabel *pOutletInfinityTempLabel = new QLabel(QString::fromLocal8Bit("环境温度(k)"));
+  QLabel *pOutletInfinityTempLabel = new QLabel(tr("环境温度(k)"));
   m_pOutletInfinityTempEdit = new QLineEdit(QString::number(m_pService->globalParam()->dOutletInfinityTemp));
   connect(m_pOutletInfinityTempEdit, &QLineEdit::editingFinished, [this](){
       bool b;
@@ -290,7 +290,7 @@ void LeftWidget::initializeUI()
       }
     });
     
-  QLabel *pOutletConvectiveCoeffLabel = new QLabel(QString::fromLocal8Bit("对流系数"));
+  QLabel *pOutletConvectiveCoeffLabel = new QLabel(tr("对流系数"));
   m_pOutletConvectiveCoeffEdit = new QLineEdit(QString::number(m_pService->globalParam()->dOutletConvectiveCoeff));
   connect(m_pOutletConvectiveCoeffEdit, &QLineEdit::editingFinished, [this](){
       bool b;

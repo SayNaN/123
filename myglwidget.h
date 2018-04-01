@@ -1,13 +1,16 @@
 #ifndef THREED_DISPLAY_H
 #define THREED_DISPLAY_H
 #include<QOpenGLFunctions_1_1>
+#include<QOpenGLWidget>
+
+class ZTService;
 
 struct Vector3N
 {
-  unsinged int fir;
-  unsinged int sec;
-  unsinged int thr;
-}
+  unsigned int fir;
+  unsigned int sec;
+  unsigned int thr;
+};
 
 struct Vector3D
 {
@@ -71,6 +74,7 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   void reCalcColor();
 
  private:
+  ZTService *m_pService;
   double m_dWinWidth;
   double m_dWinHeight;
   int button_type;
@@ -79,10 +83,10 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   int m_nMouseX;
   int m_nMouseY;
   
-  double m_dShowleft;
-  double m_dShowright;
-  double m_dShowbottom;
-  double m_dShowtop;
+  double m_dShowLeft;
+  double m_dShowRight;
+  double m_dShowBottom;
+  double m_dShowTop;
   
   double m_dRangeLeft;
   double m_dRangeRight;
@@ -92,12 +96,11 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
   double m_dRangeFar;
   
   double m_aComat[16];
-  ZTService *m_pService;
   bool m_bDrawMesh;
   bool m_bDrawGeo;
   Vector3D m_sMaxCoor;
   Vector3D m_sMinCoor;
-  std::map<QString, unsinged int> m_mapPointIndex;
+  std::map<QString, unsigned int> m_mapPointIndex;
   std::vector<GLData> m_vecPoint;
   std::vector<Vector3N> m_vecIndex;
 };

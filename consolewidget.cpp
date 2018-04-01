@@ -10,8 +10,7 @@ consoleWidget *consoleWidget::instance()
     {
       QMutexLocker Locker(&mutex);
       m_pInstance = new consoleWidget;
+      //connect(this, &consoleWidget::message, this, &consoleWidget::handleMessage);
     }
   return m_pInstance;
 }
-
-

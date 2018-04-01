@@ -4,6 +4,7 @@ INPUT(
 ./debug\main.o
 ./debug\mainwindow.o
 ./debug\myglwidget.o
+./debug\operate.o
 ./debug\ZTservice.o
 ./debug\algorithm.o
 ./debug\chasingmethod.o
@@ -12,5 +13,7 @@ INPUT(
 ./debug\moc_leftwidget.o
 ./debug\moc_mainwindow.o
 ./debug\moc_myglwidget.o
+./debug\moc_operate.o
+./debug\moc_ZTservice.o
 ./debug\moc_algorithm.o
 );

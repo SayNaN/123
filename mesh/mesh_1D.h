@@ -1,6 +1,7 @@
 #ifndef MESH_1D_H
 #define MESH_1D_H
 
+#include<QWidget>
 #include"ZTtype.h"
 
 class ZTService;
@@ -8,7 +9,7 @@ class ZTService;
 class Mesh1D
 {
  public:
-  Mesh1D(ZTService* pService, QWidget *parent=0);
+  Mesh1D(ZTService* pService);
   ~Mesh1D(){}
   void run();
 

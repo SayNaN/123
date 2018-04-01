@@ -20,16 +20,19 @@
 
 #include<QtWidgets>
 #include"mainwindow.h"
+#include"ZTservice.h"
+#include"consolewidget.h"
 
 static void msgHandlerFunction(QtMsgType type, const QMessageLogContext &context, const QString &msg)
 {
-  QMetaObject::invokeMethod(consoleWidget::instance(), "message", Q_ARG(QtMsgType,QString, msg));
+  QMetaObject::invokeMethod(consoleWidget::instance(), "message", Q_ARG(QtMsgType,type),Q_ARG(QString, msg));
 }
 
 int main(int argc,char * argv[])
 {
   QApplication app(argc,argv);
   qRegisterMetaType<QtMsgType>("QtMsgType");
+  ZTService::getInstance();
   qInstallMessageHandler(msgHandlerFunction);
   MainWindow main;
   main.show();

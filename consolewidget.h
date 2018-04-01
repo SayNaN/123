@@ -13,6 +13,11 @@ class consoleWidget: public QObject
   static consoleWidget *m_pInstance;
   //consoleWidget(QWidget *parent = NULL);
   //~consoleWidget(){};
+
+  /*
+ private slots:
+  void handleMessage(QtMsgType type, const QString &msg);
+  */
   
  signals:
   void message(QtMsgType type, const QString &msg);

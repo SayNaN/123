@@ -1,7 +1,8 @@
 #include"mesh_1D.h"
+#include"ZTservice.h"
 
-Mesh1D::Mesh1D(ZTService *pService, QWidget *parent):
-  QWidget(parent), m_pService(pService)
+Mesh1D::Mesh1D(ZTService *pService):
+  m_pService(pService)
 {
   m_pData = m_pService->meshRes();
   m_pLocalParam = m_pService->localParam();
@@ -20,16 +21,16 @@ void Mesh1D::run()
   m_pGlobalParam->nMeshNum = 1;
   
   SimuInfoRes structLeftBound;
-  structLeftBound.coorX = 0.0;
+  structLeftBound.dCoorX = 0.0;
   m_pData->push_back(structLeftBound);
   
   for(int i=0; i<nSegCount; i++)
     {
-      nSubCount = m_pLocalParam->at(i).subMeshNum;
+      nSubCount = m_pLocalParam->at(i).nSubMeshNum;
       
       m_pGlobalParam->nMeshNum += nSubCount;
       
-      dCellLenght = m_pLocalParam->at(i).length / (double)nSubCount;
+      dCellLenght = m_pLocalParam->at(i).dLength / (double)nSubCount;
       
       for(int j=0; j<nSubCount; j++)
 	{

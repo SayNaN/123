@@ -4,6 +4,7 @@ INPUT(
 ./release\main.o
 ./release\mainwindow.o
 ./release\myglwidget.o
+./release\operate.o
 ./release\ZTservice.o
 ./release\algorithm.o
 ./release\chasingmethod.o
@@ -12,5 +13,7 @@ INPUT(
 ./release\moc_leftwidget.o
 ./release\moc_mainwindow.o
 ./release\moc_myglwidget.o
+./release\moc_operate.o
+./release\moc_ZTservice.o
 ./release\moc_algorithm.o
 );
