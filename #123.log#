@@ -1,82 +1,18 @@
 mingw32-make -f Makefile.Release
 mingw32-make[1]: Entering directory 'E:/CAE'
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\leftwidget.o leftwidget.cpp
-leftwidget.cpp:125:86: warning: unused parameter 'pos' [-Wunused-parameter]
-   connect(m_pTableWidget, &QWidget::customContextMenuRequested, [this](const QPoint &pos){
-                                                                                      ^
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\main.o main.cpp
-main.cpp:26:74: warning: unused parameter 'context' [-Wunused-parameter]
- static void msgHandlerFunction(QtMsgType type, const QMessageLogContext &context, const QString &msg)
-                                                                          ^
 g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\mainwindow.o mainwindow.cpp
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\myglwidget.o myglwidget.cpp
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\operate.o operate.cpp
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\ZTservice.o ZTservice.cpp
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\algorithm.o diffusion_1D\algorithm.cpp
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\mesh_1D.o mesh\mesh_1D.cpp
-C:\Qt\Qt5.7.1\5.7\mingw53_32\bin\moc.exe
--DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB
--DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D__GNUC__ -DWIN32
--IC:/Qt/Qt5.7.1/5.7/mingw53_32/mkspecs/win32-g++
--IE:/CAE
--IE:/CAE
--IC:/Qt/Qt5.7.1/5.7/mingw53_32/include
--IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtPrintSupport
--IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtWidgets
--IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtGui
--IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtANGLE
--IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtCore
--IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include
--IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed
--IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include
--IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++
--IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32
--IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward ZTservice.h -o release\moc_ZTservice.cpp
 
-g++ -c -pipe -fno-keep-inline-dllexport -O2
--std=gnu++11 -frtti -Wall -Wextra -fexceptions
--mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB
--DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I.
--IC:\Qt\Qt5.7.1\5.7\mingw53_32\include
--IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport
--IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets
--IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui
--IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE
--IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore
--Irelease
--IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++
--o release\moc_ZTservice.o release\moc_ZTservice.cpp
-g++ -Wl,-s -Wl,-subsystem,console -mthreads
--o release\CAE.exe object_script.CAE.Release
--lopengl32 -lglu32
--LC:\Qt\Qt5.7.1\5.7\mingw53_32\lib
-C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5PrintSupport.a
-C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5Widgets.a
-C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5Gui.a
-C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5Core.a 
-./release\ZTservice.o:ZTservice.cpp:(.text+0x131): undefined reference to `ZTService::m_pInstance'
-./release\ZTservice.o:ZTservice.cpp:(.text+0x15c): undefined reference to `ZTService::m_pInstance'
-collect2.exe: error: ld returned 1 exit status
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Makefile.Release:111: recipe for target 'release\CAE.exe' failed
-mingw32-make[1]: *** [release\CAE.exe] Error 1
+mainwindow.cpp:50:34: error: 'class Operate' has no member named 'canSave'
+       if(!m_pService->operate()->canSave())
+                                  ^
+mainwindow.cpp: In member function 'void MainWindow::startSimu()':
+mainwindow.cpp:150:5: error: expected primary-expression before '}' token
+     }
+     ^
+mainwindow.cpp:150:5: error: return-statement with a value, in function returning 'void' [-fpermissive]
+mainwindow.cpp:150:5: error: expected ';' before '}' token
+Makefile.Release:2795: recipe for target 'release/mainwindow.o' failed
+mingw32-make[1]: *** [release/mainwindow.o] Error 1
 mingw32-make[1]: Leaving directory 'E:/CAE'
 Makefile:34: recipe for target 'release' failed
 mingw32-make: *** [release] Error 2

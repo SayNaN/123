@@ -62,9 +62,9 @@ struct GlobalParam
   double dSp;           // heat source const part
   double dDeltaT;       // time step
   double dInitTemperature;
-  unsigned int nTimeStep;
-  unsigned int nSegNum;
-  unsigned int nMeshNum;
+  int nTimeStep;
+  int nSegNum;
+  int nMeshNum;
   
   BoundaryConditionType eInletType;
   double dInletTemp;

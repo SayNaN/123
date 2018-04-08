@@ -34,6 +34,7 @@ int main(int argc,char * argv[])
   qRegisterMetaType<QtMsgType>("QtMsgType");
   qInstallMessageHandler(msgHandlerFunction);
   MainWindow main;
+  main.setWindowState(Qt::WindowMaximized);
   main.show();
   return app.exec();
 }

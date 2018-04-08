@@ -9,6 +9,7 @@ class consoleWidget;
 
 class ZTService: public QObject
 {
+  Q_OBJECT
  public:
   /*
   static ZTService* getInstance();
@@ -24,9 +25,6 @@ class ZTService: public QObject
   Operate* operate();
   void resetService();
   consoleWidget* console();
-  bool isModified();
-  void modified(bool bValue);
-  bool canStartSimu();
 
  private:
   //static ZTService* m_pInstance;
@@ -35,7 +33,6 @@ class ZTService: public QObject
   GlobalParam m_oGlobalParam;
   Operate* m_pOperate;
   consoleWidget* m_pConsole;
-  bool m_bIsModified;
   /*
   class ZTServiceGarbo
   {

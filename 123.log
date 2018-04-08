@@ -1,8 +1,22 @@
 mingw32-make -f Makefile.Release
 mingw32-make[1]: Entering directory 'E:/CAE'
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\leftwidget.o leftwidget.cpp
-mingw32-make[1]: *** Deleting file 'release/leftwidget.o'
-Makefile.Release:1886: recipe for target 'release/leftwidget.o' failed
-mingw32-make[1]: *** [release/leftwidget.o] Error 3
+g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\ZTservice.o ZTservice.cpp
+ZTservice.cpp: In member function 'void ZTService::addSegment(int)':
+ZTservice.cpp:66:10: error: invalid use of incomplete type 'class QDebug'
+   QDebug()<<nIndex;
+          ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qglobal.h:1141:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qnamespace.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobjectdefs.h:48,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore/qobject.h:46,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore/QObject:1,
+                 from ZTservice.h:4,
+                 from ZTservice.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlogging.h:57:7: note: forward declaration of 'class QDebug'
+ class QDebug;
+       ^
+Makefile.Release:3408: recipe for target 'release/ZTservice.o' failed
+mingw32-make[1]: *** [release/ZTservice.o] Error 1
+mingw32-make[1]: Leaving directory 'E:/CAE'
 Makefile:34: recipe for target 'release' failed
-mingw32-make: *** [release] Error 130
+mingw32-make: *** [release] Error 2

@@ -1,25 +1,25 @@
 #include<stdlib.h>
-#include<QDebug>
 
 #include"ZTservice.h"
 #include"consolewidget.h"
 #include"operate.h"
 
-ZTService::ZTService(): m_bIsModified(false)
+ZTService::ZTService()
 {
   m_pOperate = new Operate(this);
   resetService();
 }
 
-bool ZTService::isModified()
+/*
+ZTService* ZTService::getInstance()
 {
-  return m_bIsModified;
+  if(NULL == m_pInstance)
+    {
+      m_pInstance = new ZTService();
+    }
+  return m_pInstance;
 }
-
-void ZTService::modified(bool bValue)
-{
-  m_bIsModified = bValue;
-}
+*/
 
 MeshRes* ZTService::meshRes()
 {
@@ -36,43 +36,21 @@ LocalParam* ZTService::localParam()
   return &m_oLocalParam;
 }
 
-bool ZTService::canStartSimu()
-{
-  if(m_oGlobalParam.nTimeStep == 0)
-    {
-      return false;
-    }
-  if(m_oLocalParam.size() == 0)
-    {
-      return false;
-    }
-  return true;
-}
-
 void ZTService::resetService()
 {
   m_oMeshRes.clear();
+  
   m_oLocalParam.clear();
-  TabCellContent oStructTemp;
-  oStructTemp.dLength = 1;
-  oStructTemp.nSubMeshNum = 1;
-  oStructTemp.dStartP = 0;
-  oStructTemp.dHeatCap = 0;
-  oStructTemp.dDensity = 0;
-  oStructTemp.dThermalConductivity = 0;
-  oStructTemp.dArea = 1;
-  m_oLocalParam.push_back(oStructTemp);
+  
   m_oGlobalParam.nType   = CELLCENTER;
   m_oGlobalParam.dF      = 1;
   m_oGlobalParam.dDeltaT = 0.1;
   m_oGlobalParam.nSegNum = 0;
   m_oGlobalParam.nMeshNum= 0;
-  m_pOperate->resetProject();
 }
 
 void ZTService::addSegment(int nIndex)
 {
-  modified(true);
   TabCellContent oStructTemp;
   oStructTemp.dLength = 1;
   oStructTemp.nSubMeshNum = 1;
@@ -81,6 +59,7 @@ void ZTService::addSegment(int nIndex)
   oStructTemp.dDensity = 0;
   oStructTemp.dThermalConductivity = 0;
   oStructTemp.dArea = 1;
+  
   m_oLocalParam.insert(m_oLocalParam.begin()+nIndex, oStructTemp);
 }
 
@@ -99,14 +78,3 @@ Operate* ZTService::operate()
 {
   return m_pOperate;
 }
-
-/*
-ZTService* ZTService::getInstance()
-{
-  if(NULL == m_pInstance)
-    {
-      m_pInstance = new ZTService();
-    }
-  return m_pInstance;
-}
-*/

@@ -13,7 +13,7 @@ class MainWindow :public QMainWindow
     QThread m_oWorkThread;
  public:
   MainWindow(QWidget *parent=0);
-  ~MainWindow();
+  ~MainWindow(){}
 
   
   void inimenu();
@@ -30,7 +30,6 @@ class MainWindow :public QMainWindow
   void fileSaveAs();
   */
   void startSimu();
-  void saveAs();
 
  signals:
   void startRun();

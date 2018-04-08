@@ -1,5 +1,6 @@
 #include<QWidget>
 #include<QObject>
+#include<QDebug>
 #include"leftwidget.h"
 #include"ZTService.h"
 
@@ -7,6 +8,7 @@ LeftWidget::LeftWidget(ZTService *pService, QWidget *parent):
   QFrame(parent),m_pService(pService)
 {
   initializeUI();
+  refreshTable();
 }
 
 void LeftWidget::initializeUI()
@@ -113,8 +115,8 @@ void LeftWidget::initializeUI()
 	     <<tr("热容")
 	     <<tr("密度")
 	     <<tr("导热系数");
-  m_pTableWidget->setHorizontalHeaderLabels(oHoriHeader);    
-
+  m_pTableWidget->setHorizontalHeaderLabels(oHoriHeader);
+  
   m_pRightMenu=new QMenu(m_pTableWidget);
   m_pTableWidget->setContextMenuPolicy(Qt::CustomContextMenu);
   QAction* pAddSeg    = new QAction(tr("添加导热段"));
@@ -127,7 +129,7 @@ void LeftWidget::initializeUI()
     });
   
   connect(pAddSeg, &QAction::triggered, [this](){
-      m_pService->addSegment(m_pTableWidget->currentRow());
+      m_pService->addSegment(m_pTableWidget->currentRow()+1);
       refreshTable();
     });
   
@@ -344,14 +346,14 @@ void LeftWidget::initializeUI()
 void LeftWidget::refreshTable()
 {
   LocalParam* pTmp = m_pService->localParam();
-  m_pTableWidget->clear();
+  m_pTableWidget->setRowCount(pTmp->size());
+  m_pTableWidget->setColumnCount(5);
   for(unsigned int i=0; i<pTmp->size(); i++)
     {
-      m_pTableWidget->insertRow(i);
-      m_pTableWidget->item(i, 0)->setText(QString::number(pTmp->at(i).dLength));
-      m_pTableWidget->item(i, 1)->setText(QString::number(pTmp->at(i).nSubMeshNum));
-      m_pTableWidget->item(i, 2)->setText(QString::number(pTmp->at(i).dHeatCap));
-      m_pTableWidget->item(i, 3)->setText(QString::number(pTmp->at(i).dDensity));
-      m_pTableWidget->item(i, 4)->setText(QString::number(pTmp->at(i).dThermalConductivity));
+      m_pTableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(pTmp->at(i).dLength)));
+      m_pTableWidget->setItem(i, 1, new QTableWidgetItem(QString::number(pTmp->at(i).nSubMeshNum)));
+      m_pTableWidget->setItem(i, 2, new QTableWidgetItem(QString::number(pTmp->at(i).dHeatCap)));
+      m_pTableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(pTmp->at(i).dDensity)));
+      m_pTableWidget->setItem(i, 4, new QTableWidgetItem(QString::number(pTmp->at(i).dThermalConductivity)));
     }
 }
