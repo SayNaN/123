@@ -4,13 +4,13 @@
 #include<vector>
 
 enum BoundaryConditionType{
-  FirstClass,
+  FirstClass = 0,
   SecondClass,
   ThirdClass,
 };
 
 enum NodeType{
-  CELLCENTER,            // 节点在节点内部
+  CELLCENTER = 0,            // 节点在节点内部
   MESHNODE,           // 节点在网格界面上
 };
 

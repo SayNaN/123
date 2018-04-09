@@ -10,7 +10,6 @@ class LeftWidget:public QFrame
  public:
   LeftWidget(ZTService *pService, QWidget *parent = NULL);
   ~LeftWidget(){};
-  void resetGUI();
 
  private:
   void initializeUI();

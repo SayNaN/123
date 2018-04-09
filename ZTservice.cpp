@@ -67,7 +67,6 @@ void ZTService::resetService()
   m_oGlobalParam.dDeltaT = 0.1;
   m_oGlobalParam.nSegNum = 0;
   m_oGlobalParam.nMeshNum= 0;
-  m_pOperate->resetProject();
 }
 
 void ZTService::addSegment(int nIndex)

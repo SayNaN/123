@@ -17,13 +17,21 @@ Operate::Operate(ZTService *pService):
 {
 }
 
-
 void Operate::resetProject()
 {
   m_sFullProjectPath = "";
   m_sProjectPath = "";
   m_sProjectName = "";
   m_sResFileName = "";
+}
+
+bool Operate::canSave()
+{
+  if(m_sFullProjectPath == "")
+    {
+      return false;
+    }
+  return true;
 }
 
 void Operate::setProjectName(QString sText)
@@ -46,7 +54,7 @@ void Operate::writeProjectFile()
   QFile file(m_sFullProjectPath);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
-      qInfo()<<QString::fromLocal8Bit("无法打开工程文件");
+      qInfo()<<tr("无法打开工程文件");
       return;
     }
 

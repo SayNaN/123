@@ -38,6 +38,7 @@ void MainWindow::inimenu()
 	{
 	  m_pService->operate()->setProjectName(sFilePath);
 	  m_pService->operate()->readProjectFile();
+	  m_pLeftWidget->resetGUI();
 	  setWindowTitle(m_pService->operate()->getProjectName());
 	}
     });
