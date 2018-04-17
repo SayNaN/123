@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent):QMainWindow(parent)
   setWindowTitle(tr("一维非稳态导热"));
   inimenu();
   inicentralwidget();
+  startNewThread();
 }
 
 MainWindow::~MainWindow()
@@ -71,6 +72,8 @@ void MainWindow::inimenu()
   m_pStartRestart->setToolTip(tr("Start Simulation"));
   connect(m_pStartRestart, SIGNAL(triggered()), this, SLOT(startSimu()));
 
+  m_pStopSimulation = new QAction(tr("终止计算"),this);
+
   //文件菜单
   m_pMenuFile=menuBar()->addMenu(tr("&File"));
   m_pMenuFile->addAction(m_pOpenProject);
@@ -91,7 +94,7 @@ void MainWindow::initoolbar()
 
   m_pEditToolBar=addToolBar(tr("&Edit"));
   m_pEditToolBar->addAction(m_pStartRestart);
-  //m_pEditToolBar->addAction(m_pStopSimulation);
+  m_pEditToolBar->addAction(m_pStopSimulation);
 }
 
 void MainWindow::inicentralwidget()
@@ -137,26 +140,30 @@ void MainWindow::inicentralwidget()
   pSplitterMain->show();
 }
 
-void MainWindow::startSimu()
+void MainWindow::startNewThread()
 {
   if(m_oWorkThread.isRunning())
     {
-      qDebug()<<tr("有其他的进程正在运行");
       return;
     }
-  else if(m_pService->canStartSimu())
-    {
-      qDebug()<<tr("无法开始计算，请检查设置");
-      return;
-    }
-  
-  qDebug()<<"start simiu";
   diffusion1D *pWork = new diffusion1D(m_pService);
   pWork->moveToThread(&m_oWorkThread);
   connect(&m_oWorkThread, &QThread::finished, pWork, &QObject::deleteLater);
   connect(this, &MainWindow::startRun, pWork, &diffusion1D::doIt);
-  connect(pWork, &diffusion1D::oneStepFinished, m_pText3D, &MyGLWidget::processRes);
+  //connect(pWork, &diffusion1D::oneStepFinished, m_pText3D, &MyGLWidget::processRes);
+  connect(pWork, &diffusion1D::calcFinished, [this](){
+      m_pService->operate()->writeResFile("");
+    });
   m_oWorkThread.start();
+}
+
+void MainWindow::startSimu()
+{
+  if(m_pService->canStartSimu())
+    {
+      qDebug()<<tr("无法开始计算，请检查设置");
+      return;
+    }
   emit startRun();
 }
 

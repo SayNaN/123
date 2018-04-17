@@ -13,6 +13,9 @@ class diffusion1D: public QObject
  public:
   diffusion1D(ZTService *pService, QObject* parent = NULL);
   ~diffusion1D();
+  
+ public slots:
+  void doIt();
 
  private:
   void assignMesh();
@@ -45,15 +48,10 @@ class diffusion1D: public QObject
   double *m_fArray;
   
   bool m_bStop;
-
   int m_meshNode;
-
- public slots:
-  void doIt();
 
  signals:
   void oneStepFinished(int nIndex);
 };
-
 
 #endif

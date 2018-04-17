@@ -122,12 +122,20 @@ void diffusion1D::assignMesh()
 
 void diffusion1D::doIt()
 {
+  printf("1\n");
   m_pMesher->run();
+  printf("2\n");
   initArray();
+  printf("3\n");
   assignMesh();
+  printf("4\n");
   calcaCoff();
+  printf("5\n");
   assignBeginningField();
+  printf("6\n");
   startRun();
+  emit calcFinished();
+  printf("diffusion1d end\n");
 }
 
 void diffusion1D::freeArray()
@@ -193,6 +201,7 @@ void diffusion1D::initArray()
 {
   freeArray();
   m_meshNode = m_pData->size();
+  printf("meshnode = %d\n", m_meshNode);
   m_aW       = (double*)malloc(sizeof(double)*m_meshNode);
   m_aE       = (double*)malloc(sizeof(double)*m_meshNode);
   m_aP0      = (double*)malloc(sizeof(double)*m_meshNode);

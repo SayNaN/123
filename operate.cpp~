@@ -93,20 +93,21 @@ void Operate::writeProjectFile()
     }
   file.close();
   
-  qInfo()<<QString::fromLocal8Bit("工程文件保存完毕!");
+  qInfo()<<tr("工程文件保存完毕!");
 }
 
 
 void Operate::readProjectFile()
 {
-  m_pService->resetService();
   GlobalParam* pGlobalTmp = m_pService->globalParam();
   LocalParam* pLocalTmp = m_pService->localParam();
   int nTmp;
+
   QFile file(m_sFullProjectPath);
+
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-      qInfo()<<QString::fromLocal8Bit("无法打开工程文件");
+      qInfo()<<tr("无法打开工程文件");
       return;
     }
 
@@ -138,19 +139,23 @@ void Operate::readProjectFile()
   
   in >> nCount;
 
+  pLocalTmp->clear();
   for(int i=0; i<nCount; i++)
     {
-      in >> pLocalTmp->at(i).dLength;
-      in >> pLocalTmp->at(i).nSubMeshNum;
-      in >> pLocalTmp->at(i).dStartP;
-      in >> pLocalTmp->at(i).dHeatCap;
-      in >> pLocalTmp->at(i).dDensity;
-      in >> pLocalTmp->at(i).dThermalConductivity;
-      in >> pLocalTmp->at(i).dArea;
+      TabCellContent oStructTemp;
+      in >> oStructTemp.dLength;
+      in >> oStructTemp.nSubMeshNum;
+      in >> oStructTemp.dStartP;
+      in >> oStructTemp.dHeatCap;
+      in >> oStructTemp.dDensity;
+      in >> oStructTemp.dThermalConductivity;
+      in >> oStructTemp.dArea;
+
+      pLocalTmp->push_back(oStructTemp);
     }
 
   file.close();
-  qInfo()<<QString::fromLocal8Bit("工程文件读取完毕!");
+  qInfo()<<tr("工程文件读取完毕!");
 }
 
 void Operate::writeResFile(QString sText)
@@ -159,7 +164,7 @@ void Operate::writeResFile(QString sText)
   QFile file(sText);
   if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-      qInfo()<<QString::fromLocal8Bit("无法打开结果文件");
+      qInfo()<<tr("无法打开结果文件");
       return;
     }
 
@@ -180,5 +185,5 @@ void Operate::writeResFile(QString sText)
 	}
     }
   file.close();
-  qInfo()<<QString::fromLocal8Bit("结果文件输出完毕!");
+  qInfo()<<tr("结果文件输出完毕!");
 }

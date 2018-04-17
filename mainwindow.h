@@ -14,12 +14,7 @@ class MainWindow :public QMainWindow
  public:
   MainWindow(QWidget *parent=0);
   ~MainWindow();
-
   
-  void inimenu();
-  void initoolbar();
-  void inicentralwidget();
-  MyGLWidget *text3D;
   /* protected:
      void closeEvent(QCloseEvent *event);*/
  private slots:
@@ -34,6 +29,12 @@ class MainWindow :public QMainWindow
 
  signals:
   void startRun();
+
+ private:
+  void inimenu();
+  void initoolbar();
+  void inicentralwidget();
+  void startNewThread();
   
  private:
   QMenu *m_pMenuFile;
@@ -60,6 +61,7 @@ class MainWindow :public QMainWindow
   LeftWidget *m_pLeftWidget;
   MyGLWidget *m_pText3D;
   QPlainTextEdit *m_pTextConsole;
+  MyGLWidget *text3D;
 };
 
 #endif
