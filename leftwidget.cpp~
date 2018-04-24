@@ -11,6 +11,41 @@ LeftWidget::LeftWidget(ZTService *pService, QWidget *parent):
   refreshTable();
 }
 
+void LeftWidget::resetGUI()
+{
+  m_pTimeStepEdit->setText(QString::number(m_pService->globalParam()->dDeltaT));
+
+  m_pStepNumEdit->setText(QString::number(m_pService->globalParam()->nTimeStep));
+
+  m_pTimeSchemeEdit->setText(QString::number(m_pService->globalParam()->dF));
+
+  m_pInitTempEdit->setText(QString::number(m_pService->globalParam()->dInitTemperature));
+
+  m_pCalcSchemeBox->setCurrentIndex((int)(m_pService->globalParam()->nType));
+
+  refreshTable();
+
+  m_pInletBoundaryTypeBox->setCurrentIndex((int)(m_pService->globalParam()->eInletType));
+
+  m_pInletTempEdit->setText(QString::number(m_pService->globalParam()->dInletTemp));
+  
+  m_pInletHeatFluxEdit->setText(QString::number(m_pService->globalParam()->dInletHeatFlux));
+
+  m_pInletInfinityTempEdit->setText(QString::number(m_pService->globalParam()->dInletInfinityTemp));
+
+  m_pInletConvectiveCoeffEdit->setText(QString::number(m_pService->globalParam()->dInletConvectiveCoeff));
+
+  m_pOutletBoundaryTypeBox->setCurrentIndex((int)(m_pService->globalParam()->eOutletType));
+
+  m_pOutletTempEdit->setText(QString::number(m_pService->globalParam()->dOutletTemp));
+
+  m_pOutletHeatFluxEdit->setText(QString::number(m_pService->globalParam()->dOutletHeatFlux));
+
+  m_pOutletInfinityTempEdit->setText(QString::number(m_pService->globalParam()->dOutletInfinityTemp));
+
+  m_pOutletConvectiveCoeffEdit->setText(QString::number(m_pService->globalParam()->dOutletConvectiveCoeff));
+}
+
 void LeftWidget::initializeUI()
 {
   int nLineNum=0;
@@ -125,6 +160,7 @@ void LeftWidget::initializeUI()
   m_pRightMenu->addAction(pRemoveSeg);
 
   connect(m_pTableWidget, &QWidget::customContextMenuRequested, [this](const QPoint &pos){
+      Q_UNUSED(pos);
       m_pRightMenu->exec(QCursor::pos()); 
     });
   
@@ -225,8 +261,18 @@ void LeftWidget::initializeUI()
   pInletBoundaryStackedLayout->addWidget(pInletSecondTypeFrame);
   pInletBoundaryStackedLayout->addWidget(pInletThirdTypeFrame);
 
-  connect(m_pInletBoundaryTypeBox, SIGNAL(activated(int)),
+  connect(m_pInletBoundaryTypeBox, SIGNAL(currentIndexChanged(int)),
 	  pInletBoundaryStackedLayout, SLOT(setCurrentIndex(int)));
+  connect(m_pInletBoundaryTypeBox, &QComboBox::currentTextChanged, [this](QString strText){
+      if(tr("第一类边界条件") == strText){
+	m_pService->globalParam()->eInletType = FirstClass;
+      }if(tr("第二类边界条件") == strText){
+	m_pService->globalParam()->eInletType = SecondClass;
+      }else{
+	m_pService->globalParam()->eInletType = ThirdClass;
+      }
+    });
+	  
 
   QGridLayout* pInletBoundaryLayout = new QGridLayout(pInletBoundaryGrp);
   nLineNum = 0;
@@ -320,6 +366,16 @@ void LeftWidget::initializeUI()
 
   connect(m_pOutletBoundaryTypeBox, SIGNAL(activated(int)),
 	  pOutletBoundaryStackedLayout, SLOT(setCurrentIndex(int)));
+
+  connect(m_pOutletBoundaryTypeBox, &QComboBox::currentTextChanged, [this](QString strText){
+      if(tr("第一类边界条件") == strText){
+	m_pService->globalParam()->eOutletType = FirstClass;
+      }if(tr("第二类边界条件") == strText){
+	m_pService->globalParam()->eOutletType = SecondClass;
+      }else{
+	m_pService->globalParam()->eOutletType = ThirdClass;
+      }
+    });
 
   QGridLayout* pOutletBoundaryLayout = new QGridLayout(pOutletBoundaryGrp);
   nLineNum = 0;

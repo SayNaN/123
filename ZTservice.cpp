@@ -36,13 +36,18 @@ LocalParam* ZTService::localParam()
   return &m_oLocalParam;
 }
 
+void ZTService::info(const char * msg)
+{
+  m_pConsole->msg(msg);
+}
+
 bool ZTService::canStartSimu()
 {
-  if(m_oGlobalParam.nTimeStep == 0)
+  if(0 == m_oGlobalParam.nTimeStep)
     {
       return false;
     }
-  if(m_oLocalParam.size() == 0)
+  if(0 == m_oLocalParam.size())
     {
       return false;
     }

@@ -161,8 +161,9 @@ void Operate::readProjectFile()
 void Operate::writeResFile(QString sText)
 {
   sText = m_sProjectPath+"d1Dres.dat";
+  qDebug()<<sText;
   QFile file(sText);
-  if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
       qInfo()<<tr("无法打开结果文件");
       return;

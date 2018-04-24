@@ -52,6 +52,7 @@ class diffusion1D: public QObject
 
  signals:
   void oneStepFinished(int nIndex);
+  void calcFinished();
 };
 
 #endif

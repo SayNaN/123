@@ -25,6 +25,7 @@ class diffusion1D: public QObject
   void freeArray();
   void initArray();
   void calcaCoff();
+  void flushBufToConsole();
 
  private:
   //QVector<settingParam> m_SettingParam;
@@ -49,6 +50,8 @@ class diffusion1D: public QObject
   
   bool m_bStop;
   int m_meshNode;
+
+  char m_oBuf[255];
 
  signals:
   void oneStepFinished(int nIndex);

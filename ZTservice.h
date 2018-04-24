@@ -27,6 +27,7 @@ class ZTService: public QObject
   bool isModified();
   void modified(bool bValue);
   bool canStartSimu();
+  void info(const char * msg);
 
  private:
   //static ZTService* m_pInstance;

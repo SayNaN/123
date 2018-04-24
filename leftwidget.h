@@ -16,6 +16,9 @@ class LeftWidget:public QFrame
   void initializeUI();
   void refreshTable();
 
+ private slots:
+  void assign(int nRow, int nColum);
+
  private:
   QLineEdit* m_pTimeStepEdit;
   QLineEdit* m_pStepNumEdit;

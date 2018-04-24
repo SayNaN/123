@@ -11,6 +11,7 @@ Mesh1D::Mesh1D(ZTService *pService):
 
 void Mesh1D::run()
 {
+  m_pService->info("开始划分网格");
   int nSegCount = m_pLocalParam->size();
   int nSubCount = 0;
   int nMeshNum = 0;
@@ -23,7 +24,7 @@ void Mesh1D::run()
   SimuInfoRes structLeftBound;
   structLeftBound.dCoorX = 0.0;
   m_pData->push_back(structLeftBound);
-  printf("1\n");
+
   for(int i=0; i<nSegCount; i++)
     {
       nSubCount = m_pLocalParam->at(i).nSubMeshNum;
@@ -49,7 +50,7 @@ void Mesh1D::run()
 	  m_pData->push_back(structTemp);
 	}
     }
-  printf("2\n");
+
   if(CELLCENTER == m_pGlobalParam->nType)
     {
       SimuInfoRes structRightBound;
@@ -77,5 +78,5 @@ void Mesh1D::run()
   m_pData->at(nMeshNum-1).dXw = m_pData->at(nMeshNum-2).dXe;
   m_pData->at(nMeshNum-1).dXe = 0;
   m_pData->at(nMeshNum-1).dCellLenght = m_pData->at(nMeshNum-1).dXw / 2.0;
-  printf("333\n");
+  m_pService->info("网格划分结束");
 }

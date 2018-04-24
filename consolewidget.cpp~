@@ -1,5 +1,4 @@
 #include<QMutex>
-#include<QDebug>
 #include"consolewidget.h"
 
 consoleWidget *consoleWidget::m_pInstance=NULL;
@@ -14,9 +13,4 @@ consoleWidget *consoleWidget::instance()
       //connect(this, &consoleWidget::message, this, &consoleWidget::handleMessage);
     }
   return m_pInstance;
-}
-
-void consoleWidget::msg(const char* msg)
-{
-  qInfo()<<tr(msg);
 }

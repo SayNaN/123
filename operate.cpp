@@ -31,6 +31,7 @@ bool Operate::canSave()
     {
       return false;
     }
+  writeProjectFile();
   return true;
 }
 

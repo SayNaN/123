@@ -38,7 +38,7 @@ void diffusion1D::assignMesh()
   int nIndex = 0;
   int nSegCount = m_pLocalParam->size();
   int nSubCount = 0;
-
+  
   m_pData->at(0).dAreap = 1;
   m_pData->at(0).dAreaw = 1;
   m_pData->at(0).dAreae = 1;
@@ -46,7 +46,7 @@ void diffusion1D::assignMesh()
   m_pData->at(0).dLabde = m_pLocalParam->at(0).dThermalConductivity;
   m_pData->at(0).dHeatCapMulDensity = m_pLocalParam->at(0).dDensity
                                     * m_pLocalParam->at(0).dHeatCap;
-  
+
   for(int i=0; i<nSegCount; i++)
     {
       nSubCount = m_pLocalParam->at(i).nSubMeshNum;
@@ -73,7 +73,7 @@ void diffusion1D::assignMesh()
       m_pData->at(nIndex).dHeatCapMulDensity = m_pLocalParam->at(nSegCount-1).dDensity
 	                                     * m_pLocalParam->at(nSegCount-1).dHeatCap;
     }
-  
+
   if(CELLCENTER == m_pGlobalParam->nType)
     {
       double dLabdp = 0;
@@ -118,21 +118,16 @@ void diffusion1D::assignMesh()
 	  m_pData->at(nIndex).dHeatCapMulDensity = (dRouCw * dXw + dRouCe * dXe) / dCellL;
 	}
     }
+  m_pService->info("网格节点赋值完成");
 }
 
 void diffusion1D::doIt()
 {
-  printf("1\n");
   m_pMesher->run();
-  printf("2\n");
   initArray();
-  printf("3\n");
   assignMesh();
-  printf("4\n");
   calcaCoff();
-  printf("5\n");
   assignBeginningField();
-  printf("6\n");
   startRun();
   emit calcFinished();
   printf("diffusion1d end\n");
@@ -201,7 +196,9 @@ void diffusion1D::initArray()
 {
   freeArray();
   m_meshNode = m_pData->size();
-  printf("meshnode = %d\n", m_meshNode);
+  char strTmp[80];
+  sprintf(strTmp, "meshnode = %d", m_meshNode);
+  m_pService->info(strTmp);
   m_aW       = (double*)malloc(sizeof(double)*m_meshNode);
   m_aE       = (double*)malloc(sizeof(double)*m_meshNode);
   m_aP0      = (double*)malloc(sizeof(double)*m_meshNode);
@@ -236,6 +233,7 @@ void diffusion1D::calcaCoff()
 
       m_aL[i] = Sc* pCache->dAreap * pCache->dCellLenght;
     }
+  m_pService->info("网格节点系数计算完成");
 }
 
 void diffusion1D::assignBeginningField()
@@ -253,7 +251,7 @@ void diffusion1D::startRun()
   //int nCurTimeStep = 1;
   //double dCurTime  = m_pGlobalParam->dDeltaT;
   double f      = m_pGlobalParam->dF;
-  
+
   switch(m_pGlobalParam->eInletType)
     {
     case FirstClass:
@@ -294,7 +292,7 @@ void diffusion1D::startRun()
 	}
       break;
     }
-
+  m_pService->info("进口边界条件初始化完成");
   int z = m_meshNode - 1;
   switch(m_pGlobalParam->eOutletType)
     {
@@ -336,8 +334,8 @@ void diffusion1D::startRun()
 	}
       break;
     }
-
-  for(int i=1; i<m_pGlobalParam->nTimeStep; i++)
+  m_pService->info("出口边界条件初始化完成");
+  for(unsigned int i=1; i<m_pGlobalParam->nTimeStep; i++)
     {
       for(int j=1; j<m_meshNode-1; j++)
 	{
@@ -347,9 +345,10 @@ void diffusion1D::startRun()
 	  m_fArray[j] = (1-f)*
 	    (m_aE[j]*m_pData->at(j+1).vecTime_Temperature.at(i-1).second +
 	     m_aW[j]*m_pData->at(j-1).vecTime_Temperature.at(i-1).second)+
-	    m_pData->at(j).vecTime_Temperature.at(i).second * (m_aP0[j]+m_aP0A[j]) +
+	    m_pData->at(j).vecTime_Temperature.at(i-1).second * (m_aP0[j]+m_aP0A[j]) +
 	    m_aL[j];
 	}
+
       ZTChasingMethod(m_aArray, m_bArray, m_cArray, m_fArray, m_xArray, m_meshNode);
 
       for(int j=0; j<m_meshNode; j++)
@@ -357,6 +356,13 @@ void diffusion1D::startRun()
 	  m_pData->at(j).
 	    vecTime_Temperature.push_back(std::pair<double,double>(m_pGlobalParam->dDeltaT*i, m_xArray[j]));
 	}
+      sprintf(m_oBuf, "第%d步计算完成",i);
+      flushBufToConsole();
       emit oneStepFinished(i);
     }
+}
+
+void diffusion1D::flushBufToConsole()
+{
+  m_pService->info(m_oBuf);
 }

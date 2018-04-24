@@ -532,7 +532,6 @@ void MyGLWidget::processRes(int nIndex)
 	}
     }
   reCalcColor();
-  update();
 }
 
 void MyGLWidget::reCalcColor()

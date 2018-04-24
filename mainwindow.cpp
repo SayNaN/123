@@ -1,5 +1,4 @@
 #include<QWidget>
-
 #include"mainwindow.h"
 #include"mesh/mesh_1D.h"
 #include"ZTservice.h"
@@ -22,7 +21,6 @@ MainWindow::~MainWindow()
 {
   m_oWorkThread.quit();
   m_oWorkThread.wait();
-  qDebug()<<"xigouhanshu";
 }
 
 void MainWindow::inimenu()
@@ -39,6 +37,7 @@ void MainWindow::inimenu()
 	{
 	  m_pService->operate()->setProjectName(sFilePath);
 	  m_pService->operate()->readProjectFile();
+	  m_pText3D->cleardisplay();
 	  m_pLeftWidget->resetGUI();
 	  setWindowTitle(m_pService->operate()->getProjectName());
 	}
@@ -100,17 +99,9 @@ void MainWindow::initoolbar()
 void MainWindow::inicentralwidget()
 {
   QSplitter *pSplitterMain=new QSplitter(Qt::Horizontal,this);
-
-  //QFrame *pLeftFrame=new QFrame(pSplitterMain);
-
-  m_pLeftWidget = new LeftWidget(m_pService, pSplitterMain); //pLeftFrame);
-
-  //connect(toolbox,&ToolBox::clearshow,[this](){text3D->cleardisplay();textdrawing->cleardisplay();toolbox->performance_display->cleardisplay();});
-
+  m_pLeftWidget = new LeftWidget(m_pService, pSplitterMain);
   QSplitter *splitterright=new QSplitter(Qt::Vertical,pSplitterMain);
-
   m_pText3D = new MyGLWidget(m_pService, splitterright);
-
   m_pTextConsole = new QPlainTextEdit(tr("控制台\n"),splitterright);
   m_pTextConsole->setReadOnly(true);
   connect(m_pService->console(), &consoleWidget::message, [this](QtMsgType type, const QString &msg){
@@ -150,7 +141,7 @@ void MainWindow::startNewThread()
   pWork->moveToThread(&m_oWorkThread);
   connect(&m_oWorkThread, &QThread::finished, pWork, &QObject::deleteLater);
   connect(this, &MainWindow::startRun, pWork, &diffusion1D::doIt);
-  //connect(pWork, &diffusion1D::oneStepFinished, m_pText3D, &MyGLWidget::processRes);
+  connect(pWork, &diffusion1D::oneStepFinished, m_pText3D, &MyGLWidget::processRes);
   connect(pWork, &diffusion1D::calcFinished, [this](){
       m_pService->operate()->writeResFile("");
     });
@@ -159,11 +150,16 @@ void MainWindow::startNewThread()
 
 void MainWindow::startSimu()
 {
-  if(m_pService->canStartSimu())
+  if(!m_pService->canStartSimu())
     {
       qDebug()<<tr("无法开始计算，请检查设置");
       return;
     }
+  if(m_pService->operate()->canSave())
+    {
+      saveAs();
+    }
+  m_pText3D->cleardisplay();
   emit startRun();
 }
 
