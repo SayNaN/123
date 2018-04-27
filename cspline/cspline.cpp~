@@ -3,100 +3,40 @@
 #include<math.h>
 #include"cspline.h"
 
-void Cspline::FanShengjin(double a,double b,double c,double d,double *X)
+Cspline::Cspline():
+  x(NULL), y(NULL), s(NULL),
+  Mx(NULL), My(NULL), slope(NULL),
+  ax(NULL), ay(NULL), bx(NULL),
+  by(NULL), cx(NULL), cy(NULL),
+  dx(NULL), dy(NULL)  
 {
-  double A,B,C,delta,Y1,Y2,T,theta,mid;
-  int i,j;
-  A=b*b-3*a*c;
-  B=b*c-9*a*d;
-  C=c*c-3*b*d;
-  delta=B*B-4*A*C;
-  if(A==0&&B==0)
-    {
-      X[0]=-b/3.0/a;
-      X[3]=1;
-    }
-  else if (delta>0)
-    {
-      Y1=A*b+3*a*(-B+sqrt(delta))/2.0;
-      Y2=A*b+3*a*(-B-sqrt(delta))/2.0;
-      X[0]=(-b-fabs(Y1)/Y1*pow(fabs(Y1),1.0/3.0)-fabs(Y2)/Y2*pow(fabs(Y2),1.0/3.0))/3.0/a;
-      X[3]=1;
-    }
-  else if(delta==0)
-    {
-      X[0]=-b/a+B/A;
-      X[1]=-B/A/2.0;
-      if(X[0]<X[1])
-	{
-	  mid=X[0];
-	  X[0]=X[1];
-	  X[1]=mid;
-	}
-      X[3]=2;
-    }
-  else if(delta<0)
-    {
-      T=(2*A*b-3*a*B)/2.0/pow(A,1.5);
-      theta=acos(T);
-      X[0]=(-b-2*sqrt(A)*cos(theta/3.0))/3.0/a;
-      X[1]=(-b+sqrt(A)*(cos(theta/3.0)+sqrt(3.0)*sin(theta/3.0)))/3.0/a;
-      X[2]=(-b+sqrt(A)*(cos(theta/3.0)-sqrt(3.0)*sin(theta/3.0)))/3.0/a;
-      for(i=0;i<3;i++)
-	{
-	  for(j=0;j<3;j++)
-	    {
-	      if(X[j]<X[j+1])
-		{
-		  mid=X[j];
-		  X[j]=X[j+1];
-		  X[j+1]=mid;
-		}
-	    }
-	}
-      X[3]=3;
-    }
 }
 
 Cspline::~Cspline()
 {
-  free(x);
-  free(y);
-  free(s);
-  free(Mx);
-  free(My);
-  free(slope);
-  free(ax);
-  free(ay);
-  free(bx);
-  free(by);
-  free(cx);
-  free(cy);
-  free(dx);
-  free(dy);
+  freeAndNil(x);
+  freeAndNil(y);
+  freeAndNil(s);
+  freeAndNil(Mx);
+  freeAndNil(My);
+  freeAndNil(slope);
+  freeAndNil(ax);
+  freeAndNil(ay);
+  freeAndNil(bx);
+  freeAndNil(by);
+  freeAndNil(cx);
+  freeAndNil(cy);
+  freeAndNil(dx);
+  freeAndNil(dy);
 }
 
-Cspline::Cspline()
+void Cspline::freeAndNil(double *array)
 {
-  initialize();
-}
-
-void Cspline::initialize()
-{
-  x=NULL;
-  y=NULL;
-  s=NULL;
-  Mx=NULL;
-  My=NULL;
-  slope=NULL;
-  ax=NULL;
-  ay=NULL;
-  bx=NULL;
-  by=NULL;
-  cx=NULL;
-  cy=NULL;
-  dx=NULL;
-  dy=NULL;  
+  if(NULL != array)
+    {
+      free(array);
+    }
+  array = NULL;
 }
 
 void Cspline::gen(double *xcoor,double *ycoor,int n)
@@ -358,3 +298,57 @@ double Cspline::CH(double a,double b,double c,double d)
   return ch;
 }
 
+void Cspline::FanShengjin(double a,double b,double c,double d,double *X)
+{
+  double A,B,C,delta,Y1,Y2,T,theta,mid;
+  int i,j;
+  A=b*b-3*a*c;
+  B=b*c-9*a*d;
+  C=c*c-3*b*d;
+  delta=B*B-4*A*C;
+  if(A==0&&B==0)
+    {
+      X[0]=-b/3.0/a;
+      X[3]=1;
+    }
+  else if (delta>0)
+    {
+      Y1=A*b+3*a*(-B+sqrt(delta))/2.0;
+      Y2=A*b+3*a*(-B-sqrt(delta))/2.0;
+      X[0]=(-b-fabs(Y1)/Y1*pow(fabs(Y1),1.0/3.0)-fabs(Y2)/Y2*pow(fabs(Y2),1.0/3.0))/3.0/a;
+      X[3]=1;
+    }
+  else if(delta==0)
+    {
+      X[0]=-b/a+B/A;
+      X[1]=-B/A/2.0;
+      if(X[0]<X[1])
+	{
+	  mid=X[0];
+	  X[0]=X[1];
+	  X[1]=mid;
+	}
+      X[3]=2;
+    }
+  else if(delta<0)
+    {
+      T=(2*A*b-3*a*B)/2.0/pow(A,1.5);
+      theta=acos(T);
+      X[0]=(-b-2*sqrt(A)*cos(theta/3.0))/3.0/a;
+      X[1]=(-b+sqrt(A)*(cos(theta/3.0)+sqrt(3.0)*sin(theta/3.0)))/3.0/a;
+      X[2]=(-b+sqrt(A)*(cos(theta/3.0)-sqrt(3.0)*sin(theta/3.0)))/3.0/a;
+      for(i=0;i<3;i++)
+	{
+	  for(j=0;j<3;j++)
+	    {
+	      if(X[j]<X[j+1])
+		{
+		  mid=X[j];
+		  X[j]=X[j+1];
+		  X[j+1]=mid;
+		}
+	    }
+	}
+      X[3]=3;
+    }
+}
