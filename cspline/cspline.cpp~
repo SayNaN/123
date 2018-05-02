@@ -14,6 +14,11 @@ Cspline::Cspline():
 
 Cspline::~Cspline()
 {
+  release();
+}
+
+void Cspline::release()
+{
   freeAndNil(x);
   freeAndNil(y);
   freeAndNil(s);
@@ -39,122 +44,60 @@ void Cspline::freeAndNil(double *array)
   array = NULL;
 }
 
+void Cspline::initArray()
+{
+  x=(double *)malloc(sizeof(double)*m_nCount);
+  y=(double *)malloc(sizeof(double)*m_nCount);
+  s=(double *)malloc(sizeof(double)*m_nCount);
+  ax=(double *)malloc(sizeof(double)*(m_nCount-1));
+  ay=(double *)malloc(sizeof(double)*(m_nCount-1));
+  bx=(double *)malloc(sizeof(double)*(m_nCount-1));
+  by=(double *)malloc(sizeof(double)*(m_nCount-1));
+  cx=(double *)malloc(sizeof(double)*(m_nCount-1));
+  cy=(double *)malloc(sizeof(double)*(m_nCount-1));
+  dx=(double *)malloc(sizeof(double)*(m_nCount-1));
+  dy=(double *)malloc(sizeof(double)*(m_nCount-1));
+  Mx=(double *)malloc(sizeof(double)*m_nCount);
+  My=(double *)malloc(sizeof(double)*m_nCount);
+  slope=(double *)malloc(sizeof(double)*m_nCount);
+}
+
 void Cspline::gen(double *xcoor,double *ycoor,int n)
 {
   double af,a0,az,hj;
   double *u=NULL,*ru=NULL,*fx=NULL,*fy=NULL,*beta=NULL,*yx=NULL,*yy=NULL;
-  num=n;
-  if(x!=NULL)
-    {
-      free(x);
-      x=NULL;
-    }
-  if(y!=NULL)
-    {
-      free(y);
-      y=NULL;
-    }
-  if(s!=NULL)
-    {
-      free(s);
-      s=NULL;
-    }
-  if(Mx!=NULL)
-    {
-      free(Mx);
-      Mx=NULL;
-    }
-  if(My!=NULL)
-    {
-      free(My);
-      My=NULL;
-    }
-  if(slope!=NULL)
-    {
-      free(slope);
-      slope=NULL;
-    }
-  if(ax!=NULL)
-    {
-      free(ax);
-      ax=NULL;
-    }
-  if(ay!=NULL)
-    {
-      free(ay);
-      ay=NULL;
-    }
-  if(bx!=NULL)
-    {
-      free(bx);
-      bx=NULL;
-    }
-  if(by!=NULL)
-    {
-      free(by);
-      by=NULL;
-    }
-  if(cx!=NULL)
-    {
-      free(cx);
-      cx=NULL;
-    }
-  if(cy!=NULL)
-    {
-      free(cy);
-      cy=NULL;
-    }
-  if(dx!=NULL)
-    {
-      free(dx);
-      dx=NULL;
-    }
-  if(dy!=NULL)
-    {
-      free(dy);
-      dy=NULL;
-    }
-  x=(double *)malloc(sizeof(double)*num);
-  y=(double *)malloc(sizeof(double)*num);
-  s=(double *)malloc(sizeof(double)*num);
-  u=(double *)malloc(sizeof(double)*num);
-  ru=(double *)malloc(sizeof(double)*num);
-  fx=(double *)malloc(sizeof(double)*num);
-  fy=(double *)malloc(sizeof(double)*num);
-  beta=(double *)malloc(sizeof(double)*num);
-  yx=(double *)malloc(sizeof(double)*num);
-  yy=(double *)malloc(sizeof(double)*num);
-  Mx=(double *)malloc(sizeof(double)*num);
-  My=(double *)malloc(sizeof(double)*num);
-  slope=(double *)malloc(sizeof(double)*num);
-  ax=(double *)malloc(sizeof(double)*(num-1));
-  ay=(double *)malloc(sizeof(double)*(num-1));
-  bx=(double *)malloc(sizeof(double)*(num-1));
-  by=(double *)malloc(sizeof(double)*(num-1));
-  cx=(double *)malloc(sizeof(double)*(num-1));
-  cy=(double *)malloc(sizeof(double)*(num-1));
-  dx=(double *)malloc(sizeof(double)*(num-1));
-  dy=(double *)malloc(sizeof(double)*(num-1));
+  m_nCount = n;
+
+  release();
+  initArray();
   
-  for(i=0;i<num;i++)
+  u=(double *)malloc(sizeof(double)*m_nCount);
+  ru=(double *)malloc(sizeof(double)*m_nCount);
+  fx=(double *)malloc(sizeof(double)*m_nCount);
+  fy=(double *)malloc(sizeof(double)*m_nCount);
+  beta=(double *)malloc(sizeof(double)*m_nCount);
+  yx=(double *)malloc(sizeof(double)*m_nCount);
+  yy=(double *)malloc(sizeof(double)*m_nCount);
+  
+  for(int i=0; i<m_nCount; i++)
     {
       x[i]=xcoor[i];
       y[i]=ycoor[i];
     }
   s[0]=0;
-  for(i=1;i<num;i++)
+  for(int i=1; i<m_nCount; i++)
     {
       s[i]=s[i-1]+CH(x[i],x[i-1],y[i],y[i-1]);
     }
   u[0]=0;
-  u[num-1]=0;
+  u[m_nCount-1]=0;
   ru[0]=0;
-  ru[num-1]=0;
+  ru[m_nCount-1]=0;
   fx[0]=0;
-  fx[num-1]=0;
+  fx[m_nCount-1]=0;
   fy[0]=0;
-  fy[num-1]=0;
-  for(i=1;i<num-1;i++)
+  fy[m_nCount-1]=0;
+  for(int i=1; i<m_nCount-1; i++)
     {
       af=s[i]-s[i-1];
       az=s[i+1]-s[i];
@@ -165,26 +108,26 @@ void Cspline::gen(double *xcoor,double *ycoor,int n)
       fy[i]=6*((y[i+1]-y[i])/az-(y[i]-y[i-1])/af)/a0;
     }
   beta[0]=0;
-  beta[num-1]=0;
-  for(i=1;i<num-1;i++)
+  beta[m_nCount-1]=0;
+  for(int i=1; i<m_nCount-1; i++)
     {
       beta[i]=ru[i]/(2.0-u[i]*beta[i-1]);
     }
   yx[0]=fx[0]/2.0;
   yy[0]=fy[0]/2.0;
-  for(i=1;i<num;i++)
+  for(int i=1; i<m_nCount; i++)
     {
       yx[i]=(fx[i]-u[i]*yx[i-1])/(2.0-u[i]*beta[i-1]);
       yy[i]=(fy[i]-u[i]*yy[i-1])/(2.0-u[i]*beta[i-1]);
     }
-  Mx[num-1]=yx[num-1];
-  My[num-1]=yy[num-1];
-  for(i=num-2;i>=0;i--)
+  Mx[m_nCount-1]=yx[m_nCount-1];
+  My[m_nCount-1]=yy[m_nCount-1];
+  for(int i=m_nCount-2; i>=0; i--)
     {
       Mx[i]=yx[i]-beta[i]*Mx[i+1];
       My[i]=yy[i]-beta[i]*My[i+1];
     }
-  for(i=0;i<num-1;i++)
+  for(int i=0; i<m_nCount-1; i++)
     {
       hj=s[i+1]-s[i];
       ax[i]=(Mx[i+1]-Mx[i])/6.0/hj;
@@ -198,8 +141,10 @@ void Cspline::gen(double *xcoor,double *ycoor,int n)
       slope[i]=(3*ay[i]*s[i]*s[i]+2*by[i]*s[i]+cy[i])/(3*ax[i]*s[i]*s[i]+2*bx[i]*s[i]+cx[i]);
     }
 
-  i=(int)((num-1)/2);
-  slope[num-1]=(3*ay[num-2]*s[num-1]*s[num-1]+2*by[num-2]*s[num-1]+cy[num-2])/(3*ax[num-2]*s[num-1]*s[num-1]+2*bx[num-2]*s[num-1]+cx[num-2]);
+  slope[m_nCount-1]=(3*ay[m_nCount-2]*s[m_nCount-1]*s[m_nCount-1]+
+		     2*by[m_nCount-2]*s[m_nCount-1]+cy[m_nCount-2])/
+                    (3*ax[m_nCount-2]*s[m_nCount-1]*s[m_nCount-1]+
+		     2*bx[m_nCount-2]*s[m_nCount-1]+cx[m_nCount-2]);
   free(u);
   free(ru);
   free(fx);

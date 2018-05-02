@@ -3,20 +3,6 @@
 #include<math.h>
 #include"cspline.h"
 
-Cspline::Cspline():
-  x(NULL), y(NULL), s(NULL),
-  Mx(NULL), My(NULL), slope(NULL),
-  ax(NULL), ay(NULL), bx(NULL),
-  by(NULL), cx(NULL), cy(NULL),
-  dx(NULL), dy(NULL)  
-{
-}
-
-Cspline::~Cspline()
-{
-  release();
-}
-
 void Cspline::release()
 {
   freeAndNil(x);
@@ -154,56 +140,11 @@ void Cspline::gen(double *xcoor,double *ycoor,int n)
   free(yy);
 }
 
-void Cspline::fillet(double end_x,double end_y,double *x_coor,double *y_coor,int coor_num)
-{
-  double x_cs[3],y_cs[3];
-  double step_0,step_n;
-  double param_0,param_n;
-
-  param_0=s[1]/9.0*8;
-  param_n=s[num-2]+(s[num-1]-s[num-2])/9.0;
-  x_cs[0]=ax[0]*pow(param_0,3)+bx[0]*pow(param_0,2)+cx[0]*param_0+dx[0];
-  y_cs[0]=ay[0]*pow(param_0,3)+by[0]*pow(param_0,2)+cy[0]*param_0+dy[0];
-  x_cs[2]=ax[num-2]*pow(param_n,3)+bx[num-2]*pow(param_n,2)+cx[num-2]*param_n+dx[num-2];
-  y_cs[2]=ay[num-2]*pow(param_n,3)+by[num-2]*pow(param_n,2)+cy[num-2]*param_n+dy[num-2];
-  x_cs[1]=end_x;
-  y_cs[1]=end_y;
-
-  Cspline abc;
-  abc.gen(x_cs,y_cs,3);
-  
-  x_coor[0]=end_x;
-  y_coor[0]=end_y;
-
-  step_0=abc.s[1]/5.0;
-  step_n=(abc.s[2]-abc.s[1])/5.0;
-
-  for(i=1;i<6;i++)
-    {
-      param_0=abc.s[1]-step_0*(i);
-      param_n=abc.s[1]+step_n*(i);
-      x_coor[i]         =abc.ax[0]*pow(param_0,3)+abc.bx[0]*pow(param_0,2)+abc.cx[0]*param_0+abc.dx[0];
-      y_coor[i]         =abc.ay[0]*pow(param_0,3)+abc.by[0]*pow(param_0,2)+abc.cy[0]*param_0+abc.dy[0];
-      x_coor[coor_num-i]=abc.ax[1]*pow(param_n,3)+abc.bx[1]*pow(param_n,2)+abc.cx[1]*param_n+abc.dx[1];
-      y_coor[coor_num-i]=abc.ay[1]*pow(param_n,3)+abc.by[1]*pow(param_n,2)+abc.cy[1]*param_n+abc.dy[1];
-    }
-}
-
-void Cspline::interpolate_r(double *res,double *x,double *y,int n,double *inter_r,int x_control_index)
-{
-  Cspline abc;
-  abc.gen(x,y,n);
-  res[0]=abc.project(inter_r[0],0);
-  res[1]=abc.project(inter_r[1],x_control_index);
-  res[2]=abc.project(inter_r[2],x_control_index);
-}
-
 double Cspline::project(double interpo_x,int n)
 {
   double interpo_y;
   double X[4]={0,0,0,0};
   int i,j;
-  //hj=s[n+1]-s[n];
   if(n==0)
     {
       if(x[0]==x[1])
@@ -231,7 +172,6 @@ double Cspline::project(double interpo_x,int n)
 	}
 
       interpo_y=ay[n]*pow(X[0],3)+by[n]*pow(X[0],2)+cy[n]*X[0]+dy[n];
-      //interpo_y=My[n]*pow((s[n+1]-X[0]),3)/6/hj+My[n+1]*pow((X[0]-s[n]),3)/6/hj+(y[n]-My[n]*hj*hj/6)/hj*(s[n+1]-X[0])+(y[n+1]-My[n+1]*hj*hj/6)/hj*(X[0]-s[n]);
       return interpo_y;
     }
 }
@@ -296,4 +236,27 @@ void Cspline::FanShengjin(double a,double b,double c,double d,double *X)
 	}
       X[3]=3;
     }
+}
+
+Cspline::Cspline():
+  x(NULL),
+  y(NULL),
+  s(NULL),
+  Mx(NULL),
+  My(NULL),
+  slope(NULL),
+  ax(NULL),
+  ay(NULL),
+  bx(NULL),
+  by(NULL),
+  cx(NULL),
+  cy(NULL),
+  dx(NULL),
+  dy(NULL)  
+{
+}
+
+Cspline::~Cspline()
+{
+  release();
 }
