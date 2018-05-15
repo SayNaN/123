@@ -100,6 +100,7 @@ void Operate::writeProjectFile()
 
 void Operate::readProjectFile()
 {
+  m_pService->resetService();
   GlobalParam* pGlobalTmp = m_pService->globalParam();
   LocalParam* pLocalTmp = m_pService->localParam();
   int nTmp;
@@ -157,6 +158,7 @@ void Operate::readProjectFile()
 
   file.close();
   qInfo()<<tr("工程文件读取完毕!");
+  m_pService->modified(false);
 }
 
 void Operate::writeResFile(QString sText)
@@ -188,4 +190,5 @@ void Operate::writeResFile(QString sText)
     }
   file.close();
   qInfo()<<tr("结果文件输出完毕!");
+  m_pService->modified(false);
 }

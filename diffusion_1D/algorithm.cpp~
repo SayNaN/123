@@ -335,7 +335,6 @@ void diffusion1D::startRun()
       break;
     }
   m_pService->info("出口边界条件初始化完成");
-  char strTmp[80];
   for(unsigned int i=1; i<m_pGlobalParam->nTimeStep; i++)
     {
       for(int j=1; j<m_meshNode-1; j++)
@@ -346,9 +345,10 @@ void diffusion1D::startRun()
 	  m_fArray[j] = (1-f)*
 	    (m_aE[j]*m_pData->at(j+1).vecTime_Temperature.at(i-1).second +
 	     m_aW[j]*m_pData->at(j-1).vecTime_Temperature.at(i-1).second)+
-	    m_pData->at(j).vecTime_Temperature.at(i).second * (m_aP0[j]+m_aP0A[j]) +
+	    m_pData->at(j).vecTime_Temperature.at(i-1).second * (m_aP0[j]+m_aP0A[j]) +
 	    m_aL[j];
 	}
+
       ZTChasingMethod(m_aArray, m_bArray, m_cArray, m_fArray, m_xArray, m_meshNode);
 
       for(int j=0; j<m_meshNode; j++)
@@ -356,8 +356,13 @@ void diffusion1D::startRun()
 	  m_pData->at(j).
 	    vecTime_Temperature.push_back(std::pair<double,double>(m_pGlobalParam->dDeltaT*i, m_xArray[j]));
 	}
+      sprintf(m_oBuf, "第%d步计算完成",i);
+      flushBufToConsole();
       emit oneStepFinished(i);
-      sprintf(strTmp, "第%d步计算完成",i);
-      m_pService->info(strTmp);
     }
+}
+
+void diffusion1D::flushBufToConsole()
+{
+  m_pService->info(m_oBuf);
 }

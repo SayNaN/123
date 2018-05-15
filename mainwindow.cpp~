@@ -1,5 +1,4 @@
 #include<QWidget>
-
 #include"mainwindow.h"
 #include"mesh/mesh_1D.h"
 #include"ZTservice.h"
@@ -155,6 +154,10 @@ void MainWindow::startSimu()
     {
       qDebug()<<tr("无法开始计算，请检查设置");
       return;
+    }
+  if(m_pService->operate()->canSave())
+    {
+      saveAs();
     }
   m_pText3D->cleardisplay();
   emit startRun();

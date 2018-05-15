@@ -26,6 +26,7 @@ class diffusion1D: public QObject
   void initArray();
   void calcaCoff();
   void flushBufToConsole();
+  void freeAndNil(double *array);
 
  private:
   //QVector<settingParam> m_SettingParam;

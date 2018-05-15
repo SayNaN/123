@@ -1,0 +1,20 @@
+#include "tabledelegate.h"
+#include<QItemDelegate>
+
+LeftDelegate::LeftDelegate(QWidget* parent)
+  :QItemDelegate(parent)
+{}
+
+QWidget* LeftDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+  if(!index.isValid())
+    {
+      return;
+    }
+}
+
+void LeftDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const;  
+  void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;  
+  void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const;  
+
+  

@@ -30,37 +30,29 @@ MyGLWidget::MyGLWidget(ZTService *pService, QWidget *parent):
 
 void MyGLWidget::cleardisplay()
 {
+  /*
   m_bDrawGeo=false;
+  */
   m_bDrawMesh=false;
+  resetMyGL();
   update();
-}
-
-void MyGLWidget::setRange(double dLeft,double dRight,double dBottom,double dTop,double dNear,double dFar)
-{
-  m_dRangeLeft   = dLeft;
-  m_dRangeRight  = dRight;
-  m_dRangeBottom = dBottom;
-  m_dRangeTop    = dTop;
-  m_dRangeNear   = dNear;
-  m_dRangeFar    = dFar;
-  initShowRange();
 }
 
 void MyGLWidget::initShowRange()
 {
-  if((m_dRangeRight-m_dRangeLeft)/(m_dRangeTop-m_dRangeBottom) < m_dWinWidth/m_dWinHeight)
+  if((m_sMaxCoor.x - m_sMinCoor.x)/(m_sMaxCoor.y - m_sMinCoor.y) < m_dWinWidth/m_dWinHeight)
     {
-      m_dShowTop    = 1.1*m_dRangeTop    - 0.1*m_dRangeBottom;
-      m_dShowBottom = 1.1*m_dRangeBottom - 0.1*m_dRangeTop;
-      m_dShowLeft   = (m_dRangeLeft+m_dRangeRight)/2.0 - m_dWinWidth/m_dWinHeight*(m_dShowTop-m_dShowBottom)/2.0;
-      m_dShowRight  = (m_dRangeLeft+m_dRangeRight)/2.0 + m_dWinWidth/m_dWinHeight*(m_dShowTop-m_dShowBottom)/2.0;
+      m_dShowTop    = 1.1*m_sMaxCoor.y - 0.1*m_sMinCoor.y;
+      m_dShowBottom = 1.1*m_sMinCoor.y - 0.1*m_sMaxCoor.y;
+      m_dShowLeft   = (m_sMaxCoor.x + m_sMinCoor.x)/2.0 - m_dWinWidth/m_dWinHeight*(m_dShowTop-m_dShowBottom)/2.0;
+      m_dShowRight  = (m_sMaxCoor.x + m_sMinCoor.x)/2.0 + m_dWinWidth/m_dWinHeight*(m_dShowTop-m_dShowBottom)/2.0;
     }
   else
     {
-      m_dShowLeft   = 1.1*m_dRangeLeft  - 0.1*m_dRangeRight;
-      m_dShowRight  = 1.1*m_dRangeRight - 0.1*m_dRangeLeft;
-      m_dShowTop    = (m_dRangeTop+m_dRangeBottom)/2.0 + m_dWinHeight/m_dWinWidth*(m_dShowRight-m_dShowLeft)/2.0;
-      m_dShowBottom = (m_dRangeTop+m_dRangeBottom)/2.0 - m_dWinHeight/m_dWinWidth*(m_dShowRight-m_dShowLeft)/2.0;
+      m_dShowLeft   = 1.1*m_sMinCoor.x - 0.1*m_sMaxCoor.x;
+      m_dShowRight  = 1.1*m_sMaxCoor.x - 0.1*m_sMinCoor.x;
+      m_dShowTop    = (m_sMaxCoor.y + m_sMinCoor.y)/2.0 + m_dWinHeight/m_dWinWidth*(m_dShowRight-m_dShowLeft)/2.0;
+      m_dShowBottom = (m_sMaxCoor.y + m_sMinCoor.y)/2.0 - m_dWinHeight/m_dWinWidth*(m_dShowRight-m_dShowLeft)/2.0;
     }
 }
 
@@ -95,6 +87,7 @@ void MyGLWidget::wheelEvent(QWheelEvent *event)
   m_dShowRight  = newright;
   m_dShowTop    = newtop;
   m_dShowBottom = newbottom;
+  qDebug()<<"111"<<m_dShowLeft<<m_dShowRight<<m_dShowTop<<m_dShowBottom;
   update();
 }
 
@@ -243,6 +236,7 @@ void MyGLWidget::paintGL()
   glMatrixMode(GL_MODELVIEW);
   glEnable(GL_LIGHTING);
 
+  drawAdditional();
   draw3D();
   
   glDisable(GL_LIGHTING);

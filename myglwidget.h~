@@ -63,6 +63,7 @@ class MyGLWidget : public QOpenGLWidget, public QOpenGLFunctions_1_1
  private:
   void draw3D();
   void initShowRange();
+  void setRange(double dLeft,double dRight,double dBottom,double dTop,double dNear,double dFar);
   void drawstring(const char *a);
   void getnormaldir(Vector3D oFir, Vector3D oSec, Vector3D oThr, Vector3D &oNormal);
   void corss(Vector3D oVec1, Vector3D oVec2, Vector3D &oNormal);

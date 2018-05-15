@@ -137,11 +137,12 @@ void MainWindow::startNewThread()
     {
       return;
     }
+  qDebug() << "main Thread : " << QThread::currentThreadId();
   diffusion1D *pWork = new diffusion1D(m_pService);
   pWork->moveToThread(&m_oWorkThread);
   connect(&m_oWorkThread, &QThread::finished, pWork, &QObject::deleteLater);
   connect(this, &MainWindow::startRun, pWork, &diffusion1D::doIt);
-  connect(pWork, &diffusion1D::oneStepFinished, m_pText3D, &MyGLWidget::processRes);
+  connect(pWork, &diffusion1D::oneStepFinished, m_pText3D, &MyGLWidget::processRes, Qt::BlockingQueuedConnection);
   connect(pWork, &diffusion1D::calcFinished, [this](){
       m_pService->operate()->writeResFile("");
     });
@@ -155,7 +156,7 @@ void MainWindow::startSimu()
       qDebug()<<tr("无法开始计算，请检查设置");
       return;
     }
-  if(m_pService->operate()->canSave())
+  if(!m_pService->operate()->canSave())
     {
       saveAs();
     }

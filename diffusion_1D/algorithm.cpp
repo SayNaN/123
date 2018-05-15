@@ -20,7 +20,12 @@ diffusion1D::diffusion1D(ZTService *pService, QObject* parent):
   m_aP0(NULL),
   m_aP(NULL),
   m_aP0A(NULL),
-  m_aL(NULL)
+  m_aL(NULL),
+  m_aArray(NULL),
+  m_bArray(NULL),
+  m_cArray(NULL),
+  m_xArray(NULL),
+  m_fArray(NULL)
 {
   m_pMesher = new Mesh1D(pService);
   m_pData = m_pService->meshRes();
@@ -133,63 +138,28 @@ void diffusion1D::doIt()
   printf("diffusion1d end\n");
 }
 
+void diffusion1D::freeAndNil(double* array)
+{
+  if(NULL != array)
+    {
+      free(array);
+    }
+  array = NULL;
+}
+
 void diffusion1D::freeArray()
 {
-  if(m_aW)
-    {
-      free(m_aW);
-      m_aW = NULL;
-    }
-  if(m_aE)
-    {
-      free(m_aE);
-      m_aE = NULL;
-    }
-  if(m_aP0)
-    {
-      free(m_aP0);
-      m_aP0 = NULL;
-    }
-  if(m_aP)
-    {
-      free(m_aP);
-      m_aP = NULL;
-    }
-  if(m_aP0A)
-    {
-      free(m_aP0A);
-      m_aP0A = NULL;
-    }
-  if(m_aL)
-    {
-      free(m_aL);
-      m_aL = NULL;
-    }
-  if(m_aArray)
-    {
-      free(m_aArray);
-      m_aArray = NULL;
-    }
-  if(m_bArray)
-    {
-      free(m_bArray);
-      m_bArray = NULL;
-    }
-  if(m_cArray)
-    {
-      free(m_cArray);
-      m_cArray = NULL;
-    }
-  if(m_xArray)
-    {
-      free(m_xArray);
-      m_xArray = NULL;
-    }
-  if(m_fArray)
-    {
-      free(m_fArray);
-      m_fArray = NULL;
-    }
+  freeAndNil(m_aW);
+  freeAndNil(m_aE);
+  freeAndNil(m_aP0);
+  freeAndNil(m_aP);
+  freeAndNil(m_aP0A);
+  freeAndNil(m_aL);
+  freeAndNil(m_aArray);
+  freeAndNil(m_bArray);
+  freeAndNil(m_cArray);
+  freeAndNil(m_xArray);
+  freeAndNil(m_fArray);
 }
 
 void diffusion1D::initArray()
@@ -250,7 +220,7 @@ void diffusion1D::startRun()
 {
   //int nCurTimeStep = 1;
   //double dCurTime  = m_pGlobalParam->dDeltaT;
-  double f      = m_pGlobalParam->dF;
+  double f = m_pGlobalParam->dF;
 
   switch(m_pGlobalParam->eInletType)
     {
@@ -356,8 +326,6 @@ void diffusion1D::startRun()
 	  m_pData->at(j).
 	    vecTime_Temperature.push_back(std::pair<double,double>(m_pGlobalParam->dDeltaT*i, m_xArray[j]));
 	}
-      sprintf(m_oBuf, "第%d步计算完成",i);
-      flushBufToConsole();
       emit oneStepFinished(i);
     }
 }

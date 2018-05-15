@@ -1,22 +1,689 @@
 mingw32-make -f Makefile.Release
 mingw32-make[1]: Entering directory 'E:/CAE'
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\ZTservice.o ZTservice.cpp
-ZTservice.cpp: In member function 'void ZTService::addSegment(int)':
-ZTservice.cpp:66:10: error: invalid use of incomplete type 'class QDebug'
-   QDebug()<<nIndex;
-          ^
-In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qglobal.h:1141:0,
-                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qnamespace.h:43,
-                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobjectdefs.h:48,
-                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore/qobject.h:46,
-                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore/QObject:1,
-                 from ZTservice.h:4,
-                 from ZTservice.cpp:3:
-C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlogging.h:57:7: note: forward declaration of 'class QDebug'
- class QDebug;
-       ^
-Makefile.Release:3408: recipe for target 'release/ZTservice.o' failed
-mingw32-make[1]: *** [release/ZTservice.o] Error 1
+g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\algorithm.o diffusion_1D\algorithm.cpp
+diffusion_1D\algorithm.cpp: In member function 'void diffusion1D::doIt()':
+diffusion_1D\algorithm.cpp:127:11: error: no match for 'operator<' (operand types are 'QDebug' and 'const char [2]')
+   qDebug()<"1";
+           ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:166:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note: candidate: bool operator<(const QVersionNumber&, const QVersionNumber&)
+ Q_REQUIRED_RESULT inline bool operator< (const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
+                               ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note:   no known conversion for argument 1 from 'QDebug' to 'const QVersionNumber&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:124:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note: candidate: bool operator<(const QCollatorSortKey&, const QCollatorSortKey&)
+ inline bool operator<(const QCollatorSortKey &lhs, const QCollatorSortKey &rhs)
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QCollatorSortKey&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note: candidate: template<class T, class X> bool operator<(T*, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(T *ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:127:12: note:   mismatched types 'T*' and 'QDebug'
+   qDebug()<"1";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, X*)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, X *ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:127:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"1";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:127:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"1";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qeasingcurve.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvariantanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpropertyanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:8,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note: candidate: template<class T> bool operator<(const QVector<T>&, const QVector<T>&)
+ bool operator<(const QVector<T> &lhs, const QVector<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:127:12: note:   'QDebug' is not derived from 'const QVector<T>'
+   qDebug()<"1";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qmetatype.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note: candidate: template<class T, int Prealloc1, int Prealloc2> bool operator<(const QVarLengthArray<T, Prealloc1>&, const QVarLengthArray<T, Prealloc2>&)
+ bool operator<(const QVarLengthArray<T, Prealloc1> &lhs, const QVarLengthArray<T, Prealloc2> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:127:12: note:   'QDebug' is not derived from 'const QVarLengthArray<T, Prealloc1>'
+   qDebug()<"1";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note: candidate: template<class T> bool operator<(const QList<T>&, const QList<T>&)
+ bool operator<(const QList<T> &lhs, const QList<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:127:12: note:   'QDebug' is not derived from 'const QList<T>'
+   qDebug()<"1";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qhashfunctions.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note: candidate: template<class T1, class T2> constexpr bool operator<(const QPair<T1, T2>&, const QPair<T1, T2>&)
+ Q_DECL_CONSTEXPR Q_INLINE_TEMPLATE bool operator<(const QPair<T1, T2> &p1, const QPair<T1, T2> &p2)
+                                         ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:127:12: note:   'QDebug' is not derived from 'const QPair<T1, T2>'
+   qDebug()<"1";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note: candidate: bool operator<(const QStringRef&, const QStringRef&)
+ Q_CORE_EXPORT bool operator<(const QStringRef &s1, const QStringRef &s2) Q_DECL_NOTHROW;
+                    ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note:   no known conversion for argument 1 from 'QDebug' to 'const QStringRef&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note: candidate: bool operator<(const char*, QLatin1String)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, QLatin1String s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note: candidate: bool operator<(QLatin1String, QLatin1String)
+ inline bool operator<(QLatin1String s1, QLatin1String s2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note:   no known conversion for argument 1 from 'QDebug' to 'QLatin1String'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note: candidate: bool operator<(const char*, const QStringRef&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QStringRef &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note: candidate: bool operator<(const char*, const QString&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QString &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note: candidate: bool operator<(const char*, const QByteArray&)
+ inline bool operator<(const char *a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note: candidate: bool operator<(const QByteArray&, const char*)
+  inline bool operator<(const QByteArray &a1, const char *a2) Q_DECL_NOTHROW
+              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note: candidate: bool operator<(const QByteArray&, const QByteArray&)
+ inline bool operator<(const QByteArray &a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note: candidate: constexpr bool operator<(QChar, QChar)
+ Q_DECL_CONSTEXPR inline bool operator< (QChar c1, QChar c2) Q_DECL_NOTHROW { return c1.ucs <  c2.ucs; }
+                              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note:   no known conversion for argument 1 from 'QDebug' to 'QChar'
+diffusion_1D\algorithm.cpp:129:11: error: no match for 'operator<' (operand types are 'QDebug' and 'const char [2]')
+   qDebug()<"2";
+           ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:166:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note: candidate: bool operator<(const QVersionNumber&, const QVersionNumber&)
+ Q_REQUIRED_RESULT inline bool operator< (const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
+                               ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note:   no known conversion for argument 1 from 'QDebug' to 'const QVersionNumber&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:124:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note: candidate: bool operator<(const QCollatorSortKey&, const QCollatorSortKey&)
+ inline bool operator<(const QCollatorSortKey &lhs, const QCollatorSortKey &rhs)
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QCollatorSortKey&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note: candidate: template<class T, class X> bool operator<(T*, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(T *ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:129:12: note:   mismatched types 'T*' and 'QDebug'
+   qDebug()<"2";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, X*)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, X *ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:129:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"2";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:129:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"2";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qeasingcurve.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvariantanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpropertyanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:8,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note: candidate: template<class T> bool operator<(const QVector<T>&, const QVector<T>&)
+ bool operator<(const QVector<T> &lhs, const QVector<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:129:12: note:   'QDebug' is not derived from 'const QVector<T>'
+   qDebug()<"2";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qmetatype.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note: candidate: template<class T, int Prealloc1, int Prealloc2> bool operator<(const QVarLengthArray<T, Prealloc1>&, const QVarLengthArray<T, Prealloc2>&)
+ bool operator<(const QVarLengthArray<T, Prealloc1> &lhs, const QVarLengthArray<T, Prealloc2> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:129:12: note:   'QDebug' is not derived from 'const QVarLengthArray<T, Prealloc1>'
+   qDebug()<"2";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note: candidate: template<class T> bool operator<(const QList<T>&, const QList<T>&)
+ bool operator<(const QList<T> &lhs, const QList<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:129:12: note:   'QDebug' is not derived from 'const QList<T>'
+   qDebug()<"2";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qhashfunctions.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note: candidate: template<class T1, class T2> constexpr bool operator<(const QPair<T1, T2>&, const QPair<T1, T2>&)
+ Q_DECL_CONSTEXPR Q_INLINE_TEMPLATE bool operator<(const QPair<T1, T2> &p1, const QPair<T1, T2> &p2)
+                                         ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:129:12: note:   'QDebug' is not derived from 'const QPair<T1, T2>'
+   qDebug()<"2";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note: candidate: bool operator<(const QStringRef&, const QStringRef&)
+ Q_CORE_EXPORT bool operator<(const QStringRef &s1, const QStringRef &s2) Q_DECL_NOTHROW;
+                    ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note:   no known conversion for argument 1 from 'QDebug' to 'const QStringRef&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note: candidate: bool operator<(const char*, QLatin1String)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, QLatin1String s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note: candidate: bool operator<(QLatin1String, QLatin1String)
+ inline bool operator<(QLatin1String s1, QLatin1String s2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note:   no known conversion for argument 1 from 'QDebug' to 'QLatin1String'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note: candidate: bool operator<(const char*, const QStringRef&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QStringRef &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note: candidate: bool operator<(const char*, const QString&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QString &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note: candidate: bool operator<(const char*, const QByteArray&)
+ inline bool operator<(const char *a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note: candidate: bool operator<(const QByteArray&, const char*)
+  inline bool operator<(const QByteArray &a1, const char *a2) Q_DECL_NOTHROW
+              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note: candidate: bool operator<(const QByteArray&, const QByteArray&)
+ inline bool operator<(const QByteArray &a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note: candidate: constexpr bool operator<(QChar, QChar)
+ Q_DECL_CONSTEXPR inline bool operator< (QChar c1, QChar c2) Q_DECL_NOTHROW { return c1.ucs <  c2.ucs; }
+                              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note:   no known conversion for argument 1 from 'QDebug' to 'QChar'
+diffusion_1D\algorithm.cpp:131:11: error: no match for 'operator<' (operand types are 'QDebug' and 'const char [2]')
+   qDebug()<"3";
+           ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:166:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note: candidate: bool operator<(const QVersionNumber&, const QVersionNumber&)
+ Q_REQUIRED_RESULT inline bool operator< (const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
+                               ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note:   no known conversion for argument 1 from 'QDebug' to 'const QVersionNumber&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:124:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note: candidate: bool operator<(const QCollatorSortKey&, const QCollatorSortKey&)
+ inline bool operator<(const QCollatorSortKey &lhs, const QCollatorSortKey &rhs)
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QCollatorSortKey&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note: candidate: template<class T, class X> bool operator<(T*, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(T *ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:131:12: note:   mismatched types 'T*' and 'QDebug'
+   qDebug()<"3";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, X*)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, X *ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:131:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"3";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:131:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"3";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qeasingcurve.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvariantanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpropertyanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:8,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note: candidate: template<class T> bool operator<(const QVector<T>&, const QVector<T>&)
+ bool operator<(const QVector<T> &lhs, const QVector<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:131:12: note:   'QDebug' is not derived from 'const QVector<T>'
+   qDebug()<"3";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qmetatype.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note: candidate: template<class T, int Prealloc1, int Prealloc2> bool operator<(const QVarLengthArray<T, Prealloc1>&, const QVarLengthArray<T, Prealloc2>&)
+ bool operator<(const QVarLengthArray<T, Prealloc1> &lhs, const QVarLengthArray<T, Prealloc2> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:131:12: note:   'QDebug' is not derived from 'const QVarLengthArray<T, Prealloc1>'
+   qDebug()<"3";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note: candidate: template<class T> bool operator<(const QList<T>&, const QList<T>&)
+ bool operator<(const QList<T> &lhs, const QList<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:131:12: note:   'QDebug' is not derived from 'const QList<T>'
+   qDebug()<"3";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qhashfunctions.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note: candidate: template<class T1, class T2> constexpr bool operator<(const QPair<T1, T2>&, const QPair<T1, T2>&)
+ Q_DECL_CONSTEXPR Q_INLINE_TEMPLATE bool operator<(const QPair<T1, T2> &p1, const QPair<T1, T2> &p2)
+                                         ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:131:12: note:   'QDebug' is not derived from 'const QPair<T1, T2>'
+   qDebug()<"3";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note: candidate: bool operator<(const QStringRef&, const QStringRef&)
+ Q_CORE_EXPORT bool operator<(const QStringRef &s1, const QStringRef &s2) Q_DECL_NOTHROW;
+                    ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note:   no known conversion for argument 1 from 'QDebug' to 'const QStringRef&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note: candidate: bool operator<(const char*, QLatin1String)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, QLatin1String s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note: candidate: bool operator<(QLatin1String, QLatin1String)
+ inline bool operator<(QLatin1String s1, QLatin1String s2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note:   no known conversion for argument 1 from 'QDebug' to 'QLatin1String'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note: candidate: bool operator<(const char*, const QStringRef&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QStringRef &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note: candidate: bool operator<(const char*, const QString&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QString &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note: candidate: bool operator<(const char*, const QByteArray&)
+ inline bool operator<(const char *a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note: candidate: bool operator<(const QByteArray&, const char*)
+  inline bool operator<(const QByteArray &a1, const char *a2) Q_DECL_NOTHROW
+              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note: candidate: bool operator<(const QByteArray&, const QByteArray&)
+ inline bool operator<(const QByteArray &a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note: candidate: constexpr bool operator<(QChar, QChar)
+ Q_DECL_CONSTEXPR inline bool operator< (QChar c1, QChar c2) Q_DECL_NOTHROW { return c1.ucs <  c2.ucs; }
+                              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note:   no known conversion for argument 1 from 'QDebug' to 'QChar'
+diffusion_1D\algorithm.cpp:133:11: error: no match for 'operator<' (operand types are 'QDebug' and 'const char [2]')
+   qDebug()<"4";
+           ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:166:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note: candidate: bool operator<(const QVersionNumber&, const QVersionNumber&)
+ Q_REQUIRED_RESULT inline bool operator< (const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
+                               ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qversionnumber.h:304:31: note:   no known conversion for argument 1 from 'QDebug' to 'const QVersionNumber&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:124:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note: candidate: bool operator<(const QCollatorSortKey&, const QCollatorSortKey&)
+ inline bool operator<(const QCollatorSortKey &lhs, const QCollatorSortKey &rhs)
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qcollator.h:78:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QCollatorSortKey&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note: candidate: template<class T, class X> bool operator<(T*, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(T *ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:852:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:133:12: note:   mismatched types 'T*' and 'QDebug'
+   qDebug()<"4";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, X*)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, X *ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:847:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:133:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"4";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qdebug.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:29,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note: candidate: template<class T, class X> bool operator<(const QSharedPointer<T>&, const QSharedPointer<T>&)
+ Q_INLINE_TEMPLATE bool operator<(const QSharedPointer<T> &ptr1, const QSharedPointer<X> &ptr2)
+                        ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qsharedpointer_impl.h:842:24: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:133:12: note:   'QDebug' is not derived from 'const QSharedPointer<T>'
+   qDebug()<"4";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qeasingcurve.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvariantanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpropertyanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:8,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note: candidate: template<class T> bool operator<(const QVector<T>&, const QVector<T>&)
+ bool operator<(const QVector<T> &lhs, const QVector<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvector.h:944:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:133:12: note:   'QDebug' is not derived from 'const QVector<T>'
+   qDebug()<"4";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qmetatype.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:54,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note: candidate: template<class T, int Prealloc1, int Prealloc2> bool operator<(const QVarLengthArray<T, Prealloc1>&, const QVarLengthArray<T, Prealloc2>&)
+ bool operator<(const QVarLengthArray<T, Prealloc1> &lhs, const QVarLengthArray<T, Prealloc2> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qvarlengtharray.h:509:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:133:12: note:   'QDebug' is not derived from 'const QVarLengthArray<T, Prealloc1>'
+   qDebug()<"4";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note: candidate: template<class T> bool operator<(const QList<T>&, const QList<T>&)
+ bool operator<(const QList<T> &lhs, const QList<T> &rhs)
+      ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:1058:6: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:133:12: note:   'QDebug' is not derived from 'const QList<T>'
+   qDebug()<"4";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qhashfunctions.h:45:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qlist.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:49,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note: candidate: template<class T1, class T2> constexpr bool operator<(const QPair<T1, T2>&, const QPair<T1, T2>&)
+ Q_DECL_CONSTEXPR Q_INLINE_TEMPLATE bool operator<(const QPair<T1, T2> &p1, const QPair<T1, T2> &p2)
+                                         ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qpair.h:120:41: note:   template argument deduction/substitution failed:
+diffusion_1D\algorithm.cpp:133:12: note:   'QDebug' is not derived from 'const QPair<T1, T2>'
+   qDebug()<"4";
+            ^
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note: candidate: bool operator<(const QStringRef&, const QStringRef&)
+ Q_CORE_EXPORT bool operator<(const QStringRef &s1, const QStringRef &s2) Q_DECL_NOTHROW;
+                    ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1542:20: note:   no known conversion for argument 1 from 'QDebug' to 'const QStringRef&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note: candidate: bool operator<(const char*, QLatin1String)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, QLatin1String s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1203:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note: candidate: bool operator<(QLatin1String, QLatin1String)
+ inline bool operator<(QLatin1String s1, QLatin1String s2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1146:13: note:   no known conversion for argument 1 from 'QDebug' to 'QLatin1String'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note: candidate: bool operator<(const char*, const QStringRef&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QStringRef &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1568:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note: candidate: bool operator<(const char*, const QString&)
+ inline QT_ASCII_CAST_WARN bool operator<(const char *s1, const QString &s2)
+                                ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:1190:32: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:49:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note: candidate: bool operator<(const char*, const QByteArray&)
+ inline bool operator<(const char *a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:623:13: note:   no known conversion for argument 1 from 'QDebug' to 'const char*'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note: candidate: bool operator<(const QByteArray&, const char*)
+  inline bool operator<(const QByteArray &a1, const char *a2) Q_DECL_NOTHROW
+              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:621:14: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note: candidate: bool operator<(const QByteArray&, const QByteArray&)
+ inline bool operator<(const QByteArray &a1, const QByteArray &a2) Q_DECL_NOTHROW
+             ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qbytearray.h:619:13: note:   no known conversion for argument 1 from 'QDebug' to 'const QByteArray&'
+In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qstring.h:48:0,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qobject.h:47,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qabstractanimation.h:43,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/QtCore:4,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtWidgets/QtWidgetsDepends:3,
+                 from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:3,
+                 from diffusion_1D\algorithm.cpp:3:
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note: candidate: constexpr bool operator<(QChar, QChar)
+ Q_DECL_CONSTEXPR inline bool operator< (QChar c1, QChar c2) Q_DECL_NOTHROW { return c1.ucs <  c2.ucs; }
+                              ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\include/QtCore/qchar.h:574:30: note:   no known conversion for argument 1 from 'QDebug' to 'QChar'
+Makefile.Release:3820: recipe for target 'release/algorithm.o' failed
+mingw32-make[1]: *** [release/algorithm.o] Error 1
 mingw32-make[1]: Leaving directory 'E:/CAE'
 Makefile:34: recipe for target 'release' failed
 mingw32-make: *** [release] Error 2
