@@ -9,10 +9,12 @@ INPUT(
 ./debug\algorithm.o
 ./debug\chasingmethod.o
 ./debug\mesh_1D.o
+./debug\tabledelegate.o
 ./debug\moc_consolewidget.o
 ./debug\moc_leftwidget.o
 ./debug\moc_mainwindow.o
 ./debug\moc_myglwidget.o
 ./debug\moc_operate.o
 ./debug\moc_algorithm.o
+./debug\moc_tabledelegate.o
 );

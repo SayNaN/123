@@ -17,7 +17,7 @@ HEADERS += consolewidget.h \
            diffusion_1D/algorithm.h \
            linear_equation/chasingmethod.h \
            mesh/mesh_1D.h \
-           linear_equation/chasingmethod.h
+           tabledelegate.h
            
 SOURCES += consolewidget.cpp \
            leftwidget.cpp \
@@ -28,7 +28,8 @@ SOURCES += consolewidget.cpp \
            ZTservice.cpp \
            diffusion_1D/algorithm.cpp \
            linear_equation/chasingmethod.cpp \
-           mesh/mesh_1D.cpp
+           mesh/mesh_1D.cpp \
+           tabledelegate.cpp
 
            
 QT +=widgets printsupport gui

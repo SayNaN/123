@@ -4,7 +4,7 @@
 
 TEMPLATE = app
 TARGET = CAE
-INCLUDEPATH += .
+INCLUDEPATH += ./
 
 # Input
 HEADERS += consolewidget.h \
@@ -17,7 +17,8 @@ HEADERS += consolewidget.h \
            diffusion_1D/algorithm.h \
            linear_equation/chasingmethod.h \
            mesh/mesh_1D.h \
-           /linear_equation/chasingmethod.h
+           linear_equation/chasingmethod.h
+           
 SOURCES += consolewidget.cpp \
            leftwidget.cpp \
            main.cpp \
@@ -28,3 +29,12 @@ SOURCES += consolewidget.cpp \
            diffusion_1D/algorithm.cpp \
            linear_equation/chasingmethod.cpp \
            mesh/mesh_1D.cpp
+
+           
+QT +=widgets printsupport gui
+
+CONFIG +=console \
+         c++11
+
+LIBS += -lopengl32 \
+        -lglu32

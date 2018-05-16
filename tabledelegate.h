@@ -1,7 +1,7 @@
 #ifndef TABLEDELEGATE_H
 #define TABLEDELEGATE_H
 
-class QItemDelegate;
+#include <QtWidgets>
 
 class LeftDelegate: public QItemDelegate
 {
@@ -13,6 +13,6 @@ public:
   QWidget* createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
   void setEditorData(QWidget *editor, const QModelIndex &index) const;  
   void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;  
-}
+};
 
 #endif //TABLEDELEGATE_H

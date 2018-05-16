@@ -1,5 +1,4 @@
 #include "tabledelegate.h"
-#include<QItemDelegate>
 
 LeftDelegate::LeftDelegate(QWidget* parent)
   :QItemDelegate(parent)
@@ -10,7 +9,7 @@ QWidget* LeftDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
   if(index.column() == 4)
     {
       QWidget* pTmp = new QWidget();
-      QLineEdit* edit = new QLineEdit(k);
+      QLineEdit* edit = new QLineEdit();
       edit->setObjectName("lineeditor");
       QPushButton* browse = new QPushButton(tr("..."));
       browse->setFixedWidth(30);
@@ -22,7 +21,7 @@ QWidget* LeftDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
 
       connect(browse, &QPushButton::clicked, [&](){
 	  QString sFilePath;
-	  sFilePath=QFileDialog::getOpenFileName(this,tr("打开"),QString(),
+	  sFilePath=QFileDialog::getOpenFileName(Q_NULLPTR, this,tr("打开"),QString(),
 						 tr("输入文件(*.*)"));
 	  if(!sFilePath.isEmpty())
 	    {

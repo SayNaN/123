@@ -144,6 +144,7 @@ void LeftWidget::initializeUI()
   QGroupBox *pLocalParamGrp = new QGroupBox(tr("各段参数"));
   
   m_pTableWidget = new QTableWidget(1, 5, pLocalParamGrp);
+  m_pTableWidget->setItemDelegate(new LeftDelegate());
   QStringList oHoriHeader;
   oHoriHeader<<tr("段长度")
 	     <<tr("网格数")

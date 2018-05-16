@@ -168,7 +168,8 @@ void LeftWidget::initializeUI()
       m_pService->addSegment(m_pTableWidget->currentRow()+1);
       refreshTable();
     });
-  
+  connect(m_pTableWidget, &QTableWidget::cellChanged, this, &LeftWidget::assign);
+
   connect(pRemoveSeg, &QAction::triggered, [this](){
       m_pService->removeSegment(m_pTableWidget->currentRow());
       refreshTable();
@@ -401,6 +402,7 @@ void LeftWidget::initializeUI()
 
 void LeftWidget::refreshTable()
 {
+  disconnect(m_pTableWidget, &QTableWidget::cellChanged, this, &LeftWidget::assign);
   LocalParam* pTmp = m_pService->localParam();
   m_pTableWidget->setRowCount(pTmp->size());
   m_pTableWidget->setColumnCount(5);
@@ -412,4 +414,32 @@ void LeftWidget::refreshTable()
       m_pTableWidget->setItem(i, 3, new QTableWidgetItem(QString::number(pTmp->at(i).dDensity)));
       m_pTableWidget->setItem(i, 4, new QTableWidgetItem(QString::number(pTmp->at(i).dThermalConductivity)));
     }
+  connect(m_pTableWidget, &QTableWidget::cellChanged, this, &LeftWidget::assign);
+}
+
+void LeftWidget::assign(int nRow, int nColumn)
+{
+  LocalParam* pTmp = m_pService->localParam();
+  QString strTmp = m_pTableWidget->item(nRow, nColumn)->text();
+  switch(nColumn)
+    {
+    case 0:
+      pTmp->at(nRow).dLength = strTmp.toDouble();
+      break;
+    case 1:
+      pTmp->at(nRow).nSubMeshNum = strTmp.toInt();
+      break;
+    case 2:
+      pTmp->at(nRow).dHeatCap = strTmp.toDouble();
+      break;
+    case 3:
+      pTmp->at(nRow).dDensity = strTmp.toDouble();
+      break;
+    case 4:
+      pTmp->at(nRow).dThermalConductivity = strTmp.toDouble();
+      break;
+    default:
+      break;
+    }
+  refreshTable();
 }
