@@ -2,6 +2,7 @@
 #include<QObject>
 #include<QDebug>
 #include"leftwidget.h"
+#include"tabledelegate.h"
 #include"ZTService.h"
 
 LeftWidget::LeftWidget(ZTService *pService, QWidget *parent):
@@ -420,6 +421,7 @@ void LeftWidget::refreshTable()
 
 void LeftWidget::assign(int nRow, int nColumn)
 {
+  qDebug()<<"fuck11111";
   LocalParam* pTmp = m_pService->localParam();
   QString strTmp = m_pTableWidget->item(nRow, nColumn)->text();
   switch(nColumn)

@@ -1,46 +1,8 @@
 mingw32-make -f Makefile.Release
 mingw32-make[1]: Entering directory 'E:/CAE'
 g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\tabledelegate.o tabledelegate.cpp
-tabledelegate.cpp: In lambda function:
-tabledelegate.cpp:25:31: error: no matching function for call to 'QFileDialog::getOpenFileName(const LeftDelegate*, QString, QString, QString)'
-        tr("输入文件(*.*)"));
-                               ^
-In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:8:0,
-                 from tabledelegate.h:4,
-                 from tabledelegate.cpp:1:
-C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/qfiledialog.h:209:20: note: candidate: static QString QFileDialog::getOpenFileName(QWidget*, const QString&, const QString&, const QString&, QString*, QFileDialog::Options)
-     static QString getOpenFileName(QWidget *parent = Q_NULLPTR,
-                    ^
-C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/qfiledialog.h:209:20: note:   no known conversion for argument 1 from 'const LeftDelegate*' to 'QWidget*'
-tabledelegate.cpp:28:8: error: 'm_pService' was not declared in this scope
-        m_pService->operate()->setProjectName(sFilePath);
-        ^
-tabledelegate.cpp:30:8: error: 'm_pText3D' was not declared in this scope
-        m_pText3D->cleardisplay();
-        ^
-tabledelegate.cpp:31:8: error: 'm_pLeftWidget' was not declared in this scope
-        m_pLeftWidget->resetGUI();
-        ^
-tabledelegate.cpp:32:62: error: 'setWindowTitle' was not declared in this scope
-        setWindowTitle(m_pService->operate()->getProjectName());
-                                                              ^
-tabledelegate.cpp: At global scope:
-tabledelegate.cpp:54:89: error: non-member function 'void setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&)' cannot have cv-qualifier
- void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-                                                                                         ^
-tabledelegate.cpp: In function 'void setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&)':
-tabledelegate.cpp:63:48: error: no matching function for call to 'QItemDelegate::setModelData(QWidget*&, const QModelIndex&)'
-       QItemDelegate::setModelData(editor, index);
-                                                ^
-In file included from C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/QtWidgets:36:0,
-                 from tabledelegate.h:4,
-                 from tabledelegate.cpp:1:
-C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/qitemdelegate.h:81:10: note: candidate: virtual void QItemDelegate::setModelData(QWidget*, QAbstractItemModel*, const QModelIndex&) const
-     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const Q_DECL_OVERRIDE;
-          ^
-C:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets/qitemdelegate.h:81:10: note:   candidate expects 3 arguments, 2 provided
+mingw32-make[1]: *** Deleting file 'release/tabledelegate.o'
 Makefile.Release:4065: recipe for target 'release/tabledelegate.o' failed
-mingw32-make[1]: *** [release/tabledelegate.o] Error 1
-mingw32-make[1]: Leaving directory 'E:/CAE'
+mingw32-make[1]: *** [release/tabledelegate.o] Error 3
 Makefile:34: recipe for target 'release' failed
-mingw32-make: *** [release] Error 2
+mingw32-make: *** [release] Error 130

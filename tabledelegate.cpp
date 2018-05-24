@@ -8,31 +8,7 @@ QWidget* LeftDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
 {
   if(index.column() == 4)
     {
-      QWidget* pTmp = new QWidget();
-      QLineEdit* edit = new QLineEdit();
-      edit->setObjectName("lineeditor");
-      QPushButton* browse = new QPushButton(tr("..."));
-      browse->setFixedWidth(30);
-      QHBoxLayout *layout = new QHBoxLayout(pTmp);
-      layout->setContentsMargins(0, 0, 0, 0);
-      layout->setSpacing(0);
-      layout->addWidget(edit);
-      layout->addWidget(browse);
-
-      connect(browse, &QPushButton::clicked, [&](){
-	  QString sFilePath;
-	  sFilePath=QFileDialog::getOpenFileName(Q_NULLPTR, this,tr("打开"),QString(),
-						 tr("输入文件(*.*)"));
-	  if(!sFilePath.isEmpty())
-	    {
-	      m_pService->operate()->setProjectName(sFilePath);
-	      m_pService->operate()->readProjectFile();
-	      m_pText3D->cleardisplay();
-	      m_pLeftWidget->resetGUI();
-	      setWindowTitle(m_pService->operate()->getProjectName());
-	    }
-	});
-
+      EditorWithButton* pTmp = new EditorWithButton(parent);
       return pTmp;
     }
   return QItemDelegate::createEditor(parent, option, index);
@@ -42,8 +18,7 @@ void LeftDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
 {
   if(index.column() == 4)
     {
-      QString value = index.model()->data(index, Qt::DisplayRole).toString();
-      editor->findChild<QLineEdit*>("lineeditor")->setText(value);
+      static_cast<EditorWithButton*>(editor)->getEditor()->setText(index.model()->data(index, Qt::EditRole).toString());
     }
   else
     {
@@ -51,15 +26,17 @@ void LeftDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
     }
 }
 
-void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+void LeftDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
   if(index.column() ==4)
     {
-      QString value = editor->findChild<QLineEdit*>("lineeditor")->text();
-      model->setData(index, value);
+      QString value =  static_cast<EditorWithButton*>(editor)->getEditor()->text();
+      qDebug()<<value;
+      model->setData(index, value, Qt::EditRole);
+      qDebug()<<index.model()->data(index, Qt::EditRole).toString();
     }
   else
     {
-      QItemDelegate::setModelData(editor, index);
+      QItemDelegate::setModelData(editor, model, index);
     }
 }
