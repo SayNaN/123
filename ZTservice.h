@@ -9,6 +9,7 @@ class consoleWidget;
 
 class ZTService: public QObject
 {
+  Q_OBJECT
  public:
   /*
   static ZTService* getInstance();

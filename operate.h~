@@ -18,6 +18,7 @@ class Operate: public QObject
   void writeProjectFile();
   void writeResFile(QString sText = "");
   void resetProject();
+  bool canSave();
 
  private:
   ZTService* m_pService;

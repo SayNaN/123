@@ -2,6 +2,7 @@
 #include<stdio.h>
 #include<math.h>
 #include"cspline.h"
+#include"linear_equation/numericalanalysis.h"
 
 void Cspline::release()
 {
@@ -73,7 +74,7 @@ void Cspline::gen(double *xcoor,double *ycoor,int n)
   s[0]=0;
   for(int i=1; i<m_nCount; i++)
     {
-      s[i]=s[i-1]+CH(x[i],x[i-1],y[i],y[i-1]);
+      s[i]=s[i-1]+length(x[i],x[i-1],y[i],y[i-1]);
     }
   u[0]=0;
   u[m_nCount-1]=0;
@@ -93,6 +94,9 @@ void Cspline::gen(double *xcoor,double *ycoor,int n)
       fx[i]=6*((x[i+1]-x[i])/az-(x[i]-x[i-1])/af)/a0;
       fy[i]=6*((y[i+1]-y[i])/az-(y[i]-y[i-1])/af)/a0;
     }
+
+  //*********************************************//
+  // 追赶法求解方程组
   beta[0]=0;
   beta[m_nCount-1]=0;
   for(int i=1; i<m_nCount-1; i++)
@@ -113,6 +117,8 @@ void Cspline::gen(double *xcoor,double *ycoor,int n)
       Mx[i]=yx[i]-beta[i]*Mx[i+1];
       My[i]=yy[i]-beta[i]*My[i+1];
     }
+  //*********************************************//
+  
   for(int i=0; i<m_nCount-1; i++)
     {
       hj=s[i+1]-s[i];
@@ -173,68 +179,6 @@ double Cspline::project(double interpo_x,int n)
 
       interpo_y=ay[n]*pow(X[0],3)+by[n]*pow(X[0],2)+cy[n]*X[0]+dy[n];
       return interpo_y;
-    }
-}
-
-double Cspline::CH(double a,double b,double c,double d)
-{
-  double ch;
-  ch=sqrt((a-b)*(a-b)+(c-d)*(c-d));
-  return ch;
-}
-
-void Cspline::FanShengjin(double a,double b,double c,double d,double *X)
-{
-  double A,B,C,delta,Y1,Y2,T,theta,mid;
-  int i,j;
-  A=b*b-3*a*c;
-  B=b*c-9*a*d;
-  C=c*c-3*b*d;
-  delta=B*B-4*A*C;
-  if(A==0&&B==0)
-    {
-      X[0]=-b/3.0/a;
-      X[3]=1;
-    }
-  else if (delta>0)
-    {
-      Y1=A*b+3*a*(-B+sqrt(delta))/2.0;
-      Y2=A*b+3*a*(-B-sqrt(delta))/2.0;
-      X[0]=(-b-fabs(Y1)/Y1*pow(fabs(Y1),1.0/3.0)-fabs(Y2)/Y2*pow(fabs(Y2),1.0/3.0))/3.0/a;
-      X[3]=1;
-    }
-  else if(delta==0)
-    {
-      X[0]=-b/a+B/A;
-      X[1]=-B/A/2.0;
-      if(X[0]<X[1])
-	{
-	  mid=X[0];
-	  X[0]=X[1];
-	  X[1]=mid;
-	}
-      X[3]=2;
-    }
-  else if(delta<0)
-    {
-      T=(2*A*b-3*a*B)/2.0/pow(A,1.5);
-      theta=acos(T);
-      X[0]=(-b-2*sqrt(A)*cos(theta/3.0))/3.0/a;
-      X[1]=(-b+sqrt(A)*(cos(theta/3.0)+sqrt(3.0)*sin(theta/3.0)))/3.0/a;
-      X[2]=(-b+sqrt(A)*(cos(theta/3.0)-sqrt(3.0)*sin(theta/3.0)))/3.0/a;
-      for(i=0;i<3;i++)
-	{
-	  for(j=0;j<3;j++)
-	    {
-	      if(X[j]<X[j+1])
-		{
-		  mid=X[j];
-		  X[j]=X[j+1];
-		  X[j+1]=mid;
-		}
-	    }
-	}
-      X[3]=3;
     }
 }
 

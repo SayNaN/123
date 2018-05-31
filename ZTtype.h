@@ -50,6 +50,8 @@ struct TabCellContent{
   double dHeatCap;
   double dDensity;
   double dThermalConductivity;
+  QString sThermalConductivityFilePath;
+  Cspline oCspline;
   double dArea;
 };
 typedef std::vector<TabCellContent> LocalParam; 

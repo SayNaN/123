@@ -25,13 +25,16 @@ class Cspline
  private:
   void FanShengjin(double a,double b,double c,double d,double *X);
   void freeAndNil(double *array);
+  void release();
+  void initArray();
 
  private:
   int m_nCount;
   double *x,*y,*s;
-  double *ax,*bx,*cx;
-  double *dx,*ay,*by,*cy,*dy;
+  double *ax,*bx,*cx,*dx;
+  double *ay,*by,*cy,*dy;
   double *Mx,*My;
+  double *slope;
 };
 
 

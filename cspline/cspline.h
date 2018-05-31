@@ -10,10 +10,7 @@ class Cspline
  public:
   Cspline();
   ~Cspline();
-  
-  double CH(double a,double b,double c,double d);
 
-  double *slope;
   double slope_endp();
   void gen(double *xcoor,double *ycoor,int n);
 
