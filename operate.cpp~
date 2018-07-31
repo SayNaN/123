@@ -165,14 +165,15 @@ void Operate::writeResFile(QString sText)
 {
   sText = m_sProjectPath+"d1Dres.dat";
   qDebug()<<sText;
+
+  MeshRes* pMRTmp = m_pService->meshRes();
+
   QFile file(sText);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
       qInfo()<<tr("无法打开结果文件");
       return;
     }
-
-  MeshRes* pMRTmp = m_pService->meshRes();
 
   QTextStream out(&file);
   out << "variables =\"x\",\"Temperature\",\"Time\"" << endl;
@@ -191,4 +192,58 @@ void Operate::writeResFile(QString sText)
   file.close();
   qInfo()<<tr("结果文件输出完毕!");
   m_pService->modified(false);
+}
+
+bool Operate::writeTecFile(QString sFileName, QString sHeaderText, int nRowCount, int nColumnCount, ...)
+{
+  std::vector<double*> dataContr;
+  try
+    {
+      va_list arg_ptr;
+      va_start(arg_ptr, nColumnCount);
+      for(int i=0; i<nColumnCount; i++)
+	{
+	  dataContr.push_back(va_arg(arg_ptr, double*));
+	}
+      va_end(arg_ptr);
+    }
+  catch
+    {
+      qDebug()<<"无法输出文件，请检查参数";
+      return false;
+    }
+  
+  QFile file(sFileName);
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+      qInfo()<<tr("无法打开结果文件");
+      return false;
+    }
+  QTextStream out(&file);
+  out << sHeaderText;
+  for(int i=0; i<nRowCount; i++)
+    {
+      for(int j=0; j<nColumnCount; j++)
+	{
+	  out << dataContr.at(j)[i];
+	}
+      out << endl;
+    }
+  file.close();
+}
+
+bool Operate::readTecFile()
+{
+  
+}
+
+void simple_va_fun(int i,...)   
+{   
+  va_list   arg_ptr;   //定义可变参数指针 
+  va_start(arg_ptr,i);   // i为最后一个固定参数
+  int j=va_arg(arg_ptr,int);   //返回第一个可变参数，类型为int
+  char c=va_arg(arg_ptr,char);   //返回第二个可变参数，类型为char
+  va_end(arg_ptr);        //  清空参数指针
+  printf( "%d %d %c\n",i,j,c);   
+  return;   
 }
