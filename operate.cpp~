@@ -194,25 +194,8 @@ void Operate::writeResFile(QString sText)
   m_pService->modified(false);
 }
 
-bool Operate::writeTecFile(QString sFileName, QString sHeaderText, int nRowCount, int nColumnCount, ...)
+bool Operate::writeTecFile(QString sFileName, QString sHeaderText, int nRowCount, double *x, double *y)
 {
-  std::vector<double*> dataContr;
-  try
-    {
-      va_list arg_ptr;
-      va_start(arg_ptr, nColumnCount);
-      for(int i=0; i<nColumnCount; i++)
-	{
-	  dataContr.push_back(va_arg(arg_ptr, double*));
-	}
-      va_end(arg_ptr);
-    }
-  catch
-    {
-      qDebug()<<"无法输出文件，请检查参数";
-      return false;
-    }
-  
   QFile file(sFileName);
   if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
     {
@@ -223,27 +206,41 @@ bool Operate::writeTecFile(QString sFileName, QString sHeaderText, int nRowCount
   out << sHeaderText;
   for(int i=0; i<nRowCount; i++)
     {
-      for(int j=0; j<nColumnCount; j++)
-	{
-	  out << dataContr.at(j)[i];
-	}
+      out << x[i] <<y[i];
       out << endl;
     }
   file.close();
 }
 
-bool Operate::readTecFile()
+// **x和**y在传入前应该置空
+bool Operate::readTecFile(QString sFileName, double **x, double **y, int nCount)
 {
-  
-}
-
-void simple_va_fun(int i,...)   
-{   
-  va_list   arg_ptr;   //定义可变参数指针 
-  va_start(arg_ptr,i);   // i为最后一个固定参数
-  int j=va_arg(arg_ptr,int);   //返回第一个可变参数，类型为int
-  char c=va_arg(arg_ptr,char);   //返回第二个可变参数，类型为char
-  va_end(arg_ptr);        //  清空参数指针
-  printf( "%d %d %c\n",i,j,c);   
-  return;   
+  QFile file(sFileName);
+  if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+    {
+      qInfo()<<tr("无法打开结果文件");
+      return false;
+    }
+  int nIndex = -1;
+  nCount = -1;
+  QTextStream in(&file);
+  while(!in.atEnd())
+    {
+      QString sTmp = in.readLine().trimmed();
+      QStringList oList = sTmp.split(" ");
+      bool bIsDouble;
+      oList[0].toDouble(bIsDouble);
+      if(bIsDouble)
+	{
+	  if(-1 == nCount || (-1 != nCount && nCount <= nIndex))
+	    {
+	      return false;
+	    }
+	  else
+	    {
+	      nIndex++;
+	      (*x)[
+	    }
+	}
+    }
 }
