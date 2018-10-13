@@ -218,10 +218,7 @@ void diffusion1D::assignBeginningField()
 
 void diffusion1D::startRun()
 {
-  //int nCurTimeStep = 1;
-  //double dCurTime  = m_pGlobalParam->dDeltaT;
   double f = m_pGlobalParam->dF;
-
   switch(m_pGlobalParam->eInletType)
     {
     case FirstClass:
@@ -310,7 +307,7 @@ void diffusion1D::startRun()
       for(int j=1; j<m_meshNode-1; j++)
 	{
 	  m_aArray[j] = -m_aW[j] * f;
-	  m_bArray[j] = -m_aP[j];
+	  m_bArray[j] = m_aP[j];
 	  m_cArray[j] = -m_aE[j] * f;
 	  m_fArray[j] = (1-f)*
 	    (m_aE[j]*m_pData->at(j+1).vecTime_Temperature.at(i-1).second +
