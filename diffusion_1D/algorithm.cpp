@@ -10,10 +10,10 @@
 #include"ZTservice.h"
 #include"algorithm.h"
 #include"mesh/mesh_1D.h"
-#include"linear_equation/chasingmethod.h"
+#include"linear_equation/numericalanalysis.h"
 
-diffusion1D::diffusion1D(ZTService *pService, QObject* parent):
-  QObject(parent),
+diffusion1D::diffusion1D(ZTService *pService, QObject* parent)
+  :QObject(parent),
   m_pService(pService),
   m_aW(NULL),
   m_aE(NULL),
@@ -326,6 +326,7 @@ void diffusion1D::startRun()
 	  m_pData->at(j).
 	    vecTime_Temperature.push_back(std::pair<double,double>(m_pGlobalParam->dDeltaT*i, m_xArray[j]));
 	}
+      qDebug()<<"pso:0"<<"time:"<<m_pGlobalParam->dDeltaT*i<<"temp:"<<m_xArray[0];
       emit oneStepFinished(i);
     }
 }

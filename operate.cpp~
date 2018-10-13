@@ -239,7 +239,7 @@ bool Operate::readTecFile(QString sFileName, double **x, double **y, int nCount)
 	  else
 	    {
 	      nIndex++;
-	      (*x)[
+	      //(*x)[];
 	    }
 	}
     }

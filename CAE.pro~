@@ -15,7 +15,7 @@ HEADERS += consolewidget.h \
            ZTservice.h \
            ZTtype.h \
            diffusion_1D/algorithm.h \
-           linear_equation/chasingmethod.h \
+           linear_equation/numericalanalysis.h \
            mesh/mesh_1D.h \
            tabledelegate.h
            
@@ -27,7 +27,7 @@ SOURCES += consolewidget.cpp \
            operate.cpp \
            ZTservice.cpp \
            diffusion_1D/algorithm.cpp \
-           linear_equation/chasingmethod.cpp \
+           linear_equation/numericalanalysis.cpp \
            mesh/mesh_1D.cpp \
            tabledelegate.cpp
 

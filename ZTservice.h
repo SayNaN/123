@@ -3,6 +3,7 @@
 
 #include<QObject>
 #include"ZTtype.h"
+#include"cspline/cspline.h"
 
 class Operate;
 class consoleWidget;

@@ -1,5 +1,5 @@
 #include<stdlib.h>
-#include"chasingmethod.h"
+#include"numericalanalysis.h"
 
 bool ZTChasingMethod(double *a, double *b, double *c, double *f, double *x, int num)
 {

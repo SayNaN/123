@@ -1,0 +1,4 @@
+git checkout .
+git stash
+git pull
+打开CAE\release\CAE.exe

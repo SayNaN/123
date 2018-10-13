@@ -224,6 +224,7 @@ bool Operate::readTecFile(QString sFileName, double **x, double **y, int nCount)
   int nIndex = -1;
   nCount = -1;
   QTextStream in(&file);
+  /*
   while(!in.atEnd())
     {
       QString sTmp = in.readLine().trimmed();
@@ -239,8 +240,9 @@ bool Operate::readTecFile(QString sFileName, double **x, double **y, int nCount)
 	  else
 	    {
 	      nIndex++;
-	      (*x)[];
+	      //(*x)[];
 	    }
 	}
     }
+  */
 }

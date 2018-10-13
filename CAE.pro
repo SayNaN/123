@@ -8,6 +8,7 @@ INCLUDEPATH += ./
 
 # Input
 HEADERS += consolewidget.h \
+           cspline/cspline.h \
            leftwidget.h \
            mainwindow.h \
            myglwidget.h \
@@ -20,6 +21,7 @@ HEADERS += consolewidget.h \
            tabledelegate.h
            
 SOURCES += consolewidget.cpp \
+           cspline/cspline.cpp \
            leftwidget.cpp \
            main.cpp \
            mainwindow.cpp \

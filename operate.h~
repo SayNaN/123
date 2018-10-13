@@ -20,6 +20,9 @@ class Operate: public QObject
   void resetProject();
   bool canSave();
 
+  bool writeTecFile();
+  bool readTecFile();
+
  private:
   ZTService* m_pService;
   QString m_sFullProjectPath;

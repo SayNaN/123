@@ -1,6 +1,7 @@
 #ifndef OPERATE_H
 #define OPERATE_H
 #include<QObject>
+#include"cspline/cspline.h"
 
 class ZTService;
 
@@ -20,8 +21,8 @@ class Operate: public QObject
   void resetProject();
   bool canSave();
 
-  bool writeTecFile();
-  bool readTecFile();
+  bool writeTecFile(QString sFileName, QString sHeaderText, int nRowCount, double *x, double *y);
+  bool readTecFile(QString sFileName, double **x, double **y, int nCount);
 
  private:
   ZTService* m_pService;

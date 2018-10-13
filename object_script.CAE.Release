@@ -1,5 +1,6 @@
 INPUT(
 ./release\consolewidget.o
+./release\cspline.o
 ./release\leftwidget.o
 ./release\main.o
 ./release\mainwindow.o
@@ -7,7 +8,7 @@ INPUT(
 ./release\operate.o
 ./release\ZTservice.o
 ./release\algorithm.o
-./release\chasingmethod.o
+./release\numericalanalysis.o
 ./release\mesh_1D.o
 ./release\tabledelegate.o
 ./release\moc_consolewidget.o
@@ -15,6 +16,7 @@ INPUT(
 ./release\moc_mainwindow.o
 ./release\moc_myglwidget.o
 ./release\moc_operate.o
+./release\moc_ZTservice.o
 ./release\moc_algorithm.o
 ./release\moc_tabledelegate.o
 );

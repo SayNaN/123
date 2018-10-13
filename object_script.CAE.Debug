@@ -1,5 +1,6 @@
 INPUT(
 ./debug\consolewidget.o
+./debug\cspline.o
 ./debug\leftwidget.o
 ./debug\main.o
 ./debug\mainwindow.o
@@ -7,7 +8,7 @@ INPUT(
 ./debug\operate.o
 ./debug\ZTservice.o
 ./debug\algorithm.o
-./debug\chasingmethod.o
+./debug\numericalanalysis.o
 ./debug\mesh_1D.o
 ./debug\tabledelegate.o
 ./debug\moc_consolewidget.o
@@ -15,6 +16,7 @@ INPUT(
 ./debug\moc_mainwindow.o
 ./debug\moc_myglwidget.o
 ./debug\moc_operate.o
+./debug\moc_ZTservice.o
 ./debug\moc_algorithm.o
 ./debug\moc_tabledelegate.o
 );

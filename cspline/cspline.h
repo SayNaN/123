@@ -3,8 +3,6 @@
 
 #include<math.h>
 
-static const double M_PI = 4*atan(1);
-
 class Cspline
 {
  public:
@@ -20,7 +18,6 @@ class Cspline
   double project(double interpo_x,int n);
 
  private:
-  void FanShengjin(double a,double b,double c,double d,double *X);
   void freeAndNil(double *array);
   void release();
   void initArray();

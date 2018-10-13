@@ -2,6 +2,7 @@
 #define ZTTYPE_H
 
 #include<vector>
+#include"cspline/cspline.h"
 
 enum BoundaryConditionType{
   FirstClass = 0,
@@ -71,12 +72,16 @@ struct GlobalParam
   BoundaryConditionType eInletType;
   double dInletTemp;
   double dInletHeatFlux;
+  QString strInletHeatFluxFilePath;
+  Cspline oInletHeatFluxFunc;
   double dInletInfinityTemp;
   double dInletConvectiveCoeff;
 
   BoundaryConditionType eOutletType;
   double dOutletTemp;
   double dOutletHeatFlux;
+  QString strOutHeatFluxFilePath;
+  Cspline oOutHeatFluxFunc;
   double dOutletInfinityTemp;
   double dOutletConvectiveCoeff;
 };
