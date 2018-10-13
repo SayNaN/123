@@ -269,11 +269,9 @@ void LeftWidget::initializeUI()
   connect(m_pInletBoundaryTypeBox, &QComboBox::currentTextChanged, [this](QString strText){
       if(tr("第一类边界条件") == strText){
 	m_pService->globalParam()->eInletType = FirstClass;
-      }
-      else if(tr("第二类边界条件") == strText){
+      }if(tr("第二类边界条件") == strText){
 	m_pService->globalParam()->eInletType = SecondClass;
-      }
-      else{
+      }else{
 	m_pService->globalParam()->eInletType = ThirdClass;
       }
     });
@@ -290,7 +288,7 @@ void LeftWidget::initializeUI()
   QLabel *pOutletBoundaryTypeLabel = new QLabel(tr("边界类型"));
   m_pOutletBoundaryTypeBox = new QComboBox;
   m_pOutletBoundaryTypeBox->addItem(tr("第一类边界条件"));
-  m_pOutletBoundaryTypeBox->addItem(tr("第二类边界条件（出口热流应给负值）"));
+  m_pOutletBoundaryTypeBox->addItem(tr("第二类边界条件"));
   m_pOutletBoundaryTypeBox->addItem(tr("第三类边界条件"));
 
   QFrame *pOutletFirstTypeFrame = new QFrame;
@@ -339,7 +337,7 @@ void LeftWidget::initializeUI()
       if(b){
 	m_pService->globalParam()->dOutletInfinityTemp = dCache;
       }else{
-	m_pOutletInfinityTempEdit->setText(QString::number(m_pService->globalParam()->dOutletInfinityTemp));
+	m_pInletInfinityTempEdit->setText(QString::number(m_pService->globalParam()->dInletInfinityTemp));
       }
     });
     
@@ -369,14 +367,13 @@ void LeftWidget::initializeUI()
   pOutletBoundaryStackedLayout->addWidget(pOutletSecondTypeFrame);
   pOutletBoundaryStackedLayout->addWidget(pOutletThirdTypeFrame);
 
-  connect(m_pOutletBoundaryTypeBox, SIGNAL(currentIndexChanged(int)),
+  connect(m_pOutletBoundaryTypeBox, SIGNAL(activated(int)),
 	  pOutletBoundaryStackedLayout, SLOT(setCurrentIndex(int)));
 
   connect(m_pOutletBoundaryTypeBox, &QComboBox::currentTextChanged, [this](QString strText){
       if(tr("第一类边界条件") == strText){
 	m_pService->globalParam()->eOutletType = FirstClass;
-      }
-      else if(tr("第二类边界条件（出口热流应给负值）") == strText){
+      }if(tr("第二类边界条件") == strText){
 	m_pService->globalParam()->eOutletType = SecondClass;
       }else{
 	m_pService->globalParam()->eOutletType = ThirdClass;

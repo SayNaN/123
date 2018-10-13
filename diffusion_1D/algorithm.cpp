@@ -231,7 +231,7 @@ void diffusion1D::startRun()
       m_cArray[0] = -1;
       if(CELLCENTER == m_pGlobalParam->nType)
 	{
-	  m_fArray[0] = 2 * m_pData->at(0).dCellLenght / m_pData->at(0).dLabde;
+	  m_fArray[0] = 2 * m_pGlobalParam->dInletHeatFlux * m_pData->at(0).dCellLenght / m_pData->at(0).dLabde;
 	}
       else
 	{
@@ -261,6 +261,8 @@ void diffusion1D::startRun()
     }
   m_pService->info("进口边界条件初始化完成");
   int z = m_meshNode - 1;
+  qDebug()<<"in"<<m_pGlobalParam->eInletType;
+  qDebug()<<"out"<<m_pGlobalParam->eOutletType;
   switch(m_pGlobalParam->eOutletType)
     {
     case FirstClass:
@@ -273,7 +275,7 @@ void diffusion1D::startRun()
       m_bArray[z] = 1;
       if(CELLCENTER == m_pGlobalParam->nType)
 	{
-	  m_fArray[z] = 2 * m_pData->at(z).dCellLenght / m_pData->at(z).dLabdw;
+	  m_fArray[z] = 2 * m_pGlobalParam->dOutletHeatFlux * m_pData->at(z).dCellLenght / m_pData->at(z).dLabdw;
 	}
       else
 	{
@@ -323,7 +325,7 @@ void diffusion1D::startRun()
 	  m_pData->at(j).
 	    vecTime_Temperature.push_back(std::pair<double,double>(m_pGlobalParam->dDeltaT*i, m_xArray[j]));
 	}
-      qDebug()<<"pso:0"<<"time:"<<m_pGlobalParam->dDeltaT*i<<"temp:"<<m_xArray[0];
+      //qDebug()<<"pso:-1"<<"time:"<<m_pGlobalParam->dDeltaT*i<<"temp:"<<m_xArray[m_meshNode-1];
       emit oneStepFinished(i);
     }
 }
