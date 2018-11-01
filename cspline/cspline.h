@@ -8,16 +8,12 @@ class Cspline
  public:
   Cspline();
   ~Cspline();
-
-  double slope_endp();
-  void gen(double *xcoor,double *ycoor,int n);
-
-  void fillet(double end_x,double end_y,double *x_coor,double *y_coor,int coor_num);
-
-  void interpolate_r(double *res,double *x,double *y,int n,double *inter_r,int x_control_inex);
-  double project(double interpo_x,int n);
+  // 根据输入的x坐标求y坐标
+  double getYCoor(double interpo_x,int n);
 
  private:
+  // 生成三次参数养条曲线
+  void gen();
   void freeAndNil(double *array);
   void release();
   void initArray();

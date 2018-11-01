@@ -4,6 +4,37 @@
 #include"cspline.h"
 #include"linear_equation/numericalanalysis.h"
 
+Cspline::Cspline(double* arrayX, double* arrayY, int n)
+  :m_nCount(n),
+  x(NULL),
+  y(NULL),
+  s(NULL),
+  Mx(NULL),
+  My(NULL),
+  slope(NULL),
+  ax(NULL),
+  ay(NULL),
+  bx(NULL),
+  by(NULL),
+  cx(NULL),
+  cy(NULL),
+  dx(NULL),
+  dy(NULL)
+{
+  initArray();
+  for(int i=0; i<m_nCount; i++)
+    {
+      x[i]=xcoor[i];
+      y[i]=ycoor[i];
+    }
+  gen();
+}
+
+Cspline::~Cspline()
+{
+  release();
+}
+
 void Cspline::release()
 {
   freeAndNil(x);
@@ -49,14 +80,10 @@ void Cspline::initArray()
   slope=(double *)malloc(sizeof(double)*m_nCount);
 }
 
-void Cspline::gen(double *xcoor,double *ycoor,int n)
+void Cspline::gen()
 {
   double af,a0,az,hj;
   double *u=NULL,*ru=NULL,*fx=NULL,*fy=NULL,*beta=NULL,*yx=NULL,*yy=NULL;
-  m_nCount = n;
-
-  release();
-  initArray();
   
   u=(double *)malloc(sizeof(double)*m_nCount);
   ru=(double *)malloc(sizeof(double)*m_nCount);
@@ -66,11 +93,6 @@ void Cspline::gen(double *xcoor,double *ycoor,int n)
   yx=(double *)malloc(sizeof(double)*m_nCount);
   yy=(double *)malloc(sizeof(double)*m_nCount);
   
-  for(int i=0; i<m_nCount; i++)
-    {
-      x[i]=xcoor[i];
-      y[i]=ycoor[i];
-    }
   s[0]=0;
   for(int i=1; i<m_nCount; i++)
     {
@@ -180,27 +202,4 @@ double Cspline::project(double interpo_x,int n)
       interpo_y=ay[n]*pow(X[0],3)+by[n]*pow(X[0],2)+cy[n]*X[0]+dy[n];
       return interpo_y;
     }
-}
-
-Cspline::Cspline():
-  x(NULL),
-  y(NULL),
-  s(NULL),
-  Mx(NULL),
-  My(NULL),
-  slope(NULL),
-  ax(NULL),
-  ay(NULL),
-  bx(NULL),
-  by(NULL),
-  cx(NULL),
-  cy(NULL),
-  dx(NULL),
-  dy(NULL)  
-{
-}
-
-Cspline::~Cspline()
-{
-  release();
 }

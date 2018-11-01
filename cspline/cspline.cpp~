@@ -4,8 +4,6 @@
 #include"cspline.h"
 #include"linear_equation/numericalanalysis.h"
 
-const double M_PI = 4*atan(1);
-
 void Cspline::release()
 {
   freeAndNil(x);
