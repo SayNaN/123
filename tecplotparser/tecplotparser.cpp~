@@ -1,0 +1,54 @@
+#include"tecplotparser.h"
+
+enum ZoneType
+  {
+    BLOCK,
+    POINT,
+    FEPOINT
+  };
+
+struct ZoneBlock
+{
+  QStringList strDim;
+  std::vector<int> vecDim;
+  std::vector<double> vecData;
+  std::vector<int> vecIndex;
+};
+
+struct FrameBlock
+{
+  std::vector<ZoneBlock> vecZone;
+};
+
+struct TecplotContent
+{
+  QString strTitle;
+  std::vector<FrameBlock> vecFrames;
+};
+
+TecplotParser::TecplotParser(const wchar* strFileName)
+  :m_bOpenSuc(true)
+{
+  QRegExp oTitle("^\\s*title\\s*=\\s*\".*\".*$");
+  
+  QRegExp oVariables("^\\s*variables\\s*=\\s*\".*\"(,\".*\")*.*$");
+  QRegExp oCapString("\".*\"\\s*,?");
+
+  QRegExp oZone("^\\s*zone\\s*=\\s*(\\D+\\s*=\\s*.*)(,\\D+\\s*=\\s*.*)$");
+  QRegExp oCapDim("=\\s*\\d+,");
+  QRegExp oCapStructType("f\\s*=\\s*[\\^,]+");
+
+  QRegExp oCapValue("(\\s|^)[+|-]?\\d*(\\.\\d*)?(e[+|-]\\d+)?(\\s|$)");
+  
+  QString oFileName = QString::fromWCharArray(strFileName);
+  QFile oFile(oFileName);
+
+  if(!oFile.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+      qInfo()<<tr("无法打开:")<<oFileName;
+      m_bOpenSuc = false;
+      return;
+    }
+  QTextStream in(*oFile);
+  
+}

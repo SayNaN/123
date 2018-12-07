@@ -1,0 +1,18 @@
+#ifndef TECPLOTPARSER_H
+#define TECPLOTPARSER_H
+
+struct TecplotContent
+
+class TecplotParser
+{
+ public:
+  TecplotParser(const wchar* strFileName);
+
+  bool getValue(int nFrameIndex, int nZoneIndex, const std::vector<int>& vecIndex, std::vector<double>& vecData);
+
+ private:
+  TecplotContent m_oData;
+  bool m_bOpenSuc;
+};
+
+#endif //TECPLOTPARSER_H
