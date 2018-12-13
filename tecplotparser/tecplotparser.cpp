@@ -146,3 +146,28 @@ void TecplotParser:readZone(const QString& oFirstLine, const QTextStream& oIn)
     }
 }
 
+int TecplotParser::getFrameCount()
+{
+  return m_oData.vecFrames.size();
+}
+
+int TecplotParser::getZoneCount(int nFrameIndex)
+{
+  if(m_oData.vecFrames.size() <= nFrameIndex)
+    {
+      return -1;
+    }
+  return m_oData.vecFrames[nFrameIndex].vecZone.size();
+}
+
+bool TecplotParser::getValue(int nFrameIndex, int nZoneIndex, const std::vector<int>& vecDim, std::vector<double>& vecData)
+{
+  if(m_oData.vecFrames.size() <= nFrameIndex ||
+     m_oData.vecFrames[nFrameIndex].vecZone.size() <= nZoneIndex)
+    {
+      return false;
+    }
+  vecDim  = m_oData.vecFrames[nFrameIndex].vecZone[nZoneIndex].vecDim;
+  vecData = m_oData.vecFrames[nFrameIndex].vecZone[nZoneIndex].vecData;
+  return true;
+}

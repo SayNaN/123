@@ -8,7 +8,11 @@ class TecplotParser
  public:
   TecplotParser(const wchar* strFileName);
 
-  bool getValue(int nFrameIndex, int nZoneIndex, const std::vector<int>& vecIndex, std::vector<double>& vecData);
+  int getFrameCount();
+
+  int getZoneCount(int nFrameIndex);
+
+  bool getValue(int nFrameIndex, int nZoneIndex, const std::vector<int>& vecDim, std::vector<double>& vecData);
 
  private:
   void readFrame(const QString& oFirstLine, const QTextStream& oIn);
