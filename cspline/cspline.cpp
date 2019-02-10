@@ -4,35 +4,59 @@
 #include"cspline.h"
 #include"linear_equation/numericalanalysis.h"
 
+Cspline::Cspline()
+  :m_nCount(0),
+   x(NULL),
+   y(NULL),
+   s(NULL),
+   ax(NULL),
+   bx(NULL),
+   cx(NULL),
+   dx(NULL),
+   ay(NULL),
+   by(NULL),
+   cy(NULL),
+   dy(NULL),
+   Mx(NULL),
+   My(NULL),
+   slope(NULL)
+{
+}
+
 Cspline::Cspline(double* arrayX, double* arrayY, int n)
   :m_nCount(n),
-  x(NULL),
-  y(NULL),
-  s(NULL),
-  Mx(NULL),
-  My(NULL),
-  slope(NULL),
-  ax(NULL),
-  ay(NULL),
-  bx(NULL),
-  by(NULL),
-  cx(NULL),
-  cy(NULL),
-  dx(NULL),
-  dy(NULL)
+   x(NULL),
+   y(NULL),
+   s(NULL),
+   ax(NULL),
+   bx(NULL),
+   cx(NULL),
+   dx(NULL),
+   ay(NULL),
+   by(NULL),
+   cy(NULL),
+   dy(NULL),
+   Mx(NULL),
+   My(NULL),
+   slope(NULL)
 {
-  initArray();
-  for(int i=0; i<m_nCount; i++)
-    {
-      x[i]=xcoor[i];
-      y[i]=ycoor[i];
-    }
-  gen();
+  setParams(arrayX, arrayY, n); 
 }
 
 Cspline::~Cspline()
 {
   release();
+}
+
+void Cspline::setParams(double* arrayX, double* arrayY, int n)
+{
+  initArray();
+  for(int i=0; i<m_nCount; ++i)
+    {
+      x[i]=arrayX[i];
+      y[i]=arrayY[i];
+    }
+  gen();
 }
 
 void Cspline::release()
@@ -64,6 +88,7 @@ void Cspline::freeAndNil(double *array)
 
 void Cspline::initArray()
 {
+  release();
   x=(double *)malloc(sizeof(double)*m_nCount);
   y=(double *)malloc(sizeof(double)*m_nCount);
   s=(double *)malloc(sizeof(double)*m_nCount);
@@ -168,7 +193,7 @@ void Cspline::gen()
   free(yy);
 }
 
-double Cspline::project(double interpo_x,int n)
+double Cspline::getYCoor(double interpo_x,int n)
 {
   double interpo_y;
   double X[4]={0,0,0,0};

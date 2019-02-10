@@ -7,7 +7,10 @@ class Cspline
 {
  public:
   Cspline();
+  Cspline(double* arrayX, double* arrayY, int n);
   ~Cspline();
+
+  void setParams(double* arrayX, double* arrayY, int n);
   // 根据输入的x坐标求y坐标
   double getYCoor(double interpo_x,int n);
 

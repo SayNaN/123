@@ -1,22 +1,47 @@
 #ifndef TECPLOTPARSER_H
 #define TECPLOTPARSER_H
 
-struct TecplotContent
+enum ZoneType
+  {
+   BLOCK,
+   POINT,
+   FEPOINT
+  };
 
-class TecplotParser
+struct ZoneBlock
+{
+  ZoneType eType;
+  std::vector<int> vecDim;
+  std::vector<double> vecData;
+  std::vector<int> vecIndex;
+};
+
+struct FrameBlock
+{
+  QStringList strDim;
+  std::vector<ZoneBlock> vecZone;
+};
+
+struct TecplotContent
+{
+  QString strTitle;
+  std::vector<FrameBlock> vecFrames;
+};
+
+class TecplotParser : public QObject
 {
  public:
-  TecplotParser(const wchar* strFileName);
+  TecplotParser(const QString strFileName);
 
   int getFrameCount();
 
   int getZoneCount(int nFrameIndex);
 
-  bool getValue(int nFrameIndex, int nZoneIndex, const std::vector<int>& vecDim, std::vector<double>& vecData);
+  bool getValue(int nFrameIndex, int nZoneIndex, std::vector<int>& vecDim, std::vector<double>& vecData);
 
  private:
-  void readFrame(const QString& oFirstLine, const QTextStream& oIn);
-  void readZone(const QString& oFirstLine, const QTextStream& oIn);
+  void readFrame(const QString& oFirstLine, QTextStream& oIn);
+  void readZone(const QString& oFirstLine, QTextStream& oIn);
   
   TecplotContent m_oData;
   bool m_bOpenSuc;

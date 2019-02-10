@@ -18,6 +18,7 @@ HEADERS += consolewidget.h \
            diffusion_1D/algorithm.h \
            linear_equation/numericalanalysis.h \
            mesh/mesh_1D.h \
+           tecplotparser/tecplotparser.h \
            tabledelegate.h
            
 SOURCES += consolewidget.cpp \
@@ -31,6 +32,7 @@ SOURCES += consolewidget.cpp \
            diffusion_1D/algorithm.cpp \
            linear_equation/numericalanalysis.cpp \
            mesh/mesh_1D.cpp \
+           tecplotparser/tecplotparser.cpp \
            tabledelegate.cpp
 
            

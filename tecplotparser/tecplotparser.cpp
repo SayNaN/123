@@ -1,31 +1,11 @@
+#include<QString>
+#include<vector>
+#include<QTextStream>
+#include<QFile>
+#include<QDebug>
+#include<QObject>
+
 #include"tecplotparser.h"
-
-enum ZoneType
-  {
-    BLOCK,
-    POINT,
-    FEPOINT
-  };
-
-struct ZoneBlock
-{
-  ZoneType eType;
-  std::vector<int> vecDim;
-  std::vector<double> vecData;
-  std::vector<int> vecIndex;
-};
-
-struct FrameBlock
-{
-  QStringList strDim;
-  std::vector<ZoneBlock> vecZone;
-};
-
-struct TecplotContent
-{
-  QString strTitle;
-  std::vector<FrameBlock> vecFrames;
-};
 
 const QRegExp oTitle("^\\s*title\\s*=\\s*\".*\".*$");
   
@@ -39,19 +19,19 @@ const QRegExp oCapInt("\\d+");
 
 const QRegExp oCapValue("(\\s|^)[+|-]?\\d*(\\.\\d*)?(e[+|-]\\d+)?(\\s|$)");
 
-TecplotParser::TecplotParser(const wchar* strFileName)
-  :m_bOpenSuc(true)
+TecplotParser::TecplotParser(const QString strFileName)
+  :QObject(),
+   m_bOpenSuc(true)
 {
-  QString oFileName = QString::fromWCharArray(strFileName);
-  QFile oFile(oFileName);
+  QFile oFile(strFileName);
 
   if(!oFile.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-      qInfo()<<tr("无法打开:")<<oFileName;
+      qInfo()<<tr("无法打开:")<<strFileName;
       m_bOpenSuc = false;
       return;
     }
-  QTextStream oIn(*oFile);
+  QTextStream oIn(&oFile);
   QString oStrTmp;
   while(!oIn.atEnd())
     {
@@ -68,7 +48,7 @@ TecplotParser::TecplotParser(const wchar* strFileName)
   oFile.close();
 }
 
-void TecplotParser::readFrame(const QString& oFirstLine, const QTextStream& oIn)
+void TecplotParser::readFrame(const QString& oFirstLine, QTextStream& oIn)
 {
   if(-1 == oCapString.indexIn(oFirstLine))
     {
@@ -87,7 +67,7 @@ void TecplotParser::readFrame(const QString& oFirstLine, const QTextStream& oIn)
     }
 }
   
-void TecplotParser:readZone(const QString& oFirstLine, const QTextStream& oIn)
+void TecplotParser::readZone(const QString& oFirstLine, QTextStream& oIn)
 {
   if(-1 == oCapDim.indexIn(oFirstLine))
     {
@@ -101,7 +81,7 @@ void TecplotParser:readZone(const QString& oFirstLine, const QTextStream& oIn)
   for(int i=0; i<oCapDim.captureCount(); ++i)
     {
       pZone->vecDim[i] = oCapDim.cap(i).toInt();
-      nTotalCount *= pZone=>vecDim[i];
+      nTotalCount *= pZone->vecDim[i];
     }
   if(-1 == oCapStructType.indexIn(oFirstLine))
     {
@@ -160,7 +140,7 @@ int TecplotParser::getZoneCount(int nFrameIndex)
   return m_oData.vecFrames[nFrameIndex].vecZone.size();
 }
 
-bool TecplotParser::getValue(int nFrameIndex, int nZoneIndex, const std::vector<int>& vecDim, std::vector<double>& vecData)
+bool TecplotParser::getValue(int nFrameIndex, int nZoneIndex, std::vector<int>& vecDim, std::vector<double>& vecData)
 {
   if(m_oData.vecFrames.size() <= nFrameIndex ||
      m_oData.vecFrames[nFrameIndex].vecZone.size() <= nZoneIndex)

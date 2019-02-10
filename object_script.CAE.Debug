@@ -10,6 +10,7 @@ INPUT(
 ./debug\algorithm.o
 ./debug\numericalanalysis.o
 ./debug\mesh_1D.o
+./debug\tecplotparser.o
 ./debug\tabledelegate.o
 ./debug\moc_consolewidget.o
 ./debug\moc_leftwidget.o

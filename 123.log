@@ -1,8 +1,44 @@
 mingw32-make -f Makefile.Release
 mingw32-make[1]: Entering directory 'E:/CAE'
-g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\tabledelegate.o tabledelegate.cpp
-mingw32-make[1]: *** Deleting file 'release/tabledelegate.o'
-Makefile.Release:4065: recipe for target 'release/tabledelegate.o' failed
-mingw32-make[1]: *** [release/tabledelegate.o] Error 3
-Makefile:34: recipe for target 'release' failed
-mingw32-make: *** [release] Error 130
+g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\tecplotparser.o tecplotparser\tecplotparser.cpp
+tecplotparser\tecplotparser.cpp: In member function 'int TecplotParser::getZoneCount(int)':
+tecplotparser\tecplotparser.cpp:136:31: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if(m_oData.vecFrames.size() <= nFrameIndex)
+                               ^
+tecplotparser\tecplotparser.cpp: In member function 'bool TecplotParser::getValue(int, int, std::vector<int>&, std::vector<double>&)':
+tecplotparser\tecplotparser.cpp:145:31: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+   if(m_oData.vecFrames.size() <= nFrameIndex ||
+                               ^
+tecplotparser\tecplotparser.cpp:146:52: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+      m_oData.vecFrames[nFrameIndex].vecZone.size() <= nZoneIndex)
+                                                    ^
+C:\Qt\Qt5.7.1\5.7\mingw53_32\bin\moc.exe -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.7.1/5.7/mingw53_32/mkspecs/win32-g++ -IE:/CAE -IE:/CAE -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtPrintSupport -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtWidgets -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtGui -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtANGLE -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtCore -IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++ -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward operate.h -o release\moc_operate.cpp
+g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\moc_operate.o release\moc_operate.cpp
+C:\Qt\Qt5.7.1\5.7\mingw53_32\bin\moc.exe -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.7.1/5.7/mingw53_32/mkspecs/win32-g++ -IE:/CAE -IE:/CAE -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtPrintSupport -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtWidgets -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtGui -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtANGLE -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtCore -IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++ -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward ZTservice.h -o release\moc_ZTservice.cpp
+g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\moc_ZTservice.o release\moc_ZTservice.cpp
+C:\Qt\Qt5.7.1\5.7\mingw53_32\bin\moc.exe -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -D__GNUC__ -DWIN32 -IC:/Qt/Qt5.7.1/5.7/mingw53_32/mkspecs/win32-g++ -IE:/CAE -IE:/CAE -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtPrintSupport -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtWidgets -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtGui -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtANGLE -IC:/Qt/Qt5.7.1/5.7/mingw53_32/include/QtCore -IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include -IC:/Qt/Qt5.7.1/Tools/mingw530_32/lib/gcc/i686-w64-mingw32/5.3.0/include-fixed -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++ -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/i686-w64-mingw32 -IC:/Qt/Qt5.7.1/Tools/mingw530_32/i686-w64-mingw32/include/c++/backward diffusion_1D\algorithm.h -o release\moc_algorithm.cpp
+g++ -c -pipe -fno-keep-inline-dllexport -O2 -std=gnu++11 -frtti -Wall -Wextra -fexceptions -mthreads -DUNICODE -DQT_NO_DEBUG -DQT_PRINTSUPPORT_LIB -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -I. -I. -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtPrintSupport -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtWidgets -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtGui -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtANGLE -IC:\Qt\Qt5.7.1\5.7\mingw53_32\include\QtCore -Irelease -IC:\Qt\Qt5.7.1\5.7\mingw53_32\mkspecs\win32-g++  -o release\moc_algorithm.o release\moc_algorithm.cpp
+g++ -Wl,-s -Wl,-subsystem,console -mthreads -o release\CAE.exe object_script.CAE.Release  -lopengl32 -lglu32 -LC:\Qt\Qt5.7.1\5.7\mingw53_32\lib C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5PrintSupport.a C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5Widgets.a C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5Gui.a C:\Qt\Qt5.7.1\5.7\mingw53_32\lib\libQt5Core.a 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mingw32-make[1]: Leaving directory 'E:/CAE'

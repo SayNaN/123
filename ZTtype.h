@@ -4,18 +4,21 @@
 #include<vector>
 #include"cspline/cspline.h"
 
-enum BoundaryConditionType{
+enum BoundaryConditionType
+{
   FirstClass = 0,
   SecondClass,
   ThirdClass,
 };
 
-enum NodeType{
+enum NodeType
+{
   CELLCENTER = 0,            // 节点在节点内部
   MESHNODE,           // 节点在网格界面上
 };
 
-enum SimuType{
+enum SimuType
+{
   Diffuse_1D,
   Convective_Diffusion_1D,
   
@@ -26,7 +29,8 @@ enum SimuType{
   Convective_Diffusion_3D,
 };
 
-struct SimuInfoRes{
+struct SimuInfoRes
+{
   double dCoorX;
   double dXw;
   double dXe;
@@ -44,7 +48,8 @@ struct SimuInfoRes{
 };
 typedef std::vector<SimuInfoRes> MeshRes;
 
-struct TabCellContent{
+struct TabCellContent
+{
   double dLength;
   int    nSubMeshNum;
   double dStartP;

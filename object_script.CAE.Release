@@ -10,6 +10,7 @@ INPUT(
 ./release\algorithm.o
 ./release\numericalanalysis.o
 ./release\mesh_1D.o
+./release\tecplotparser.o
 ./release\tabledelegate.o
 ./release\moc_consolewidget.o
 ./release\moc_leftwidget.o
